@@ -1,0 +1,277 @@
+{
+  "specVersion": "apel.evidence-bundle/0.1",
+  "bundleId": "bundle-accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706",
+  "createdAt": "2026-07-21T08:56:30.580Z",
+  "subject": {
+    "interactionId": "accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706",
+    "protocol": "x402",
+    "protocolVersion": "2.19.0"
+  },
+  "artifacts": [
+    {
+      "id": "output-schema",
+      "kind": "contract.output-schema",
+      "capturedAt": "2026-07-21T08:56:30.575Z",
+      "issuer": {
+        "id": "precommitted-verification-plan",
+        "role": "LAB_FIXTURE",
+        "controller": "LAB_FIXTURE"
+      },
+      "content": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:apel:schema:scenario-report-output:0.1",
+        "title": "Example paid API output",
+        "description": "The deliberately small expected-result schema used by the executable scenarios to distinguish a successful HTTP response from a schema-valid deliverable.",
+        "type": "object",
+        "required": [
+          "status",
+          "data"
+        ],
+        "properties": {
+          "status": {
+            "const": "ok"
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "result"
+            ],
+            "properties": {
+              "result": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "correlation": {
+        "interactionId": "accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706"
+      },
+      "digest": {
+        "algorithm": "sha256",
+        "value": "sha256:1b3d0cb33c0962b955e28b71c6e53e37969a0d5ff144ad1d36e014d5d3843a62"
+      }
+    },
+    {
+      "id": "http-response",
+      "kind": "http.response",
+      "capturedAt": "2026-07-21T08:56:30.580Z",
+      "issuer": {
+        "id": "lab-http-capture-adapter",
+        "role": "LAB_FIXTURE",
+        "controller": "LAB_FIXTURE"
+      },
+      "content": {
+        "resourceUrl": "http://127.0.0.1:55676/scenario/accepted-then-async-failure?interactionId=accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706",
+        "status": 202,
+        "headers": {
+          "connection": "keep-alive",
+          "content-length": "100",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Tue, 21 Jul 2026 08:56:30 GMT",
+          "etag": "W/\"64-hQ0O6ujQKUYRBcCGCzUKAX0HkN4\"",
+          "keep-alive": "timeout=5",
+          "payment-response": "eyJzdWNjZXNzIjp0cnVlLCJwYXllciI6IjB4NThlMkM2MWE3MTliZjFBYTAwOWIxYjhEZjZjNGVkQ2M2YjkzNmFlMyIsInRyYW5zYWN0aW9uIjoibGFiOnNldHRsZW1lbnQ6MSIsIm5ldHdvcmsiOiJlaXAxNTU6ODQ1MzIiLCJhbW91bnQiOiIxMDAwIiwiZXh0cmEiOnsibGFiTW9kZSI6ImxvY2FsLXJlY29yZGluZy1kb3VibGUiLCJyZWFsRnVuZHNNb3ZlZCI6ZmFsc2V9fQ==",
+          "x-interaction-id": "accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706",
+          "x-powered-by": "Express"
+        },
+        "body": {
+          "status": "accepted",
+          "jobId": "job-accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706"
+        },
+        "paymentResponse": {
+          "success": true,
+          "payer": "0x58e2C61a719bf1Aa009b1b8Df6c4edCc6b936ae3",
+          "transaction": "lab:settlement:1",
+          "network": "eip155:84532",
+          "amount": "1000",
+          "extra": {
+            "labMode": "local-recording-double",
+            "realFundsMoved": false
+          }
+        }
+      },
+      "correlation": {
+        "interactionId": "accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706"
+      },
+      "digest": {
+        "algorithm": "sha256",
+        "value": "sha256:6af12120a52fe4fe0c5245db599d18e933f6a1b865e7e5b8e96568585490ee52"
+      },
+      "signature": {
+        "algorithm": "Ed25519",
+        "publicKey": "MCowBQYDK2VwAyEAIDwfEqf2Of6OmsGtE0hGd54e/9VE9mb7QSNg2ZpH/W4=",
+        "value": "ofcVxq7JXCiaVGJUDzvhcTFpoD/3D3iQHrPUu1GKl+nHESM4gMecEkODW+ZMrkrOGNgtAlG2fCr2nRKN6pFoBA=="
+      }
+    },
+    {
+      "id": "payment-verification",
+      "kind": "x402.payment-verification",
+      "capturedAt": "2026-07-21T08:56:30.580Z",
+      "issuer": {
+        "id": "local-recording-facilitator",
+        "role": "PAYMENT_FACILITATOR",
+        "controller": "LAB_FIXTURE"
+      },
+      "content": {
+        "isValid": true,
+        "mode": "local-recording-double",
+        "realNetworkVerification": false,
+        "paymentPayload": {
+          "x402Version": 2,
+          "payload": {
+            "authorization": {
+              "from": "0x58e2C61a719bf1Aa009b1b8Df6c4edCc6b936ae3",
+              "to": "0x000000000000000000000000000000000000dEaD",
+              "value": "1000",
+              "validAfter": "0",
+              "validBefore": "1784624490",
+              "nonce": "0x22b4c18dff1f4a95876190befa4dca952d370615e1ab1691ae8aeadd156c80b7"
+            },
+            "signature": "0x6cc5a987cf830800d7c53ab62f77030bfa00223e2f7ca48f2a4d17022df5a35730e33e6e4120b937efb38603f2b54446b3a01461eb7fd3516d72e343b9937cb31b"
+          },
+          "resource": {
+            "url": "http://127.0.0.1:55676/scenario/accepted-then-async-failure?interactionId=accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706",
+            "description": "Local x402 evidence experiment",
+            "mimeType": "application/json"
+          },
+          "accepted": {
+            "scheme": "exact",
+            "network": "eip155:84532",
+            "amount": "1000",
+            "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+            "payTo": "0x000000000000000000000000000000000000dEaD",
+            "maxTimeoutSeconds": 300,
+            "extra": {
+              "name": "USDC",
+              "version": "2"
+            }
+          }
+        },
+        "requirements": {
+          "scheme": "exact",
+          "network": "eip155:84532",
+          "amount": "1000",
+          "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "payTo": "0x000000000000000000000000000000000000dEaD",
+          "maxTimeoutSeconds": 300,
+          "extra": {
+            "name": "USDC",
+            "version": "2"
+          }
+        }
+      },
+      "correlation": {
+        "interactionId": "accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706"
+      },
+      "digest": {
+        "algorithm": "sha256",
+        "value": "sha256:4701171bbe5a85ca03c41e57995a68eea962a138f20a872d382a3c735196bc12"
+      },
+      "signature": {
+        "algorithm": "Ed25519",
+        "publicKey": "MCowBQYDK2VwAyEAA7UFSDzLnj//H3QmNmZvne7bwWEHy6d741hpf5d87jM=",
+        "value": "dr9+Ifh9iPJLsiDIZU6QjVWhsxOBRVr/LmJM+7Kp0biC+1pbsVoPxB2qYj2dyuZVPA9RW6/CkVd6qoP88FGXBA=="
+      }
+    },
+    {
+      "id": "settlement-boundary",
+      "kind": "x402.settlement-boundary",
+      "capturedAt": "2026-07-21T08:56:30.580Z",
+      "issuer": {
+        "id": "local-recording-facilitator",
+        "role": "PAYMENT_FACILITATOR",
+        "controller": "LAB_FIXTURE"
+      },
+      "content": {
+        "success": true,
+        "mode": "local-recording-double",
+        "realFundsMoved": false,
+        "transaction": "lab:settlement:1",
+        "paymentResponse": {
+          "success": true,
+          "payer": "0x58e2C61a719bf1Aa009b1b8Df6c4edCc6b936ae3",
+          "transaction": "lab:settlement:1",
+          "network": "eip155:84532",
+          "amount": "1000",
+          "extra": {
+            "labMode": "local-recording-double",
+            "realFundsMoved": false
+          }
+        },
+        "requirements": {
+          "scheme": "exact",
+          "network": "eip155:84532",
+          "amount": "1000",
+          "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "payTo": "0x000000000000000000000000000000000000dEaD",
+          "maxTimeoutSeconds": 300,
+          "extra": {
+            "name": "USDC",
+            "version": "2"
+          }
+        },
+        "note": "No response-body digest is committed by this synthetic x402 receipt."
+      },
+      "correlation": {
+        "interactionId": "accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706"
+      },
+      "digest": {
+        "algorithm": "sha256",
+        "value": "sha256:9e6e989df3e401756fe2ddaa4196a31fdf29e8f8c58d8a91842ca7fba21d28f0"
+      },
+      "signature": {
+        "algorithm": "Ed25519",
+        "publicKey": "MCowBQYDK2VwAyEAA7UFSDzLnj//H3QmNmZvne7bwWEHy6d741hpf5d87jM=",
+        "value": "2k3jstCgACYv9iQ/ehMI2TNxOm76SfTfu4JQWvHzrZ6HaGKcx8hhUsIZOEb8lBcgjt+w7fzKb9SW+mU3D04WCQ=="
+      }
+    },
+    {
+      "id": "job-terminal-status",
+      "kind": "job.status",
+      "capturedAt": "2026-07-21T08:56:30.580Z",
+      "issuer": {
+        "id": "lab-job-state-adapter",
+        "role": "LAB_FIXTURE",
+        "controller": "LAB_FIXTURE"
+      },
+      "content": {
+        "id": "job-accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706",
+        "status": "failed",
+        "updatedAt": "2026-07-21T08:56:30.580Z"
+      },
+      "correlation": {
+        "interactionId": "accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706"
+      },
+      "digest": {
+        "algorithm": "sha256",
+        "value": "sha256:6970b3e5a8b11505453cd063309c48a5ab7486a152bdd0e9dc412c3e77a6f802"
+      },
+      "signature": {
+        "algorithm": "Ed25519",
+        "publicKey": "MCowBQYDK2VwAyEASOLt0HbSlXErircXRiHBcIcc6SLKlQp2Yl9WaeNXKkU=",
+        "value": "3XDCg4kHo7ucxsZw+fQA1+9xoXNpqCi3qO5jFxVfK/NW1qwbaniYuvFf5Fg8tclDS3hYgmPyltPUKO65FG0sDA=="
+      }
+    }
+  ],
+  "trustContext": {
+    "authoritativeSources": [
+      "lab-job-state-adapter"
+    ],
+    "independentSources": [],
+    "sourcePublicKeys": {
+      "local-recording-facilitator": "MCowBQYDK2VwAyEAA7UFSDzLnj//H3QmNmZvne7bwWEHy6d741hpf5d87jM=",
+      "lab-http-capture-adapter": "MCowBQYDK2VwAyEAIDwfEqf2Of6OmsGtE0hGd54e/9VE9mb7QSNg2ZpH/W4=",
+      "lab-job-state-adapter": "MCowBQYDK2VwAyEASOLt0HbSlXErircXRiHBcIcc6SLKlQp2Yl9WaeNXKkU=",
+      "x402-express-middleware": "MCowBQYDK2VwAyEAKz/KjS5JhX5BDeqNqgMagZd9SV69F6/AAmfSAvl1Grk="
+    },
+    "declaredAssumptions": [
+      "The recording facilitator models the x402 settlement boundary; it is not production or on-chain evidence.",
+      "The test payer uses an ephemeral local key and no real funds."
+    ]
+  }
+}

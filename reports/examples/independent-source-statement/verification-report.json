@@ -1,0 +1,179 @@
+{
+  "specVersion": "apel.verification-report/0.1",
+  "reportId": "report-plan-independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b",
+  "generatedAt": "2026-07-21T08:56:30.595Z",
+  "engine": {
+    "name": "agent-payment-evidence-lab",
+    "version": "0.1.0"
+  },
+  "inputs": {
+    "planDigest": "sha256:4cb7090ce71d6100387af00bb6fe407e4024f5ca776f446ee8ff11e6fcfa1076",
+    "bundleDigest": "sha256:25bd2aa1ff56611d95bf6141186f197932bbb9ec6de36a4caae447abdf495b20"
+  },
+  "subject": {
+    "interactionId": "independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b",
+    "planId": "plan-independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b",
+    "bundleId": "bundle-independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b"
+  },
+  "claims": [
+    {
+      "id": "artifact-digests",
+      "type": "DIGEST_VALID",
+      "status": "PROVEN",
+      "reasonCode": "ALL_SELECTED_DIGESTS_VALID",
+      "evidence": [
+        "output-schema",
+        "http-response",
+        "payment-verification",
+        "settlement-boundary",
+        "completion-statement"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "interaction-correlation",
+      "type": "CORRELATION_MATCH",
+      "status": "PROVEN",
+      "reasonCode": "INTERACTION_CORRELATION_MATCHED",
+      "evidence": [
+        "output-schema",
+        "http-response",
+        "payment-verification",
+        "settlement-boundary",
+        "completion-statement"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "payment-verified",
+      "type": "PAYMENT_VERIFIED",
+      "status": "PROVEN",
+      "reasonCode": "FACILITATOR_ACCEPTED_PAYMENT_PAYLOAD",
+      "evidence": [
+        "payment-verification"
+      ],
+      "limitations": [
+        "The local facilitator is synthetic and does not establish validity on a production network."
+      ]
+    },
+    {
+      "id": "settlement-boundary",
+      "type": "SETTLEMENT_BOUNDARY_SUCCEEDED",
+      "status": "PROVEN",
+      "reasonCode": "LOCAL_SETTLEMENT_BOUNDARY_SUCCEEDED",
+      "evidence": [
+        "settlement-boundary"
+      ],
+      "limitations": [
+        "This is a successful call to the recording facilitator boundary, not an on-chain transfer.",
+        "No real funds moved."
+      ]
+    },
+    {
+      "id": "onchain-settlement",
+      "type": "ONCHAIN_SETTLEMENT",
+      "status": "UNKNOWN",
+      "reasonCode": "NO_ONCHAIN_CONFIRMATION_EVIDENCE",
+      "evidence": [],
+      "limitations": [
+        "The recording facilitator never claims that a blockchain transaction occurred."
+      ]
+    },
+    {
+      "id": "http-response-received",
+      "type": "HTTP_RESPONSE_RECEIVED",
+      "status": "PROVEN",
+      "reasonCode": "HTTP_RESPONSE_CAPTURED",
+      "evidence": [
+        "http-response"
+      ],
+      "limitations": [
+        "Receiving an authenticated fixture response does not establish fulfilment."
+      ]
+    },
+    {
+      "id": "http-status",
+      "type": "HTTP_STATUS_MATCH",
+      "status": "PROVEN",
+      "reasonCode": "HTTP_STATUS_MATCHED",
+      "evidence": [
+        "http-response"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "response-bound-to-payment",
+      "type": "RESPONSE_BODY_BOUND_TO_PAYMENT",
+      "status": "UNKNOWN",
+      "reasonCode": "PAYMENT_RECEIPT_HAS_NO_RESPONSE_BODY_BINDING",
+      "evidence": [
+        "http-response",
+        "settlement-boundary"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "obligation-fulfilled",
+      "type": "OBLIGATION_FULFILLED",
+      "status": "UNKNOWN",
+      "reasonCode": "COMMERCIAL_OBLIGATION_NOT_EVALUATED",
+      "evidence": [],
+      "limitations": [
+        "The lab evaluates explicit technical predicates, not the full commercial obligation.",
+        "No economic action follows from this report."
+      ]
+    },
+    {
+      "id": "source-statement",
+      "type": "SOURCE_STATEMENT_OBSERVED",
+      "status": "PROVEN",
+      "reasonCode": "SOURCE_STATEMENT_MATCHED",
+      "evidence": [
+        "completion-statement"
+      ],
+      "limitations": [
+        "The bundle contains a matching statement attributed to this source; authentication is a separate claim.",
+        "Presence does not establish that the statement is true."
+      ]
+    },
+    {
+      "id": "source-authenticated",
+      "type": "SOURCE_AUTHENTICATED",
+      "status": "PROVEN",
+      "reasonCode": "ED25519_SIGNATURE_VALID",
+      "evidence": [
+        "completion-statement"
+      ],
+      "limitations": [
+        "A valid signature establishes integrity and control of the signing key, not truth."
+      ]
+    },
+    {
+      "id": "source-independent",
+      "type": "SOURCE_INDEPENDENT",
+      "status": "UNKNOWN",
+      "reasonCode": "SOURCE_INDEPENDENCE_NOT_ESTABLISHED",
+      "evidence": [
+        "completion-statement"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "source-authoritative",
+      "type": "SOURCE_AUTHORITATIVE",
+      "status": "UNKNOWN",
+      "reasonCode": "SOURCE_AUTHORITY_NOT_ESTABLISHED",
+      "evidence": [
+        "completion-statement"
+      ],
+      "limitations": []
+    }
+  ],
+  "summary": {
+    "proven": 8,
+    "notProven": 0,
+    "unknown": 5
+  },
+  "economicAction": "NOT_EVALUATED",
+  "disclaimerCode": "EVIDENCE_ANALYSIS_ONLY"
+}

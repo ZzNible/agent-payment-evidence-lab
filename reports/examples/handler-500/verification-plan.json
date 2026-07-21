@@ -1,0 +1,79 @@
+{
+  "specVersion": "apel.verification-plan/0.1",
+  "planId": "plan-handler-500-2bfcd5f1-c228-4ebe-87d0-9e8c08b37e2c",
+  "createdAt": "2026-07-21T08:56:30.544Z",
+  "subject": {
+    "interactionId": "handler-500-2bfcd5f1-c228-4ebe-87d0-9e8c08b37e2c",
+    "resource": "http://127.0.0.1:55670/scenario/handler-500?interactionId=handler-500-2bfcd5f1-c228-4ebe-87d0-9e8c08b37e2c"
+  },
+  "claims": [
+    {
+      "id": "artifact-digests",
+      "type": "DIGEST_VALID"
+    },
+    {
+      "id": "interaction-correlation",
+      "type": "CORRELATION_MATCH"
+    },
+    {
+      "id": "payment-verified",
+      "type": "PAYMENT_VERIFIED",
+      "parameters": {
+        "artifactId": "payment-verification",
+        "issuerId": "local-recording-facilitator"
+      }
+    },
+    {
+      "id": "settlement-boundary",
+      "type": "SETTLEMENT_BOUNDARY_SUCCEEDED",
+      "parameters": {
+        "artifactId": "settlement-boundary",
+        "artifactIssuerId": "local-recording-facilitator",
+        "cancellationArtifactId": "payment-cancellation",
+        "cancellationIssuerId": "x402-express-middleware"
+      }
+    },
+    {
+      "id": "onchain-settlement",
+      "type": "ONCHAIN_SETTLEMENT",
+      "parameters": {
+        "artifactId": "onchain-confirmation",
+        "issuerId": "chain-observer-not-configured"
+      }
+    },
+    {
+      "id": "http-response-received",
+      "type": "HTTP_RESPONSE_RECEIVED",
+      "parameters": {
+        "artifactId": "http-response",
+        "issuerId": "lab-http-capture-adapter"
+      }
+    },
+    {
+      "id": "http-status",
+      "type": "HTTP_STATUS_MATCH",
+      "parameters": {
+        "artifactId": "http-response",
+        "issuerId": "lab-http-capture-adapter",
+        "expected": 500
+      }
+    },
+    {
+      "id": "response-bound-to-payment",
+      "type": "RESPONSE_BODY_BOUND_TO_PAYMENT",
+      "parameters": {
+        "responseArtifactId": "http-response",
+        "responseIssuerId": "lab-http-capture-adapter",
+        "settlementArtifactId": "settlement-boundary",
+        "settlementIssuerId": "local-recording-facilitator"
+      }
+    },
+    {
+      "id": "obligation-fulfilled",
+      "type": "OBLIGATION_FULFILLED",
+      "parameters": {}
+    }
+  ],
+  "trustProfile": "local-x402-fixture-v0",
+  "trustProfileDigest": "sha256:317ab38a940ac7ce68587d80b94d417726c94cb33a2d10a68e086656c3025e62"
+}

@@ -1,0 +1,146 @@
+{
+  "specVersion": "apel.verification-report/0.1",
+  "reportId": "report-plan-settled-invalid-schema-8238ea36-0a6c-450b-ae59-636d6b0228da",
+  "generatedAt": "2026-07-21T08:56:30.565Z",
+  "engine": {
+    "name": "agent-payment-evidence-lab",
+    "version": "0.1.0"
+  },
+  "inputs": {
+    "planDigest": "sha256:cc6017a8d32bb44dffdb6612dfd9be1ae2c2d901bfd46d36561b19e0c774536a",
+    "bundleDigest": "sha256:36e22d1f1119cc208e3157b131c381c620eb3b68b944f1769bb704fc393dd225"
+  },
+  "subject": {
+    "interactionId": "settled-invalid-schema-8238ea36-0a6c-450b-ae59-636d6b0228da",
+    "planId": "plan-settled-invalid-schema-8238ea36-0a6c-450b-ae59-636d6b0228da",
+    "bundleId": "bundle-settled-invalid-schema-8238ea36-0a6c-450b-ae59-636d6b0228da"
+  },
+  "claims": [
+    {
+      "id": "artifact-digests",
+      "type": "DIGEST_VALID",
+      "status": "PROVEN",
+      "reasonCode": "ALL_SELECTED_DIGESTS_VALID",
+      "evidence": [
+        "output-schema",
+        "http-response",
+        "payment-verification",
+        "settlement-boundary"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "interaction-correlation",
+      "type": "CORRELATION_MATCH",
+      "status": "PROVEN",
+      "reasonCode": "INTERACTION_CORRELATION_MATCHED",
+      "evidence": [
+        "output-schema",
+        "http-response",
+        "payment-verification",
+        "settlement-boundary"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "payment-verified",
+      "type": "PAYMENT_VERIFIED",
+      "status": "PROVEN",
+      "reasonCode": "FACILITATOR_ACCEPTED_PAYMENT_PAYLOAD",
+      "evidence": [
+        "payment-verification"
+      ],
+      "limitations": [
+        "The local facilitator is synthetic and does not establish validity on a production network."
+      ]
+    },
+    {
+      "id": "settlement-boundary",
+      "type": "SETTLEMENT_BOUNDARY_SUCCEEDED",
+      "status": "PROVEN",
+      "reasonCode": "LOCAL_SETTLEMENT_BOUNDARY_SUCCEEDED",
+      "evidence": [
+        "settlement-boundary"
+      ],
+      "limitations": [
+        "This is a successful call to the recording facilitator boundary, not an on-chain transfer.",
+        "No real funds moved."
+      ]
+    },
+    {
+      "id": "onchain-settlement",
+      "type": "ONCHAIN_SETTLEMENT",
+      "status": "UNKNOWN",
+      "reasonCode": "NO_ONCHAIN_CONFIRMATION_EVIDENCE",
+      "evidence": [],
+      "limitations": [
+        "The recording facilitator never claims that a blockchain transaction occurred."
+      ]
+    },
+    {
+      "id": "http-response-received",
+      "type": "HTTP_RESPONSE_RECEIVED",
+      "status": "PROVEN",
+      "reasonCode": "HTTP_RESPONSE_CAPTURED",
+      "evidence": [
+        "http-response"
+      ],
+      "limitations": [
+        "Receiving an authenticated fixture response does not establish fulfilment."
+      ]
+    },
+    {
+      "id": "http-status",
+      "type": "HTTP_STATUS_MATCH",
+      "status": "PROVEN",
+      "reasonCode": "HTTP_STATUS_MATCHED",
+      "evidence": [
+        "http-response"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "response-bound-to-payment",
+      "type": "RESPONSE_BODY_BOUND_TO_PAYMENT",
+      "status": "UNKNOWN",
+      "reasonCode": "PAYMENT_RECEIPT_HAS_NO_RESPONSE_BODY_BINDING",
+      "evidence": [
+        "http-response",
+        "settlement-boundary"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "obligation-fulfilled",
+      "type": "OBLIGATION_FULFILLED",
+      "status": "UNKNOWN",
+      "reasonCode": "COMMERCIAL_OBLIGATION_NOT_EVALUATED",
+      "evidence": [],
+      "limitations": [
+        "The lab evaluates explicit technical predicates, not the full commercial obligation.",
+        "No economic action follows from this report."
+      ]
+    },
+    {
+      "id": "output-schema",
+      "type": "OUTPUT_SCHEMA_VALID",
+      "status": "NOT_PROVEN",
+      "reasonCode": "JSON_SCHEMA_MISMATCH",
+      "evidence": [
+        "http-response",
+        "output-schema"
+      ],
+      "limitations": [
+        "/data: must have required property 'result'",
+        "/data: must NOT have additional properties"
+      ]
+    }
+  ],
+  "summary": {
+    "proven": 6,
+    "notProven": 1,
+    "unknown": 3
+  },
+  "economicAction": "NOT_EVALUATED",
+  "disclaimerCode": "EVIDENCE_ANALYSIS_ONLY"
+}

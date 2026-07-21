@@ -1,0 +1,700 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:apel:schema:verification-report:0.1",
+  "title": "Agent Payment Evidence Lab verification report",
+  "description": "A non-economic evaluation of precommitted technical claims. It is neither a payment instruction nor a clearing decision.",
+  "type": "object",
+  "required": [
+    "specVersion",
+    "reportId",
+    "generatedAt",
+    "engine",
+    "inputs",
+    "subject",
+    "claims",
+    "summary",
+    "economicAction",
+    "disclaimerCode"
+  ],
+  "properties": {
+    "specVersion": {
+      "const": "apel.verification-report/0.1"
+    },
+    "reportId": {
+      "$ref": "#/$defs/identifier"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "engine": {
+      "$ref": "#/$defs/engine"
+    },
+    "inputs": {
+      "$ref": "#/$defs/inputs"
+    },
+    "subject": {
+      "$ref": "#/$defs/subject"
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "$ref": "#/$defs/claimResult"
+      }
+    },
+    "summary": {
+      "$ref": "#/$defs/summary"
+    },
+    "economicAction": {
+      "description": "The lab does not release, refund, retain, charge, or transfer funds.",
+      "const": "NOT_EVALUATED"
+    },
+    "disclaimerCode": {
+      "const": "EVIDENCE_ANALYSIS_ONLY"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,255}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "claimType": {
+      "type": "string",
+      "enum": [
+        "PAYMENT_VERIFIED",
+        "SETTLEMENT_BOUNDARY_SUCCEEDED",
+        "ONCHAIN_SETTLEMENT",
+        "HTTP_RESPONSE_RECEIVED",
+        "HTTP_STATUS_MATCH",
+        "OUTPUT_SCHEMA_VALID",
+        "JOB_TERMINAL_SUCCESS",
+        "DIGEST_VALID",
+        "CORRELATION_MATCH",
+        "SOURCE_STATEMENT_OBSERVED",
+        "SOURCE_AUTHENTICATED",
+        "SOURCE_INDEPENDENT",
+        "SOURCE_AUTHORITATIVE",
+        "RESPONSE_BODY_BOUND_TO_PAYMENT",
+        "OBLIGATION_FULFILLED"
+      ]
+    },
+    "engine": {
+      "type": "object",
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "name": {
+          "const": "agent-payment-evidence-lab"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$",
+          "maxLength": 128
+        }
+      },
+      "additionalProperties": false
+    },
+    "inputs": {
+      "type": "object",
+      "required": [
+        "planDigest",
+        "bundleDigest"
+      ],
+      "properties": {
+        "planDigest": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bundleDigest": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "additionalProperties": false
+    },
+    "subject": {
+      "type": "object",
+      "required": [
+        "interactionId",
+        "planId",
+        "bundleId"
+      ],
+      "properties": {
+        "interactionId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "planId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "bundleId": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "additionalProperties": false
+    },
+    "claimResult": {
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "status",
+        "reasonCode",
+        "evidence",
+        "limitations"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "type": {
+          "$ref": "#/$defs/claimType"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "PROVEN",
+            "NOT_PROVEN",
+            "UNKNOWN"
+          ]
+        },
+        "reasonCode": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "maxItems": 1024,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "maxItems": 128,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "PROVEN"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reasonCode": {
+                "type": "string",
+                "enum": [
+                  "FACILITATOR_ACCEPTED_PAYMENT_PAYLOAD",
+                  "LOCAL_SETTLEMENT_BOUNDARY_SUCCEEDED",
+                  "HTTP_RESPONSE_CAPTURED",
+                  "HTTP_STATUS_MATCHED",
+                  "JSON_SCHEMA_MATCH",
+                  "JOB_REPORTED_TERMINAL_SUCCESS",
+                  "ALL_SELECTED_DIGESTS_VALID",
+                  "INTERACTION_CORRELATION_MATCHED",
+                  "SOURCE_STATEMENT_MATCHED",
+                  "ED25519_SIGNATURE_VALID",
+                  "SOURCE_INDEPENDENT_UNDER_DECLARED_TRUST_PROFILE",
+                  "SOURCE_AUTHORITATIVE_UNDER_DECLARED_TRUST_PROFILE",
+                  "RESPONSE_BODY_DIGEST_BOUND_TO_SETTLEMENT"
+                ]
+              },
+              "evidence": {
+                "type": "array",
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "NOT_PROVEN"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reasonCode": {
+                "type": "string",
+                "enum": [
+                  "PAYMENT_VERIFICATION_REJECTED",
+                  "SETTLEMENT_BOUNDARY_FAILED",
+                  "SETTLEMENT_SKIPPED_AFTER_HANDLER_FAILURE",
+                  "HTTP_STATUS_MISMATCH",
+                  "JSON_SCHEMA_MISMATCH",
+                  "JOB_REPORTED_TERMINAL_FAILURE",
+                  "JOB_RESPONSE_BINDING_MISMATCH",
+                  "ARTIFACT_DIGEST_MISMATCH",
+                  "INTERACTION_CORRELATION_MISMATCH",
+                  "SOURCE_STATEMENT_MISMATCH",
+                  "SOURCE_SIGNATURE_INVALID",
+                  "SOURCE_KEY_BINDING_MISMATCH",
+                  "TRUST_PROFILE_COMMITMENT_MISMATCH",
+                  "SOURCE_CONTROLLED_BY_TRANSACTION_PARTY",
+                  "RESPONSE_BODY_BINDING_MISMATCH",
+                  "SETTLEMENT_BOUNDARY_NOT_SUCCESSFUL",
+                  "SCHEMA_COMMITMENT_MISMATCH",
+                  "ARTIFACT_ISSUER_ROLE_MISMATCH",
+                  "ARTIFACT_KEY_BINDING_MISMATCH",
+                  "ARTIFACT_SIGNATURE_INVALID",
+                  "PAYMENT_RESOURCE_MISMATCH",
+                  "ARTIFACT_ISSUER_MISMATCH",
+                  "SOURCE_STATEMENT_INTERACTION_MISMATCH",
+                  "HTTP_RESOURCE_MISMATCH"
+                ]
+              },
+              "evidence": {
+                "type": "array",
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "UNKNOWN"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reasonCode": {
+                "type": "string",
+                "enum": [
+                  "NO_REGISTERED_VERIFIER",
+                  "COMMERCIAL_OBLIGATION_NOT_EVALUATED",
+                  "NO_VALID_PAYMENT_VERIFICATION_EVIDENCE",
+                  "NO_VALID_SETTLEMENT_EVIDENCE",
+                  "CONTRADICTORY_SETTLEMENT_EVIDENCE",
+                  "NO_ONCHAIN_CONFIRMATION_EVIDENCE",
+                  "ONCHAIN_VERIFICATION_NOT_IMPLEMENTED",
+                  "NO_VALID_HTTP_RESPONSE_EVIDENCE",
+                  "HTTP_STATUS_PREDICATE_INCOMPLETE",
+                  "RESPONSE_OR_SCHEMA_EVIDENCE_MISSING",
+                  "SCHEMA_PREDICATE_NOT_EVALUABLE",
+                  "INVALID_OR_UNSUPPORTED_JSON_SCHEMA",
+                  "JOB_OR_RESPONSE_EVIDENCE_MISSING",
+                  "JOB_NOT_IN_TERMINAL_STATE",
+                  "NO_ARTIFACTS_SELECTED",
+                  "SELECTED_ARTIFACT_NOT_FOUND",
+                  "SELECTED_ARTIFACT_DIGEST_INVALID",
+                  "NO_VALID_SOURCE_STATEMENT",
+                  "SOURCE_STATEMENT_PREDICATE_INCOMPLETE",
+                  "NO_SOURCE_SIGNATURE",
+                  "SOURCE_KEY_NOT_BOUND_TO_ISSUER",
+                  "SOURCE_INDEPENDENCE_NOT_ESTABLISHED",
+                  "SOURCE_AUTHORITY_NOT_ESTABLISHED",
+                  "RESPONSE_OR_SETTLEMENT_EVIDENCE_MISSING",
+                  "PAYMENT_RECEIPT_HAS_NO_RESPONSE_BODY_BINDING",
+                  "NO_ARTIFACT_SIGNATURE",
+                  "ARTIFACT_KEY_NOT_BOUND_TO_ISSUER",
+                  "HTTP_RESPONSE_SHAPE_INVALID",
+                  "PAYMENT_RESOURCE_BINDING_MISSING",
+                  "JOB_SOURCE_AUTHORITY_NOT_ESTABLISHED",
+                  "ARTIFACT_ISSUER_PREDICATE_INCOMPLETE",
+                  "HTTP_RESOURCE_BINDING_MISSING",
+                  "UNSUPPORTED_PAYMENT_VERIFICATION_PROFILE",
+                  "UNSUPPORTED_SETTLEMENT_PROFILE",
+                  "UNSUPPORTED_PAYMENT_CANCELLATION_PROFILE"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "PAYMENT_VERIFIED"
+            },
+            "reasonCode": {
+              "enum": [
+                "FACILITATOR_ACCEPTED_PAYMENT_PAYLOAD",
+                "PAYMENT_VERIFICATION_REJECTED",
+                "PAYMENT_RESOURCE_MISMATCH",
+                "ARTIFACT_ISSUER_MISMATCH",
+                "ARTIFACT_ISSUER_ROLE_MISMATCH",
+                "TRUST_PROFILE_COMMITMENT_MISMATCH",
+                "ARTIFACT_KEY_BINDING_MISMATCH",
+                "ARTIFACT_SIGNATURE_INVALID",
+                "NO_REGISTERED_VERIFIER",
+                "NO_VALID_PAYMENT_VERIFICATION_EVIDENCE",
+                "UNSUPPORTED_PAYMENT_VERIFICATION_PROFILE",
+                "PAYMENT_RESOURCE_BINDING_MISSING",
+                "ARTIFACT_ISSUER_PREDICATE_INCOMPLETE",
+                "NO_ARTIFACT_SIGNATURE",
+                "ARTIFACT_KEY_NOT_BOUND_TO_ISSUER"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "SETTLEMENT_BOUNDARY_SUCCEEDED"
+            },
+            "reasonCode": {
+              "enum": [
+                "LOCAL_SETTLEMENT_BOUNDARY_SUCCEEDED",
+                "SETTLEMENT_BOUNDARY_FAILED",
+                "SETTLEMENT_SKIPPED_AFTER_HANDLER_FAILURE",
+                "ARTIFACT_ISSUER_MISMATCH",
+                "ARTIFACT_ISSUER_ROLE_MISMATCH",
+                "TRUST_PROFILE_COMMITMENT_MISMATCH",
+                "ARTIFACT_KEY_BINDING_MISMATCH",
+                "ARTIFACT_SIGNATURE_INVALID",
+                "NO_REGISTERED_VERIFIER",
+                "NO_VALID_SETTLEMENT_EVIDENCE",
+                "CONTRADICTORY_SETTLEMENT_EVIDENCE",
+                "UNSUPPORTED_SETTLEMENT_PROFILE",
+                "UNSUPPORTED_PAYMENT_CANCELLATION_PROFILE",
+                "ARTIFACT_ISSUER_PREDICATE_INCOMPLETE",
+                "NO_ARTIFACT_SIGNATURE",
+                "ARTIFACT_KEY_NOT_BOUND_TO_ISSUER"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "ONCHAIN_SETTLEMENT"
+            },
+            "reasonCode": {
+              "enum": [
+                "NO_REGISTERED_VERIFIER",
+                "NO_ONCHAIN_CONFIRMATION_EVIDENCE",
+                "ONCHAIN_VERIFICATION_NOT_IMPLEMENTED"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "HTTP_RESPONSE_RECEIVED"
+            },
+            "reasonCode": {
+              "enum": [
+                "HTTP_RESPONSE_CAPTURED",
+                "HTTP_RESOURCE_MISMATCH",
+                "ARTIFACT_ISSUER_MISMATCH",
+                "ARTIFACT_ISSUER_ROLE_MISMATCH",
+                "TRUST_PROFILE_COMMITMENT_MISMATCH",
+                "ARTIFACT_KEY_BINDING_MISMATCH",
+                "ARTIFACT_SIGNATURE_INVALID",
+                "NO_REGISTERED_VERIFIER",
+                "NO_VALID_HTTP_RESPONSE_EVIDENCE",
+                "HTTP_RESPONSE_SHAPE_INVALID",
+                "HTTP_RESOURCE_BINDING_MISSING",
+                "ARTIFACT_ISSUER_PREDICATE_INCOMPLETE",
+                "NO_ARTIFACT_SIGNATURE",
+                "ARTIFACT_KEY_NOT_BOUND_TO_ISSUER"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "HTTP_STATUS_MATCH"
+            },
+            "reasonCode": {
+              "enum": [
+                "HTTP_STATUS_MATCHED",
+                "HTTP_STATUS_MISMATCH",
+                "HTTP_RESOURCE_MISMATCH",
+                "ARTIFACT_ISSUER_MISMATCH",
+                "ARTIFACT_ISSUER_ROLE_MISMATCH",
+                "TRUST_PROFILE_COMMITMENT_MISMATCH",
+                "ARTIFACT_KEY_BINDING_MISMATCH",
+                "ARTIFACT_SIGNATURE_INVALID",
+                "NO_REGISTERED_VERIFIER",
+                "NO_VALID_HTTP_RESPONSE_EVIDENCE",
+                "HTTP_STATUS_PREDICATE_INCOMPLETE",
+                "HTTP_RESPONSE_SHAPE_INVALID",
+                "HTTP_RESOURCE_BINDING_MISSING",
+                "ARTIFACT_ISSUER_PREDICATE_INCOMPLETE",
+                "NO_ARTIFACT_SIGNATURE",
+                "ARTIFACT_KEY_NOT_BOUND_TO_ISSUER"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "OUTPUT_SCHEMA_VALID"
+            },
+            "reasonCode": {
+              "enum": [
+                "JSON_SCHEMA_MATCH",
+                "JSON_SCHEMA_MISMATCH",
+                "SCHEMA_COMMITMENT_MISMATCH",
+                "HTTP_RESOURCE_MISMATCH",
+                "ARTIFACT_ISSUER_MISMATCH",
+                "ARTIFACT_ISSUER_ROLE_MISMATCH",
+                "TRUST_PROFILE_COMMITMENT_MISMATCH",
+                "ARTIFACT_KEY_BINDING_MISMATCH",
+                "ARTIFACT_SIGNATURE_INVALID",
+                "NO_REGISTERED_VERIFIER",
+                "RESPONSE_OR_SCHEMA_EVIDENCE_MISSING",
+                "SCHEMA_PREDICATE_NOT_EVALUABLE",
+                "INVALID_OR_UNSUPPORTED_JSON_SCHEMA",
+                "HTTP_RESPONSE_SHAPE_INVALID",
+                "HTTP_RESOURCE_BINDING_MISSING",
+                "ARTIFACT_ISSUER_PREDICATE_INCOMPLETE",
+                "NO_ARTIFACT_SIGNATURE",
+                "ARTIFACT_KEY_NOT_BOUND_TO_ISSUER"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "JOB_TERMINAL_SUCCESS"
+            },
+            "reasonCode": {
+              "enum": [
+                "JOB_REPORTED_TERMINAL_SUCCESS",
+                "JOB_REPORTED_TERMINAL_FAILURE",
+                "JOB_RESPONSE_BINDING_MISMATCH",
+                "HTTP_RESOURCE_MISMATCH",
+                "ARTIFACT_ISSUER_MISMATCH",
+                "ARTIFACT_ISSUER_ROLE_MISMATCH",
+                "TRUST_PROFILE_COMMITMENT_MISMATCH",
+                "ARTIFACT_KEY_BINDING_MISMATCH",
+                "ARTIFACT_SIGNATURE_INVALID",
+                "NO_REGISTERED_VERIFIER",
+                "JOB_OR_RESPONSE_EVIDENCE_MISSING",
+                "JOB_NOT_IN_TERMINAL_STATE",
+                "JOB_SOURCE_AUTHORITY_NOT_ESTABLISHED",
+                "HTTP_RESPONSE_SHAPE_INVALID",
+                "HTTP_RESOURCE_BINDING_MISSING",
+                "ARTIFACT_ISSUER_PREDICATE_INCOMPLETE",
+                "NO_ARTIFACT_SIGNATURE",
+                "ARTIFACT_KEY_NOT_BOUND_TO_ISSUER"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "DIGEST_VALID"
+            },
+            "reasonCode": {
+              "enum": [
+                "ALL_SELECTED_DIGESTS_VALID",
+                "ARTIFACT_DIGEST_MISMATCH",
+                "NO_REGISTERED_VERIFIER",
+                "NO_ARTIFACTS_SELECTED",
+                "SELECTED_ARTIFACT_NOT_FOUND"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "CORRELATION_MATCH"
+            },
+            "reasonCode": {
+              "enum": [
+                "INTERACTION_CORRELATION_MATCHED",
+                "INTERACTION_CORRELATION_MISMATCH",
+                "NO_REGISTERED_VERIFIER",
+                "NO_ARTIFACTS_SELECTED",
+                "SELECTED_ARTIFACT_NOT_FOUND",
+                "SELECTED_ARTIFACT_DIGEST_INVALID"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "SOURCE_STATEMENT_OBSERVED"
+            },
+            "reasonCode": {
+              "enum": [
+                "SOURCE_STATEMENT_MATCHED",
+                "SOURCE_STATEMENT_MISMATCH",
+                "SOURCE_STATEMENT_INTERACTION_MISMATCH",
+                "ARTIFACT_ISSUER_MISMATCH",
+                "NO_REGISTERED_VERIFIER",
+                "NO_VALID_SOURCE_STATEMENT",
+                "SOURCE_STATEMENT_PREDICATE_INCOMPLETE",
+                "ARTIFACT_ISSUER_PREDICATE_INCOMPLETE"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "SOURCE_AUTHENTICATED"
+            },
+            "reasonCode": {
+              "enum": [
+                "ED25519_SIGNATURE_VALID",
+                "ARTIFACT_ISSUER_MISMATCH",
+                "TRUST_PROFILE_COMMITMENT_MISMATCH",
+                "SOURCE_KEY_BINDING_MISMATCH",
+                "SOURCE_SIGNATURE_INVALID",
+                "NO_REGISTERED_VERIFIER",
+                "NO_VALID_SOURCE_STATEMENT",
+                "ARTIFACT_ISSUER_PREDICATE_INCOMPLETE",
+                "NO_SOURCE_SIGNATURE",
+                "SOURCE_KEY_NOT_BOUND_TO_ISSUER"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "SOURCE_INDEPENDENT"
+            },
+            "reasonCode": {
+              "enum": [
+                "SOURCE_INDEPENDENT_UNDER_DECLARED_TRUST_PROFILE",
+                "ARTIFACT_ISSUER_MISMATCH",
+                "TRUST_PROFILE_COMMITMENT_MISMATCH",
+                "SOURCE_KEY_BINDING_MISMATCH",
+                "SOURCE_SIGNATURE_INVALID",
+                "SOURCE_CONTROLLED_BY_TRANSACTION_PARTY",
+                "NO_REGISTERED_VERIFIER",
+                "NO_VALID_SOURCE_STATEMENT",
+                "ARTIFACT_ISSUER_PREDICATE_INCOMPLETE",
+                "NO_SOURCE_SIGNATURE",
+                "SOURCE_KEY_NOT_BOUND_TO_ISSUER",
+                "SOURCE_INDEPENDENCE_NOT_ESTABLISHED"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "SOURCE_AUTHORITATIVE"
+            },
+            "reasonCode": {
+              "enum": [
+                "SOURCE_AUTHORITATIVE_UNDER_DECLARED_TRUST_PROFILE",
+                "ARTIFACT_ISSUER_MISMATCH",
+                "TRUST_PROFILE_COMMITMENT_MISMATCH",
+                "SOURCE_KEY_BINDING_MISMATCH",
+                "SOURCE_SIGNATURE_INVALID",
+                "NO_REGISTERED_VERIFIER",
+                "NO_VALID_SOURCE_STATEMENT",
+                "ARTIFACT_ISSUER_PREDICATE_INCOMPLETE",
+                "NO_SOURCE_SIGNATURE",
+                "SOURCE_KEY_NOT_BOUND_TO_ISSUER",
+                "SOURCE_AUTHORITY_NOT_ESTABLISHED"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "RESPONSE_BODY_BOUND_TO_PAYMENT"
+            },
+            "reasonCode": {
+              "enum": [
+                "RESPONSE_BODY_DIGEST_BOUND_TO_SETTLEMENT",
+                "RESPONSE_BODY_BINDING_MISMATCH",
+                "SETTLEMENT_BOUNDARY_NOT_SUCCESSFUL",
+                "HTTP_RESOURCE_MISMATCH",
+                "ARTIFACT_ISSUER_MISMATCH",
+                "ARTIFACT_ISSUER_ROLE_MISMATCH",
+                "TRUST_PROFILE_COMMITMENT_MISMATCH",
+                "ARTIFACT_KEY_BINDING_MISMATCH",
+                "ARTIFACT_SIGNATURE_INVALID",
+                "NO_REGISTERED_VERIFIER",
+                "RESPONSE_OR_SETTLEMENT_EVIDENCE_MISSING",
+                "PAYMENT_RECEIPT_HAS_NO_RESPONSE_BODY_BINDING",
+                "HTTP_RESPONSE_SHAPE_INVALID",
+                "HTTP_RESOURCE_BINDING_MISSING",
+                "ARTIFACT_ISSUER_PREDICATE_INCOMPLETE",
+                "NO_ARTIFACT_SIGNATURE",
+                "ARTIFACT_KEY_NOT_BOUND_TO_ISSUER"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "OBLIGATION_FULFILLED"
+            },
+            "reasonCode": {
+              "enum": [
+                "NO_REGISTERED_VERIFIER",
+                "COMMERCIAL_OBLIGATION_NOT_EVALUATED"
+              ]
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "proven",
+        "notProven",
+        "unknown"
+      ],
+      "properties": {
+        "proven": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 256
+        },
+        "notProven": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 256
+        },
+        "unknown": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 256
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

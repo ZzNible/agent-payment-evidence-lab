@@ -1,0 +1,89 @@
+{
+  "specVersion": "apel.verification-plan/0.1",
+  "planId": "plan-accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706",
+  "createdAt": "2026-07-21T08:56:30.575Z",
+  "subject": {
+    "interactionId": "accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706",
+    "resource": "http://127.0.0.1:55676/scenario/accepted-then-async-failure?interactionId=accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706"
+  },
+  "claims": [
+    {
+      "id": "artifact-digests",
+      "type": "DIGEST_VALID"
+    },
+    {
+      "id": "interaction-correlation",
+      "type": "CORRELATION_MATCH"
+    },
+    {
+      "id": "payment-verified",
+      "type": "PAYMENT_VERIFIED",
+      "parameters": {
+        "artifactId": "payment-verification",
+        "issuerId": "local-recording-facilitator"
+      }
+    },
+    {
+      "id": "settlement-boundary",
+      "type": "SETTLEMENT_BOUNDARY_SUCCEEDED",
+      "parameters": {
+        "artifactId": "settlement-boundary",
+        "artifactIssuerId": "local-recording-facilitator",
+        "cancellationArtifactId": "payment-cancellation",
+        "cancellationIssuerId": "x402-express-middleware"
+      }
+    },
+    {
+      "id": "onchain-settlement",
+      "type": "ONCHAIN_SETTLEMENT",
+      "parameters": {
+        "artifactId": "onchain-confirmation",
+        "issuerId": "chain-observer-not-configured"
+      }
+    },
+    {
+      "id": "http-response-received",
+      "type": "HTTP_RESPONSE_RECEIVED",
+      "parameters": {
+        "artifactId": "http-response",
+        "issuerId": "lab-http-capture-adapter"
+      }
+    },
+    {
+      "id": "http-status",
+      "type": "HTTP_STATUS_MATCH",
+      "parameters": {
+        "artifactId": "http-response",
+        "issuerId": "lab-http-capture-adapter",
+        "expected": 202
+      }
+    },
+    {
+      "id": "response-bound-to-payment",
+      "type": "RESPONSE_BODY_BOUND_TO_PAYMENT",
+      "parameters": {
+        "responseArtifactId": "http-response",
+        "responseIssuerId": "lab-http-capture-adapter",
+        "settlementArtifactId": "settlement-boundary",
+        "settlementIssuerId": "local-recording-facilitator"
+      }
+    },
+    {
+      "id": "obligation-fulfilled",
+      "type": "OBLIGATION_FULFILLED",
+      "parameters": {}
+    },
+    {
+      "id": "job-terminal-success",
+      "type": "JOB_TERMINAL_SUCCESS",
+      "parameters": {
+        "artifactId": "job-terminal-status",
+        "issuerId": "lab-job-state-adapter",
+        "responseArtifactId": "http-response",
+        "responseIssuerId": "lab-http-capture-adapter"
+      }
+    }
+  ],
+  "trustProfile": "local-x402-fixture-v0",
+  "trustProfileDigest": "sha256:46c105c38625151907e61ee9e75895d1b28c25add88c538a9662959bfd6a5da2"
+}

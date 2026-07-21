@@ -1,0 +1,128 @@
+[
+  {
+    "sequence": 1,
+    "at": "2026-07-21T08:56:30.575Z",
+    "type": "facilitator.supported",
+    "details": {
+      "mode": "local-recording-double",
+      "network": "eip155:84532"
+    }
+  },
+  {
+    "sequence": 2,
+    "at": "2026-07-21T08:56:30.576Z",
+    "type": "client.request-started",
+    "details": {
+      "url": "http://127.0.0.1:55676/scenario/accepted-then-async-failure?interactionId=accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706",
+      "payer": "0x58e2C61a719bf1Aa009b1b8Df6c4edCc6b936ae3"
+    }
+  },
+  {
+    "sequence": 3,
+    "at": "2026-07-21T08:56:30.577Z",
+    "type": "http.request",
+    "details": {
+      "method": "GET",
+      "path": "/scenario/accepted-then-async-failure",
+      "hasPaymentSignature": false
+    }
+  },
+  {
+    "sequence": 4,
+    "at": "2026-07-21T08:56:30.579Z",
+    "type": "http.request",
+    "details": {
+      "method": "GET",
+      "path": "/scenario/accepted-then-async-failure",
+      "hasPaymentSignature": true
+    }
+  },
+  {
+    "sequence": 5,
+    "at": "2026-07-21T08:56:30.579Z",
+    "type": "facilitator.verify",
+    "details": {
+      "call": 1,
+      "accepted": true,
+      "payer": "0x58e2C61a719bf1Aa009b1b8Df6c4edCc6b936ae3",
+      "network": "eip155:84532",
+      "realNetworkVerification": false
+    }
+  },
+  {
+    "sequence": 6,
+    "at": "2026-07-21T08:56:30.579Z",
+    "type": "x402.after-verify",
+    "details": {
+      "isValid": true,
+      "payer": "0x58e2C61a719bf1Aa009b1b8Df6c4edCc6b936ae3"
+    }
+  },
+  {
+    "sequence": 7,
+    "at": "2026-07-21T08:56:30.579Z",
+    "type": "handler.started",
+    "details": {
+      "scenario": "accepted-then-async-failure",
+      "interactionId": "accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706"
+    }
+  },
+  {
+    "sequence": 8,
+    "at": "2026-07-21T08:56:30.579Z",
+    "type": "handler.completed",
+    "details": {
+      "scenario": "accepted-then-async-failure",
+      "status": 202
+    }
+  },
+  {
+    "sequence": 9,
+    "at": "2026-07-21T08:56:30.579Z",
+    "type": "x402.before-settle",
+    "details": {
+      "network": "eip155:84532",
+      "amount": "1000"
+    }
+  },
+  {
+    "sequence": 10,
+    "at": "2026-07-21T08:56:30.579Z",
+    "type": "facilitator.settle",
+    "details": {
+      "call": 1,
+      "success": true,
+      "transaction": "lab:settlement:1",
+      "network": "eip155:84532",
+      "realFundsMoved": false
+    }
+  },
+  {
+    "sequence": 11,
+    "at": "2026-07-21T08:56:30.579Z",
+    "type": "x402.after-settle",
+    "details": {
+      "success": true,
+      "transaction": "lab:settlement:1"
+    }
+  },
+  {
+    "sequence": 12,
+    "at": "2026-07-21T08:56:30.580Z",
+    "type": "client.response-received",
+    "details": {
+      "status": 202,
+      "paymentResponsePresent": true
+    }
+  },
+  {
+    "sequence": 13,
+    "at": "2026-07-21T08:56:30.580Z",
+    "type": "job.terminal-state-observed",
+    "details": {
+      "jobId": "job-accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706",
+      "status": "failed",
+      "source": "provider-job-api"
+    }
+  }
+]

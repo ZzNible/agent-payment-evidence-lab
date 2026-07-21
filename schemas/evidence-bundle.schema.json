@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:apel:schema:evidence-bundle:0.1",
+  "title": "Agent Payment Evidence Lab evidence bundle",
+  "description": "A correlation-scoped collection of observed JSON artifacts. Issuer, controller, independence, and authority are explicit inputs rather than facts inferred from a signature.",
+  "type": "object",
+  "required": [
+    "specVersion",
+    "bundleId",
+    "createdAt",
+    "subject",
+    "artifacts",
+    "trustContext"
+  ],
+  "properties": {
+    "specVersion": {
+      "const": "apel.evidence-bundle/0.1"
+    },
+    "bundleId": {
+      "$ref": "#/$defs/identifier"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "subject": {
+      "$ref": "#/$defs/subject"
+    },
+    "artifacts": {
+      "type": "array",
+      "maxItems": 1024,
+      "items": {
+        "$ref": "#/$defs/artifact"
+      }
+    },
+    "trustContext": {
+      "$ref": "#/$defs/trustContext"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,255}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "base64": {
+      "type": "string",
+      "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
+      "minLength": 4,
+      "maxLength": 16384
+    },
+    "jsonValue": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/jsonValue"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/jsonValue"
+          }
+        }
+      ]
+    },
+    "subject": {
+      "type": "object",
+      "required": [
+        "interactionId",
+        "protocol",
+        "protocolVersion"
+      ],
+      "properties": {
+        "interactionId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "protocol": {
+          "const": "x402"
+        },
+        "protocolVersion": {
+          "const": "2.19.0"
+        }
+      },
+      "additionalProperties": false
+    },
+    "artifact": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "capturedAt",
+        "issuer",
+        "digest",
+        "content",
+        "correlation"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "kind": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)+$",
+          "maxLength": 128
+        },
+        "capturedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "issuer": {
+          "$ref": "#/$defs/issuer"
+        },
+        "digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "content": {
+          "$ref": "#/$defs/jsonValue"
+        },
+        "correlation": {
+          "$ref": "#/$defs/correlation"
+        },
+        "signature": {
+          "$ref": "#/$defs/signature"
+        }
+      },
+      "additionalProperties": false
+    },
+    "issuer": {
+      "type": "object",
+      "required": [
+        "id",
+        "role",
+        "controller"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "CLIENT",
+            "PROVIDER",
+            "PAYMENT_FACILITATOR",
+            "EXTERNAL_SOURCE",
+            "INDEPENDENT_OBSERVER",
+            "LAB_FIXTURE"
+          ]
+        },
+        "controller": {
+          "description": "This field declares control. THIRD_PARTY does not by itself prove independence or authority.",
+          "type": "string",
+          "enum": [
+            "CLIENT",
+            "PROVIDER",
+            "THIRD_PARTY",
+            "LAB_FIXTURE",
+            "UNKNOWN"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "digest": {
+      "description": "Digest of the canonical artifact envelope: id, kind, times, issuer/controller, content, and correlation; excludes digest and signature fields.",
+      "type": "object",
+      "required": [
+        "algorithm",
+        "value"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "value": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "additionalProperties": false
+    },
+    "correlation": {
+      "type": "object",
+      "required": [
+        "interactionId"
+      ],
+      "properties": {
+        "interactionId": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "additionalProperties": false
+    },
+    "signature": {
+      "description": "Ed25519 signature over the same canonical artifact envelope covered by digest.",
+      "type": "object",
+      "required": [
+        "algorithm",
+        "publicKey",
+        "value"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "Ed25519"
+        },
+        "publicKey": {
+          "$ref": "#/$defs/base64"
+        },
+        "value": {
+          "$ref": "#/$defs/base64"
+        }
+      },
+      "additionalProperties": false
+    },
+    "trustContext": {
+      "type": "object",
+      "required": [
+        "authoritativeSources",
+        "independentSources",
+        "sourcePublicKeys",
+        "declaredAssumptions"
+      ],
+      "properties": {
+        "authoritativeSources": {
+          "$ref": "#/$defs/sourceList"
+        },
+        "independentSources": {
+          "$ref": "#/$defs/sourceList"
+        },
+        "sourcePublicKeys": {
+          "type": "object",
+          "maxProperties": 256,
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/base64"
+          }
+        },
+        "declaredAssumptions": {
+          "type": "array",
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "sourceList": {
+      "type": "array",
+      "maxItems": 256,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/identifier"
+      }
+    }
+  }
+}

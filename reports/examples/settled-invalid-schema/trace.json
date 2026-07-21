@@ -1,0 +1,118 @@
+[
+  {
+    "sequence": 1,
+    "at": "2026-07-21T08:56:30.560Z",
+    "type": "facilitator.supported",
+    "details": {
+      "mode": "local-recording-double",
+      "network": "eip155:84532"
+    }
+  },
+  {
+    "sequence": 2,
+    "at": "2026-07-21T08:56:30.561Z",
+    "type": "client.request-started",
+    "details": {
+      "url": "http://127.0.0.1:55673/scenario/settled-invalid-schema?interactionId=settled-invalid-schema-8238ea36-0a6c-450b-ae59-636d6b0228da",
+      "payer": "0x43D2F28BE140C1198C313D4BeE360bAF89126267"
+    }
+  },
+  {
+    "sequence": 3,
+    "at": "2026-07-21T08:56:30.562Z",
+    "type": "http.request",
+    "details": {
+      "method": "GET",
+      "path": "/scenario/settled-invalid-schema",
+      "hasPaymentSignature": false
+    }
+  },
+  {
+    "sequence": 4,
+    "at": "2026-07-21T08:56:30.564Z",
+    "type": "http.request",
+    "details": {
+      "method": "GET",
+      "path": "/scenario/settled-invalid-schema",
+      "hasPaymentSignature": true
+    }
+  },
+  {
+    "sequence": 5,
+    "at": "2026-07-21T08:56:30.564Z",
+    "type": "facilitator.verify",
+    "details": {
+      "call": 1,
+      "accepted": true,
+      "payer": "0x43D2F28BE140C1198C313D4BeE360bAF89126267",
+      "network": "eip155:84532",
+      "realNetworkVerification": false
+    }
+  },
+  {
+    "sequence": 6,
+    "at": "2026-07-21T08:56:30.564Z",
+    "type": "x402.after-verify",
+    "details": {
+      "isValid": true,
+      "payer": "0x43D2F28BE140C1198C313D4BeE360bAF89126267"
+    }
+  },
+  {
+    "sequence": 7,
+    "at": "2026-07-21T08:56:30.564Z",
+    "type": "handler.started",
+    "details": {
+      "scenario": "settled-invalid-schema",
+      "interactionId": "settled-invalid-schema-8238ea36-0a6c-450b-ae59-636d6b0228da"
+    }
+  },
+  {
+    "sequence": 8,
+    "at": "2026-07-21T08:56:30.564Z",
+    "type": "handler.completed",
+    "details": {
+      "scenario": "settled-invalid-schema",
+      "status": 200
+    }
+  },
+  {
+    "sequence": 9,
+    "at": "2026-07-21T08:56:30.564Z",
+    "type": "x402.before-settle",
+    "details": {
+      "network": "eip155:84532",
+      "amount": "1000"
+    }
+  },
+  {
+    "sequence": 10,
+    "at": "2026-07-21T08:56:30.564Z",
+    "type": "facilitator.settle",
+    "details": {
+      "call": 1,
+      "success": true,
+      "transaction": "lab:settlement:1",
+      "network": "eip155:84532",
+      "realFundsMoved": false
+    }
+  },
+  {
+    "sequence": 11,
+    "at": "2026-07-21T08:56:30.564Z",
+    "type": "x402.after-settle",
+    "details": {
+      "success": true,
+      "transaction": "lab:settlement:1"
+    }
+  },
+  {
+    "sequence": 12,
+    "at": "2026-07-21T08:56:30.564Z",
+    "type": "client.response-received",
+    "details": {
+      "status": 200,
+      "paymentResponsePresent": true
+    }
+  }
+]

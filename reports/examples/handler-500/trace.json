@@ -1,0 +1,97 @@
+[
+  {
+    "sequence": 1,
+    "at": "2026-07-21T08:56:30.542Z",
+    "type": "facilitator.supported",
+    "details": {
+      "mode": "local-recording-double",
+      "network": "eip155:84532"
+    }
+  },
+  {
+    "sequence": 2,
+    "at": "2026-07-21T08:56:30.551Z",
+    "type": "client.request-started",
+    "details": {
+      "url": "http://127.0.0.1:55670/scenario/handler-500?interactionId=handler-500-2bfcd5f1-c228-4ebe-87d0-9e8c08b37e2c",
+      "payer": "0xAAe4ccc328951FbFF0BaD4538001A3f53a3eA305"
+    }
+  },
+  {
+    "sequence": 3,
+    "at": "2026-07-21T08:56:30.552Z",
+    "type": "http.request",
+    "details": {
+      "method": "GET",
+      "path": "/scenario/handler-500",
+      "hasPaymentSignature": false
+    }
+  },
+  {
+    "sequence": 4,
+    "at": "2026-07-21T08:56:30.555Z",
+    "type": "http.request",
+    "details": {
+      "method": "GET",
+      "path": "/scenario/handler-500",
+      "hasPaymentSignature": true
+    }
+  },
+  {
+    "sequence": 5,
+    "at": "2026-07-21T08:56:30.555Z",
+    "type": "facilitator.verify",
+    "details": {
+      "call": 1,
+      "accepted": true,
+      "payer": "0xAAe4ccc328951FbFF0BaD4538001A3f53a3eA305",
+      "network": "eip155:84532",
+      "realNetworkVerification": false
+    }
+  },
+  {
+    "sequence": 6,
+    "at": "2026-07-21T08:56:30.555Z",
+    "type": "x402.after-verify",
+    "details": {
+      "isValid": true,
+      "payer": "0xAAe4ccc328951FbFF0BaD4538001A3f53a3eA305"
+    }
+  },
+  {
+    "sequence": 7,
+    "at": "2026-07-21T08:56:30.556Z",
+    "type": "handler.started",
+    "details": {
+      "scenario": "handler-500",
+      "interactionId": "handler-500-2bfcd5f1-c228-4ebe-87d0-9e8c08b37e2c"
+    }
+  },
+  {
+    "sequence": 8,
+    "at": "2026-07-21T08:56:30.556Z",
+    "type": "handler.completed",
+    "details": {
+      "scenario": "handler-500",
+      "status": 500
+    }
+  },
+  {
+    "sequence": 9,
+    "at": "2026-07-21T08:56:30.556Z",
+    "type": "x402.payment-canceled",
+    "details": {
+      "reason": "handler_failed",
+      "responseStatus": 500
+    }
+  },
+  {
+    "sequence": 10,
+    "at": "2026-07-21T08:56:30.556Z",
+    "type": "client.response-received",
+    "details": {
+      "status": 500,
+      "paymentResponsePresent": false
+    }
+  }
+]

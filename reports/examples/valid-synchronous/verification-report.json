@@ -1,0 +1,145 @@
+{
+  "specVersion": "apel.verification-report/0.1",
+  "reportId": "report-plan-valid-synchronous-4510124a-af75-4430-a68f-ed98db22ff97",
+  "generatedAt": "2026-07-21T08:56:30.533Z",
+  "engine": {
+    "name": "agent-payment-evidence-lab",
+    "version": "0.1.0"
+  },
+  "inputs": {
+    "planDigest": "sha256:7290a159197bdcf1010c46c40e2669a630102573562ea9c094f14c43a412bf1c",
+    "bundleDigest": "sha256:ad3bea6d76461ad1a7ae0413a71541acbea603fb35012e0effaa393fa03467aa"
+  },
+  "subject": {
+    "interactionId": "valid-synchronous-4510124a-af75-4430-a68f-ed98db22ff97",
+    "planId": "plan-valid-synchronous-4510124a-af75-4430-a68f-ed98db22ff97",
+    "bundleId": "bundle-valid-synchronous-4510124a-af75-4430-a68f-ed98db22ff97"
+  },
+  "claims": [
+    {
+      "id": "artifact-digests",
+      "type": "DIGEST_VALID",
+      "status": "PROVEN",
+      "reasonCode": "ALL_SELECTED_DIGESTS_VALID",
+      "evidence": [
+        "output-schema",
+        "http-response",
+        "payment-verification",
+        "settlement-boundary"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "interaction-correlation",
+      "type": "CORRELATION_MATCH",
+      "status": "PROVEN",
+      "reasonCode": "INTERACTION_CORRELATION_MATCHED",
+      "evidence": [
+        "output-schema",
+        "http-response",
+        "payment-verification",
+        "settlement-boundary"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "payment-verified",
+      "type": "PAYMENT_VERIFIED",
+      "status": "PROVEN",
+      "reasonCode": "FACILITATOR_ACCEPTED_PAYMENT_PAYLOAD",
+      "evidence": [
+        "payment-verification"
+      ],
+      "limitations": [
+        "The local facilitator is synthetic and does not establish validity on a production network."
+      ]
+    },
+    {
+      "id": "settlement-boundary",
+      "type": "SETTLEMENT_BOUNDARY_SUCCEEDED",
+      "status": "PROVEN",
+      "reasonCode": "LOCAL_SETTLEMENT_BOUNDARY_SUCCEEDED",
+      "evidence": [
+        "settlement-boundary"
+      ],
+      "limitations": [
+        "This is a successful call to the recording facilitator boundary, not an on-chain transfer.",
+        "No real funds moved."
+      ]
+    },
+    {
+      "id": "onchain-settlement",
+      "type": "ONCHAIN_SETTLEMENT",
+      "status": "UNKNOWN",
+      "reasonCode": "NO_ONCHAIN_CONFIRMATION_EVIDENCE",
+      "evidence": [],
+      "limitations": [
+        "The recording facilitator never claims that a blockchain transaction occurred."
+      ]
+    },
+    {
+      "id": "http-response-received",
+      "type": "HTTP_RESPONSE_RECEIVED",
+      "status": "PROVEN",
+      "reasonCode": "HTTP_RESPONSE_CAPTURED",
+      "evidence": [
+        "http-response"
+      ],
+      "limitations": [
+        "Receiving an authenticated fixture response does not establish fulfilment."
+      ]
+    },
+    {
+      "id": "http-status",
+      "type": "HTTP_STATUS_MATCH",
+      "status": "PROVEN",
+      "reasonCode": "HTTP_STATUS_MATCHED",
+      "evidence": [
+        "http-response"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "response-bound-to-payment",
+      "type": "RESPONSE_BODY_BOUND_TO_PAYMENT",
+      "status": "UNKNOWN",
+      "reasonCode": "PAYMENT_RECEIPT_HAS_NO_RESPONSE_BODY_BINDING",
+      "evidence": [
+        "http-response",
+        "settlement-boundary"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "obligation-fulfilled",
+      "type": "OBLIGATION_FULFILLED",
+      "status": "UNKNOWN",
+      "reasonCode": "COMMERCIAL_OBLIGATION_NOT_EVALUATED",
+      "evidence": [],
+      "limitations": [
+        "The lab evaluates explicit technical predicates, not the full commercial obligation.",
+        "No economic action follows from this report."
+      ]
+    },
+    {
+      "id": "output-schema",
+      "type": "OUTPUT_SCHEMA_VALID",
+      "status": "PROVEN",
+      "reasonCode": "JSON_SCHEMA_MATCH",
+      "evidence": [
+        "http-response",
+        "output-schema"
+      ],
+      "limitations": [
+        "Schema conformance is narrower than commercial fulfilment."
+      ]
+    }
+  ],
+  "summary": {
+    "proven": 7,
+    "notProven": 0,
+    "unknown": 3
+  },
+  "economicAction": "NOT_EVALUATED",
+  "disclaimerCode": "EVIDENCE_ANALYSIS_ONLY"
+}

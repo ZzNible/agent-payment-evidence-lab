@@ -1,0 +1,73 @@
+{
+  "name": "agent-payment-evidence-lab",
+  "version": "0.1.0",
+  "description": "Reproducible experiments on evidence boundaries in AI-agent payments, using x402 as the first executable rail.",
+  "private": true,
+  "author": {
+    "name": "Miguel Herrero",
+    "url": "https://github.com/miguel-herrero-systems"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miguel-herrero-systems/agent-payment-evidence-lab.git"
+  },
+  "homepage": "https://github.com/miguel-herrero-systems/agent-payment-evidence-lab#readme",
+  "bugs": {
+    "url": "https://github.com/miguel-herrero-systems/agent-payment-evidence-lab/issues"
+  },
+  "keywords": [
+    "ai-agents",
+    "agentic-commerce",
+    "x402",
+    "agent-payments",
+    "payment-verification",
+    "payment-settlement",
+    "digital-evidence",
+    "attestations",
+    "clearing",
+    "reproducible-research",
+    "typescript"
+  ],
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "bin": {
+    "apel": "./dist/src/cli/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "demo": "node --import tsx src/cli/index.ts demo --out reports/generated",
+    "scenario": "node --import tsx src/cli/index.ts scenario",
+    "analyze": "node --import tsx src/cli/index.ts analyze",
+    "verify:examples": "node --import tsx src/cli/index.ts verify-examples",
+    "verify:committed": "node --import tsx src/cli/index.ts verify-examples --dir reports/examples",
+    "smoke:dist": "node dist/src/cli/index.js --help",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build && npm run smoke:dist && npm run demo && npm run verify:examples && npm run verify:committed"
+  },
+  "dependencies": {
+    "@x402/core": "2.19.0",
+    "@x402/evm": "2.19.0",
+    "@x402/express": "2.19.0",
+    "@x402/fetch": "2.19.0",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "express": "5.2.1",
+    "viem": "2.55.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "@types/express": "5.0.6",
+    "@types/node": "22.20.1",
+    "eslint": "9.39.5",
+    "tsx": "4.23.1",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.65.0",
+    "vitest": "4.1.10"
+  }
+}

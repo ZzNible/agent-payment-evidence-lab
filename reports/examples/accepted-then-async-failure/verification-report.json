@@ -1,0 +1,145 @@
+{
+  "specVersion": "apel.verification-report/0.1",
+  "reportId": "report-plan-accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706",
+  "generatedAt": "2026-07-21T08:56:30.580Z",
+  "engine": {
+    "name": "agent-payment-evidence-lab",
+    "version": "0.1.0"
+  },
+  "inputs": {
+    "planDigest": "sha256:176a0d376ba13187302762f7623edcf1f7229a88ff8632d6e96fa55bb894fffb",
+    "bundleDigest": "sha256:d1d3ddd7a030878f3b888e4bccb3bb9de540b8be22b029831e8a8e08f666d55a"
+  },
+  "subject": {
+    "interactionId": "accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706",
+    "planId": "plan-accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706",
+    "bundleId": "bundle-accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706"
+  },
+  "claims": [
+    {
+      "id": "artifact-digests",
+      "type": "DIGEST_VALID",
+      "status": "PROVEN",
+      "reasonCode": "ALL_SELECTED_DIGESTS_VALID",
+      "evidence": [
+        "output-schema",
+        "http-response",
+        "payment-verification",
+        "settlement-boundary",
+        "job-terminal-status"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "interaction-correlation",
+      "type": "CORRELATION_MATCH",
+      "status": "PROVEN",
+      "reasonCode": "INTERACTION_CORRELATION_MATCHED",
+      "evidence": [
+        "output-schema",
+        "http-response",
+        "payment-verification",
+        "settlement-boundary",
+        "job-terminal-status"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "payment-verified",
+      "type": "PAYMENT_VERIFIED",
+      "status": "PROVEN",
+      "reasonCode": "FACILITATOR_ACCEPTED_PAYMENT_PAYLOAD",
+      "evidence": [
+        "payment-verification"
+      ],
+      "limitations": [
+        "The local facilitator is synthetic and does not establish validity on a production network."
+      ]
+    },
+    {
+      "id": "settlement-boundary",
+      "type": "SETTLEMENT_BOUNDARY_SUCCEEDED",
+      "status": "PROVEN",
+      "reasonCode": "LOCAL_SETTLEMENT_BOUNDARY_SUCCEEDED",
+      "evidence": [
+        "settlement-boundary"
+      ],
+      "limitations": [
+        "This is a successful call to the recording facilitator boundary, not an on-chain transfer.",
+        "No real funds moved."
+      ]
+    },
+    {
+      "id": "onchain-settlement",
+      "type": "ONCHAIN_SETTLEMENT",
+      "status": "UNKNOWN",
+      "reasonCode": "NO_ONCHAIN_CONFIRMATION_EVIDENCE",
+      "evidence": [],
+      "limitations": [
+        "The recording facilitator never claims that a blockchain transaction occurred."
+      ]
+    },
+    {
+      "id": "http-response-received",
+      "type": "HTTP_RESPONSE_RECEIVED",
+      "status": "PROVEN",
+      "reasonCode": "HTTP_RESPONSE_CAPTURED",
+      "evidence": [
+        "http-response"
+      ],
+      "limitations": [
+        "Receiving an authenticated fixture response does not establish fulfilment."
+      ]
+    },
+    {
+      "id": "http-status",
+      "type": "HTTP_STATUS_MATCH",
+      "status": "PROVEN",
+      "reasonCode": "HTTP_STATUS_MATCHED",
+      "evidence": [
+        "http-response"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "response-bound-to-payment",
+      "type": "RESPONSE_BODY_BOUND_TO_PAYMENT",
+      "status": "UNKNOWN",
+      "reasonCode": "PAYMENT_RECEIPT_HAS_NO_RESPONSE_BODY_BINDING",
+      "evidence": [
+        "http-response",
+        "settlement-boundary"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "obligation-fulfilled",
+      "type": "OBLIGATION_FULFILLED",
+      "status": "UNKNOWN",
+      "reasonCode": "COMMERCIAL_OBLIGATION_NOT_EVALUATED",
+      "evidence": [],
+      "limitations": [
+        "The lab evaluates explicit technical predicates, not the full commercial obligation.",
+        "No economic action follows from this report."
+      ]
+    },
+    {
+      "id": "job-terminal-success",
+      "type": "JOB_TERMINAL_SUCCESS",
+      "status": "NOT_PROVEN",
+      "reasonCode": "JOB_REPORTED_TERMINAL_FAILURE",
+      "evidence": [
+        "http-response",
+        "job-terminal-status"
+      ],
+      "limitations": []
+    }
+  ],
+  "summary": {
+    "proven": 6,
+    "notProven": 1,
+    "unknown": 3
+  },
+  "economicAction": "NOT_EVALUATED",
+  "disclaimerCode": "EVIDENCE_ANALYSIS_ONLY"
+}

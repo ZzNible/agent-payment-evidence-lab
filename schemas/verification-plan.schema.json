@@ -1,0 +1,556 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:apel:schema:verification-plan:0.1",
+  "title": "Agent Payment Evidence Lab verification plan",
+  "description": "A precommitted plan of technical claims. It contains no payment, release, refund, or transfer instruction.",
+  "type": "object",
+  "required": [
+    "specVersion",
+    "planId",
+    "createdAt",
+    "subject",
+    "claims",
+    "trustProfile",
+    "trustProfileDigest"
+  ],
+  "properties": {
+    "specVersion": {
+      "const": "apel.verification-plan/0.1"
+    },
+    "planId": {
+      "$ref": "#/$defs/identifier"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "subject": {
+      "$ref": "#/$defs/subject"
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "$ref": "#/$defs/claim"
+      }
+    },
+    "trustProfile": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "trustProfileDigest": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,255}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "jsonValue": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/jsonValue"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/jsonValue"
+          }
+        }
+      ]
+    },
+    "subject": {
+      "type": "object",
+      "required": [
+        "interactionId",
+        "resource"
+      ],
+      "properties": {
+        "interactionId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "resource": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1,
+          "maxLength": 4096
+        }
+      },
+      "additionalProperties": false
+    },
+    "claimType": {
+      "type": "string",
+      "enum": [
+        "PAYMENT_VERIFIED",
+        "SETTLEMENT_BOUNDARY_SUCCEEDED",
+        "ONCHAIN_SETTLEMENT",
+        "HTTP_RESPONSE_RECEIVED",
+        "HTTP_STATUS_MATCH",
+        "OUTPUT_SCHEMA_VALID",
+        "JOB_TERMINAL_SUCCESS",
+        "DIGEST_VALID",
+        "CORRELATION_MATCH",
+        "SOURCE_STATEMENT_OBSERVED",
+        "SOURCE_AUTHENTICATED",
+        "SOURCE_INDEPENDENT",
+        "SOURCE_AUTHORITATIVE",
+        "RESPONSE_BODY_BOUND_TO_PAYMENT",
+        "OBLIGATION_FULFILLED"
+      ]
+    },
+    "claim": {
+      "type": "object",
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "type": {
+          "$ref": "#/$defs/claimType"
+        },
+        "parameters": {
+          "type": "object"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "PAYMENT_VERIFIED",
+                  "ONCHAIN_SETTLEMENT",
+                  "HTTP_RESPONSE_RECEIVED"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "parameters"
+            ],
+            "properties": {
+              "parameters": {
+                "$ref": "#/$defs/artifactParameters"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "SETTLEMENT_BOUNDARY_SUCCEEDED"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "parameters"
+            ],
+            "properties": {
+              "parameters": {
+                "$ref": "#/$defs/settlementParameters"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "OBLIGATION_FULFILLED"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "parameters"
+            ],
+            "properties": {
+              "parameters": {
+                "$ref": "#/$defs/emptyParameters"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "HTTP_STATUS_MATCH"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "parameters"
+            ],
+            "properties": {
+              "parameters": {
+                "$ref": "#/$defs/httpStatusParameters"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "OUTPUT_SCHEMA_VALID"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "parameters"
+            ],
+            "properties": {
+              "parameters": {
+                "$ref": "#/$defs/outputSchemaParameters"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "JOB_TERMINAL_SUCCESS"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "parameters"
+            ],
+            "properties": {
+              "parameters": {
+                "$ref": "#/$defs/jobBindingParameters"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "DIGEST_VALID",
+                  "CORRELATION_MATCH"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameters": {
+                "$ref": "#/$defs/artifactSelectionParameters"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "SOURCE_STATEMENT_OBSERVED"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "parameters"
+            ],
+            "properties": {
+              "parameters": {
+                "$ref": "#/$defs/sourceStatementParameters"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "SOURCE_AUTHENTICATED",
+                  "SOURCE_INDEPENDENT",
+                  "SOURCE_AUTHORITATIVE"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "parameters"
+            ],
+            "properties": {
+              "parameters": {
+                "$ref": "#/$defs/artifactParameters"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "RESPONSE_BODY_BOUND_TO_PAYMENT"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "parameters"
+            ],
+            "properties": {
+              "parameters": {
+                "$ref": "#/$defs/responseBindingParameters"
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "emptyParameters": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "httpStatusParameters": {
+      "type": "object",
+      "required": [
+        "artifactId",
+        "issuerId",
+        "expected"
+      ],
+      "properties": {
+        "artifactId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "issuerId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "expected": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 599
+        }
+      },
+      "additionalProperties": false
+    },
+    "outputSchemaParameters": {
+      "type": "object",
+      "required": [
+        "responseArtifactId",
+        "responseIssuerId",
+        "schemaArtifactId",
+        "schemaDigest"
+      ],
+      "properties": {
+        "responseArtifactId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "responseIssuerId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "schemaArtifactId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "schemaDigest": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "additionalProperties": false
+    },
+    "artifactParameters": {
+      "type": "object",
+      "required": [
+        "artifactId",
+        "issuerId"
+      ],
+      "properties": {
+        "artifactId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "issuerId": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "additionalProperties": false
+    },
+    "settlementParameters": {
+      "type": "object",
+      "required": [
+        "artifactId",
+        "artifactIssuerId",
+        "cancellationArtifactId",
+        "cancellationIssuerId"
+      ],
+      "properties": {
+        "artifactId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "artifactIssuerId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "cancellationArtifactId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "cancellationIssuerId": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "additionalProperties": false
+    },
+    "jobBindingParameters": {
+      "type": "object",
+      "required": [
+        "artifactId",
+        "issuerId",
+        "responseArtifactId",
+        "responseIssuerId"
+      ],
+      "properties": {
+        "artifactId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "issuerId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "responseArtifactId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "responseIssuerId": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "additionalProperties": false
+    },
+    "artifactSelectionParameters": {
+      "type": "object",
+      "properties": {
+        "artifactIds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1024,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "sourceStatementParameters": {
+      "type": "object",
+      "required": [
+        "artifactId",
+        "issuerId",
+        "interactionField",
+        "field",
+        "equals"
+      ],
+      "properties": {
+        "artifactId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "issuerId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "interactionField": {
+          "type": "string",
+          "pattern": "^[A-Za-z_][A-Za-z0-9_.-]{0,127}$"
+        },
+        "field": {
+          "type": "string",
+          "pattern": "^[A-Za-z_][A-Za-z0-9_.-]{0,127}$"
+        },
+        "equals": {
+          "$ref": "#/$defs/jsonValue"
+        }
+      },
+      "additionalProperties": false
+    },
+    "responseBindingParameters": {
+      "type": "object",
+      "required": [
+        "responseArtifactId",
+        "responseIssuerId",
+        "settlementArtifactId",
+        "settlementIssuerId"
+      ],
+      "properties": {
+        "responseArtifactId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "responseIssuerId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "settlementArtifactId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "settlementIssuerId": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

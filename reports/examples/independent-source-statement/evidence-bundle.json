@@ -1,0 +1,279 @@
+{
+  "specVersion": "apel.evidence-bundle/0.1",
+  "bundleId": "bundle-independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b",
+  "createdAt": "2026-07-21T08:56:30.594Z",
+  "subject": {
+    "interactionId": "independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b",
+    "protocol": "x402",
+    "protocolVersion": "2.19.0"
+  },
+  "artifacts": [
+    {
+      "id": "output-schema",
+      "kind": "contract.output-schema",
+      "capturedAt": "2026-07-21T08:56:30.590Z",
+      "issuer": {
+        "id": "precommitted-verification-plan",
+        "role": "LAB_FIXTURE",
+        "controller": "LAB_FIXTURE"
+      },
+      "content": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:apel:schema:scenario-report-output:0.1",
+        "title": "Example paid API output",
+        "description": "The deliberately small expected-result schema used by the executable scenarios to distinguish a successful HTTP response from a schema-valid deliverable.",
+        "type": "object",
+        "required": [
+          "status",
+          "data"
+        ],
+        "properties": {
+          "status": {
+            "const": "ok"
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "result"
+            ],
+            "properties": {
+              "result": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "correlation": {
+        "interactionId": "independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b"
+      },
+      "digest": {
+        "algorithm": "sha256",
+        "value": "sha256:aeff7b9abf1d0756bc0d1750ed35218c95030d1cd6a77b7aac4cdd485b2ef390"
+      }
+    },
+    {
+      "id": "http-response",
+      "kind": "http.response",
+      "capturedAt": "2026-07-21T08:56:30.594Z",
+      "issuer": {
+        "id": "lab-http-capture-adapter",
+        "role": "LAB_FIXTURE",
+        "controller": "LAB_FIXTURE"
+      },
+      "content": {
+        "resourceUrl": "http://127.0.0.1:55682/scenario/independent-source-statement?interactionId=independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b",
+        "status": 200,
+        "headers": {
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Tue, 21 Jul 2026 08:56:30 GMT",
+          "etag": "W/\"35-6AQO5uGG+chkM23DbqGg8aE7lQk\"",
+          "keep-alive": "timeout=5",
+          "payment-response": "eyJzdWNjZXNzIjp0cnVlLCJwYXllciI6IjB4NTZFNEJFYTk4QTJiMjM1M2I3MzM4ZDg5MTI2MTZjZWRBNjgwN2I5NCIsInRyYW5zYWN0aW9uIjoibGFiOnNldHRsZW1lbnQ6MSIsIm5ldHdvcmsiOiJlaXAxNTU6ODQ1MzIiLCJhbW91bnQiOiIxMDAwIiwiZXh0cmEiOnsibGFiTW9kZSI6ImxvY2FsLXJlY29yZGluZy1kb3VibGUiLCJyZWFsRnVuZHNNb3ZlZCI6ZmFsc2V9fQ==",
+          "x-interaction-id": "independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b",
+          "x-powered-by": "Express"
+        },
+        "body": {
+          "status": "ok",
+          "data": {
+            "result": "deliverable-ready"
+          }
+        },
+        "paymentResponse": {
+          "success": true,
+          "payer": "0x56E4BEa98A2b2353b7338d8912616cedA6807b94",
+          "transaction": "lab:settlement:1",
+          "network": "eip155:84532",
+          "amount": "1000",
+          "extra": {
+            "labMode": "local-recording-double",
+            "realFundsMoved": false
+          }
+        }
+      },
+      "correlation": {
+        "interactionId": "independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b"
+      },
+      "digest": {
+        "algorithm": "sha256",
+        "value": "sha256:7830cfc1b8c0b323f3f91a2aee444e2a871f9aa97a2561983de350e69a77875f"
+      },
+      "signature": {
+        "algorithm": "Ed25519",
+        "publicKey": "MCowBQYDK2VwAyEAtjRezjKXEOxt3a2NyBZFAdf0wtywwFFom6iTy1SQ1HM=",
+        "value": "AtfgXPPk2pD27J49Pkv9d4jjxtpsRliuyMK6PtYFzmZdlLCi0Qd5XO4j+lgOi83i4X5Y+JET3uz00TzzN8GrCw=="
+      }
+    },
+    {
+      "id": "payment-verification",
+      "kind": "x402.payment-verification",
+      "capturedAt": "2026-07-21T08:56:30.594Z",
+      "issuer": {
+        "id": "local-recording-facilitator",
+        "role": "PAYMENT_FACILITATOR",
+        "controller": "LAB_FIXTURE"
+      },
+      "content": {
+        "isValid": true,
+        "mode": "local-recording-double",
+        "realNetworkVerification": false,
+        "paymentPayload": {
+          "x402Version": 2,
+          "payload": {
+            "authorization": {
+              "from": "0x56E4BEa98A2b2353b7338d8912616cedA6807b94",
+              "to": "0x000000000000000000000000000000000000dEaD",
+              "value": "1000",
+              "validAfter": "0",
+              "validBefore": "1784624490",
+              "nonce": "0xe7840cf62ba7a5f9783cd979ae3154640e61927f0c73ca474353a06742f81ea0"
+            },
+            "signature": "0xc0344ed30cb6b035b333814384f357be81218eefe29874a461ae711c5d6acdb32558ec41a9240d40ffcaa3f82265f5beec155ecccf83aff0025028fe4daeea6b1b"
+          },
+          "resource": {
+            "url": "http://127.0.0.1:55682/scenario/independent-source-statement?interactionId=independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b",
+            "description": "Local x402 evidence experiment",
+            "mimeType": "application/json"
+          },
+          "accepted": {
+            "scheme": "exact",
+            "network": "eip155:84532",
+            "amount": "1000",
+            "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+            "payTo": "0x000000000000000000000000000000000000dEaD",
+            "maxTimeoutSeconds": 300,
+            "extra": {
+              "name": "USDC",
+              "version": "2"
+            }
+          }
+        },
+        "requirements": {
+          "scheme": "exact",
+          "network": "eip155:84532",
+          "amount": "1000",
+          "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "payTo": "0x000000000000000000000000000000000000dEaD",
+          "maxTimeoutSeconds": 300,
+          "extra": {
+            "name": "USDC",
+            "version": "2"
+          }
+        }
+      },
+      "correlation": {
+        "interactionId": "independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b"
+      },
+      "digest": {
+        "algorithm": "sha256",
+        "value": "sha256:0009faf5532973c155b9a05d16dee1fe46e86a91ade65e4221a68b7c3407f68b"
+      },
+      "signature": {
+        "algorithm": "Ed25519",
+        "publicKey": "MCowBQYDK2VwAyEAGobQ8s0i4ObKbqNU2LC1kbWt0YdkFS2xJPtW79EUrMs=",
+        "value": "ZTh27GtsIYkAdFT3AidOOxaUCOcYM4o69UV+aTen7K+o8TQgFlH5gw39VrnKjstOMgXhGlo7Es+JFAjECW9ZBg=="
+      }
+    },
+    {
+      "id": "settlement-boundary",
+      "kind": "x402.settlement-boundary",
+      "capturedAt": "2026-07-21T08:56:30.594Z",
+      "issuer": {
+        "id": "local-recording-facilitator",
+        "role": "PAYMENT_FACILITATOR",
+        "controller": "LAB_FIXTURE"
+      },
+      "content": {
+        "success": true,
+        "mode": "local-recording-double",
+        "realFundsMoved": false,
+        "transaction": "lab:settlement:1",
+        "paymentResponse": {
+          "success": true,
+          "payer": "0x56E4BEa98A2b2353b7338d8912616cedA6807b94",
+          "transaction": "lab:settlement:1",
+          "network": "eip155:84532",
+          "amount": "1000",
+          "extra": {
+            "labMode": "local-recording-double",
+            "realFundsMoved": false
+          }
+        },
+        "requirements": {
+          "scheme": "exact",
+          "network": "eip155:84532",
+          "amount": "1000",
+          "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "payTo": "0x000000000000000000000000000000000000dEaD",
+          "maxTimeoutSeconds": 300,
+          "extra": {
+            "name": "USDC",
+            "version": "2"
+          }
+        },
+        "note": "No response-body digest is committed by this synthetic x402 receipt."
+      },
+      "correlation": {
+        "interactionId": "independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b"
+      },
+      "digest": {
+        "algorithm": "sha256",
+        "value": "sha256:4b32538937c14f101c6b420b74be03f2de665727417f5b87f1f7809cf261df99"
+      },
+      "signature": {
+        "algorithm": "Ed25519",
+        "publicKey": "MCowBQYDK2VwAyEAGobQ8s0i4ObKbqNU2LC1kbWt0YdkFS2xJPtW79EUrMs=",
+        "value": "JQAxkZa3kVP/6QDkz8lYIUbe6lZxel3eHDgD6k+yh2+WV2jdUmDXFu4R/CNADpYtrwnGrAscgnOhTg5hjYi9Dw=="
+      }
+    },
+    {
+      "id": "completion-statement",
+      "kind": "source.statement",
+      "capturedAt": "2026-07-21T08:56:30.594Z",
+      "issuer": {
+        "id": "lab-separate-observer",
+        "role": "EXTERNAL_SOURCE",
+        "controller": "THIRD_PARTY"
+      },
+      "content": {
+        "interaction_id": "independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b",
+        "job_status": "completed",
+        "observed_at": "2026-07-21T08:56:30.594Z"
+      },
+      "correlation": {
+        "interactionId": "independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b"
+      },
+      "digest": {
+        "algorithm": "sha256",
+        "value": "sha256:8959ed60b79f60cd82cf71a782ba2c91c87e0e1ef1d503c20d87c4d96e741ba8"
+      },
+      "signature": {
+        "algorithm": "Ed25519",
+        "publicKey": "MCowBQYDK2VwAyEAzSLmODtZELT/Vy6JUkWrV3Pc60A+TdwsSA2M/fcVV2k=",
+        "value": "2Nj4HaIKXWFCajKwnY/04X/Wr0/Xk5eb02pMTZTVSY5XOXy/Ec0EreZ2c9f/RyaUxrIbKebJIwC5+PwBOU7AAQ=="
+      }
+    }
+  ],
+  "trustContext": {
+    "authoritativeSources": [],
+    "independentSources": [],
+    "sourcePublicKeys": {
+      "local-recording-facilitator": "MCowBQYDK2VwAyEAGobQ8s0i4ObKbqNU2LC1kbWt0YdkFS2xJPtW79EUrMs=",
+      "lab-http-capture-adapter": "MCowBQYDK2VwAyEAtjRezjKXEOxt3a2NyBZFAdf0wtywwFFom6iTy1SQ1HM=",
+      "lab-job-state-adapter": "MCowBQYDK2VwAyEAW71cIyxvZA/kjQzyirGaK5/1E557+0sh+mQORE42l/I=",
+      "x402-express-middleware": "MCowBQYDK2VwAyEAZafMHvjQMX6na8dHjGzs0P3K6nZNbedmSZwhfQLnb/E=",
+      "lab-separate-observer": "MCowBQYDK2VwAyEAzSLmODtZELT/Vy6JUkWrV3Pc60A+TdwsSA2M/fcVV2k="
+    },
+    "declaredAssumptions": [
+      "The recording facilitator models the x402 settlement boundary; it is not production or on-chain evidence.",
+      "The test payer uses an ephemeral local key and no real funds.",
+      "lab-separate-observer has a distinct fixture identity; institutional independence is not established."
+    ]
+  }
+}
