@@ -17,7 +17,8 @@ The lab runs six paid-request scenarios through the official x402 TypeScript cli
 This is an evidence-analysis laboratory. It is not an escrow, facilitator service, dispute resolver, payment monitor, or clearing oracle. It never releases, retains, refunds, or transfers funds.
 
 > **Status:** research prototype v0.1 · local fixtures only · no production funds  
-> **Maintainer:** [Miguel Herrero](https://github.com/miguel-herrero-systems) · independent research project
+> **Maintainer:** [Miguel Herrero](https://github.com/miguel-herrero-systems) · independent research project  
+> **Contact:** [contact@hrevn.com](mailto:contact@hrevn.com)
 
 ## Three separations the experiments make visible
 

@@ -12,7 +12,7 @@ Security-sensitive changes should be assessed against the invariants and impleme
 
 Do not place credentials, private keys, personal data, exploit payloads, or other sensitive details in a public issue.
 
-Once this repository is hosted, use the host's private vulnerability-reporting channel if the maintainer has enabled one. If no private channel is listed, open only a non-sensitive issue asking the maintainer to establish private contact; retain technical details until that channel exists.
+Use GitHub's private vulnerability-reporting channel if it is enabled. Otherwise, contact [contact@hrevn.com](mailto:contact@hrevn.com) before sharing technical details. If email is unavailable, open only a non-sensitive issue asking the maintainer to establish private contact; retain credentials, exploit material, and other sensitive details until a private channel exists.
 
 For a useful report, include the affected version or commit, the violated security invariant, reproduction conditions, impact within this repository's stated scope, and a minimal remediation suggestion. Reports that assume the lab moves real funds should first account for the synthetic boundary documented in [PROTOCOL_ASSUMPTIONS.md](./PROTOCOL_ASSUMPTIONS.md).
 
