@@ -11,7 +11,7 @@
 ## Input commitment
 
 - Interaction: `settled-invalid-schema-8238ea36-0a6c-450b-ae59-636d6b0228da`
-- Plan: `plan-settled-invalid-schema-8238ea36-0a6c-450b-ae59-636d6b0228da` — `sha256:cc6017a8d32bb44dffdb6612dfd9be1ae2c2d901bfd46d36561b19e0c774536a`
+- Plan: `plan-settled-invalid-schema-8238ea36-0a6c-450b-ae59-636d6b0228da` — `sha256:8fb881b4a757d8f59f87c87cb73ad436cf2ebe3394cbdac0e7c5f5ae7c6c63ce`
 - Evidence bundle: `bundle-settled-invalid-schema-8238ea36-0a6c-450b-ae59-636d6b0228da` — `sha256:36e22d1f1119cc208e3157b131c381c620eb3b68b944f1769bb704fc393dd225`
 - Engine: `agent-payment-evidence-lab@0.1.0`
 

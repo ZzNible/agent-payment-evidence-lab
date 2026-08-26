@@ -11,7 +11,7 @@
 ## Input commitment
 
 - Interaction: `independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b`
-- Plan: `plan-independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b` — `sha256:4cb7090ce71d6100387af00bb6fe407e4024f5ca776f446ee8ff11e6fcfa1076`
+- Plan: `plan-independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b` — `sha256:536189c2ed0cd3a71fd6314d740c7cc3098046ea398e328e6ac4ff1968fc817d`
 - Evidence bundle: `bundle-independent-source-statement-17b33e92-50d4-49d5-921c-50cf1bf4b18b` — `sha256:25bd2aa1ff56611d95bf6141186f197932bbb9ec6de36a4caae447abdf495b20`
 - Engine: `agent-payment-evidence-lab@0.1.0`
 

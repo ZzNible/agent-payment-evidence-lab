@@ -1,6 +1,6 @@
-export const PLAN_SPEC_VERSION = "apel.verification-plan/0.1" as const;
+export const PLAN_SPEC_VERSION = "apel.verification-plan/0.2" as const;
 export const BUNDLE_SPEC_VERSION = "apel.evidence-bundle/0.1" as const;
-export const REPORT_SPEC_VERSION = "apel.verification-report/0.1" as const;
+export const REPORT_SPEC_VERSION = "apel.verification-report/0.2" as const;
 export const ENGINE_VERSION = "0.1.0" as const;
 
 export const claimTypes = [

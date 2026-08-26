@@ -1,5 +1,5 @@
 {
-  "specVersion": "apel.verification-report/0.1",
+  "specVersion": "apel.verification-report/0.2",
   "reportId": "report-plan-self-attested-completion-305bf88c-a7a7-42da-80ae-901a166f7ced",
   "generatedAt": "2026-07-21T08:56:30.588Z",
   "engine": {
@@ -7,7 +7,7 @@
     "version": "0.1.0"
   },
   "inputs": {
-    "planDigest": "sha256:7a43d631707a25c2a172d84deb1b1a8db2c7bd35c0e7136252d4ed8929f0b023",
+    "planDigest": "sha256:e8b6e1931687068ccbdde7b92b6fe644c43d00d6350f90ef2594c827abbce96c",
     "bundleDigest": "sha256:5c1714840e75770d9fb52000e1f9c37ad9c7be588a28eae3a9cce5a631a6dc79"
   },
   "subject": {

@@ -34,7 +34,15 @@ const commonClaims = (expectedHttpStatus: number): PlanClaim[] => [
   }),
   claim("onchain-settlement", "ONCHAIN_SETTLEMENT", {
     artifactId: "onchain-confirmation",
-    issuerId: "chain-observer-not-configured"
+    issuerId: "chain-observer-not-configured",
+    payment: {
+      network: "eip155:8453",
+      asset: "0x0000000000000000000000000000000000000000",
+      payer: "0x0000000000000000000000000000000000000000",
+      payTo: "0x0000000000000000000000000000000000000000",
+      amount: "0",
+      transactionHash: `0x${"0".repeat(64)}`
+    }
   }),
   claim("http-response-received", "HTTP_RESPONSE_RECEIVED", {
     artifactId: "http-response",

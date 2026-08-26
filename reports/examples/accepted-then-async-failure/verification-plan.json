@@ -1,5 +1,5 @@
 {
-  "specVersion": "apel.verification-plan/0.1",
+  "specVersion": "apel.verification-plan/0.2",
   "planId": "plan-accepted-then-async-failure-5575a32a-632f-47c7-8002-ff3a37889706",
   "createdAt": "2026-07-21T08:56:30.575Z",
   "subject": {
@@ -38,7 +38,15 @@
       "type": "ONCHAIN_SETTLEMENT",
       "parameters": {
         "artifactId": "onchain-confirmation",
-        "issuerId": "chain-observer-not-configured"
+        "issuerId": "chain-observer-not-configured",
+        "payment": {
+          "network": "eip155:8453",
+          "asset": "0x0000000000000000000000000000000000000000",
+          "payer": "0x0000000000000000000000000000000000000000",
+          "payTo": "0x0000000000000000000000000000000000000000",
+          "amount": "0",
+          "transactionHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        }
       }
     },
     {

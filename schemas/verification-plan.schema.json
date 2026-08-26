@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:apel:schema:verification-plan:0.1",
+  "$id": "urn:apel:schema:verification-plan:0.2",
   "title": "Agent Payment Evidence Lab verification plan",
   "description": "A precommitted plan of technical claims. It contains no payment, release, refund, or transfer instruction.",
   "type": "object",
@@ -15,7 +15,7 @@
   ],
   "properties": {
     "specVersion": {
-      "const": "apel.verification-plan/0.1"
+      "const": "apel.verification-plan/0.2"
     },
     "planId": {
       "$ref": "#/$defs/identifier"
@@ -142,9 +142,30 @@
           "if": {
             "properties": {
               "type": {
+                "const": "ONCHAIN_SETTLEMENT"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "parameters"
+            ],
+            "properties": {
+              "parameters": {
+                "$ref": "#/$defs/onchainSettlementParameters"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
                 "enum": [
                   "PAYMENT_VERIFIED",
-                  "ONCHAIN_SETTLEMENT",
                   "HTTP_RESPONSE_RECEIVED"
                 ]
               }
@@ -431,6 +452,62 @@
         },
         "issuerId": {
           "$ref": "#/$defs/identifier"
+        }
+      },
+      "additionalProperties": false
+    },
+    "onchainSettlementParameters": {
+      "description": "Selects the NEC network-evidence artifact and precommits the exact payment expectation. The expectation is a correlation commitment only: it never authorizes, releases, refunds, or transfers funds.",
+      "type": "object",
+      "required": [
+        "artifactId",
+        "issuerId",
+        "payment"
+      ],
+      "properties": {
+        "artifactId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "issuerId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "payment": {
+          "type": "object",
+          "required": [
+            "network",
+            "asset",
+            "payer",
+            "payTo",
+            "amount",
+            "transactionHash"
+          ],
+          "properties": {
+            "network": {
+              "type": "string",
+              "pattern": "^[-a-z0-9]{3,8}:[-a-zA-Z0-9]{1,64}$"
+            },
+            "asset": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{40}$"
+            },
+            "payer": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{40}$"
+            },
+            "payTo": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{40}$"
+            },
+            "amount": {
+              "type": "string",
+              "pattern": "^[0-9]+$"
+            },
+            "transactionHash": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{64}$"
+            }
+          },
+          "additionalProperties": false
         }
       },
       "additionalProperties": false

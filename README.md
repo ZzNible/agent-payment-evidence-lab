@@ -154,9 +154,9 @@ This asymmetry is intentional: the lab can reproduce middleware behavior without
 
 Every experiment keeps intent, observation, and analysis separate:
 
-1. `verification-plan.json` (`apel.verification-plan/0.1`) precommits atomic claims plus the digest of the declared trust profile.
+1. `verification-plan.json` (`apel.verification-plan/0.2`) precommits atomic claims plus the digest of the declared trust profile.
 2. `evidence-bundle.json` (`apel.evidence-bundle/0.1`) records artifacts, provenance declarations, digests, and correlation data.
-3. `verification-report.json` (`apel.verification-report/0.1`) derives claim results from the exact plan and bundle.
+3. `verification-report.json` (`apel.verification-report/0.2`) derives claim results from the exact plan and bundle.
 
 A generated scenario dossier contains:
 
@@ -179,9 +179,9 @@ Where a `RESPONSE_BODY_BOUND_TO_PAYMENT` claim is evaluated, the body commitment
 
 All three public JSON documents are validated against the versioned schemas in [`schemas/`](./schemas/). The Markdown report is a human-readable projection of the JSON report, not a second decision engine. Reviewed fixture dossiers for all six scenarios are committed under [`reports/examples/`](./reports/examples/).
 
-The public report schema enforces a closed `claim type ↔ status ↔ reasonCode` compatibility matrix. It rejects semantically impossible combinations even if each field is individually well formed; in particular, neither `OBLIGATION_FULFILLED / PROVEN` nor `ONCHAIN_SETTLEMENT / PROVEN` is valid in v0.1.
+The public report schema enforces a closed `claim type ↔ status ↔ reasonCode` compatibility matrix. It rejects semantically impossible combinations even if each field is individually well formed; in particular, `OBLIGATION_FULFILLED / PROVEN` is not valid, and since report spec 0.2 `ONCHAIN_SETTLEMENT / PROVEN` is valid only with the single reason code `NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED` (see below).
 
-`ONCHAIN_SETTLEMENT` is deliberately always `UNKNOWN` in v0.1. Even supplying a JSON artifact that calls itself a transaction confirmation cannot produce `PROVEN`; no chain-specific receipt, confirmation-depth, or finality verifier exists.
+`ONCHAIN_SETTLEMENT` remains deliberately `UNKNOWN` under the core verifier: no bundled JSON artifact that calls itself a transaction confirmation can produce `PROVEN`. A narrow exception exists for an explicitly registered external-consumer verifier (`NecOnchainClaimVerifier`) that consumes a frozen-profile [NEC](./docs/nec-phase-b-integration.md) network-evidence artifact and proves only that the plan-precommitted payment matches the observed on-chain effect of the exact transaction and that its containing L2 block is finalized under the pinned OP Stack ruleset. L2 finality is not withdrawal finalization, and none of this evaluates any economic action.
 
 ## CLI
 

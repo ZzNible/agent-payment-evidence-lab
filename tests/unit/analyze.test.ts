@@ -747,7 +747,15 @@ describe("evidence analysis", () => {
           type: "ONCHAIN_SETTLEMENT",
           parameters: {
             artifactId: allegedConfirmation.id,
-            issuerId: allegedConfirmation.issuer.id
+            issuerId: allegedConfirmation.issuer.id,
+            payment: {
+              network: "eip155:8453",
+              asset: "0x0000000000000000000000000000000000000000",
+              payer: "0x0000000000000000000000000000000000000000",
+              payTo: "0x0000000000000000000000000000000000000000",
+              amount: "0",
+              transactionHash: `0x${"deadbeef".padStart(64, "0")}`
+            }
           }
         }
       ]),

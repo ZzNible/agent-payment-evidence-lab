@@ -1,0 +1,1006 @@
+{
+  "necEvidence": {
+    "wireProfile": "nec-wire-json-v1",
+    "coreSchemaVersion": "0.1",
+    "evmEvaluation": {
+      "profile": "nec-resolver-evm-evaluation-v1",
+      "networkId": "eip155:8453",
+      "subject": {
+        "type": "transaction",
+        "networkId": "eip155:8453",
+        "txId": "0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627"
+      },
+      "dimensions": {
+        "execution": {
+          "name": "execution",
+          "scope": {
+            "kind": "dimension",
+            "dimension": "execution"
+          },
+          "proposition": "The subject transaction was executed on-chain and completed with a successful status, as observed by this single source.",
+          "dimension": {
+            "applicability": "applicable",
+            "verdict": "supported",
+            "basis": [
+              "source_observation"
+            ],
+            "evidence": [
+              "evm-receipt-fb680322d5fd0d3b"
+            ],
+            "reason": "Supported by this source's receipt observation alone; not a settlement or finality claim.",
+            "metadata": {
+              "proposition": "The subject transaction was executed on-chain and completed with a successful status, as observed by this single source."
+            }
+          }
+        },
+        "dataBinding": {
+          "name": "dataBinding",
+          "scope": {
+            "kind": "dimension",
+            "dimension": "dataBinding"
+          },
+          "proposition": "The acquired receipt binds to the requested subject transaction id.",
+          "dimension": {
+            "applicability": "applicable",
+            "verdict": "supported",
+            "basis": [
+              "deterministic_derivation",
+              "source_observation"
+            ],
+            "evidence": [
+              "evm-receipt-fb680322d5fd0d3b",
+              "evm-transaction-a5a9b272435bab2a"
+            ],
+            "metadata": {
+              "proposition": "The acquired receipt binds to the requested subject transaction id."
+            }
+          }
+        }
+      },
+      "observedEffects": [
+        {
+          "id": "evm-log-326e8eb015e8dff0",
+          "type": "evm.log",
+          "fields": {
+            "address": "0xc5b6786d7b64767d775877b0b6a319ad946b11b5",
+            "topics": [
+              "0xaa2dd386ed08047486db39ea1a9e5461b6a95c8bb3ca845cce27a537799a4672",
+              "0x0000000000000000000000008f6272112c3b71474f6e24a8ad0be3b253123474",
+              "0x0000000000000000000000008f6272112c3b71474f6e24a8ad0be3b253123474"
+            ],
+            "data": "0x",
+            "blockNumber": "50471753",
+            "blockHash": "0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75",
+            "transactionHash": "0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627",
+            "transactionIndex": "21",
+            "logIndex": "22",
+            "removed": false
+          },
+          "basis": [
+            "source_observation"
+          ],
+          "evidence": [
+            "evm-receipt-fb680322d5fd0d3b"
+          ]
+        },
+        {
+          "id": "evm-log-77d42e1a7a478e52",
+          "type": "evm.log",
+          "fields": {
+            "address": "0x9126236476efba9ad8ab77855c60eb5bf37586eb",
+            "topics": [
+              "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+              "0x0000000000000000000000003c4384f3664b37a3cb5a5cb3452b4b4a3aa1256f",
+              "0x0000000000000000000000008f6272112c3b71474f6e24a8ad0be3b253123474"
+            ],
+            "data": "0x00000000000000000000000000000000000000000000006f467538be58a4c757",
+            "blockNumber": "50471753",
+            "blockHash": "0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75",
+            "transactionHash": "0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627",
+            "transactionIndex": "21",
+            "logIndex": "19",
+            "removed": false
+          },
+          "basis": [
+            "source_observation"
+          ],
+          "evidence": [
+            "evm-receipt-fb680322d5fd0d3b"
+          ]
+        },
+        {
+          "id": "evm-log-88c865bf34f35971",
+          "type": "evm.log",
+          "fields": {
+            "address": "0x3c4384f3664b37a3cb5a5cb3452b4b4a3aa1256f",
+            "topics": [
+              "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67",
+              "0x000000000000000000000000c5b6786d7b64767d775877b0b6a319ad946b11b5",
+              "0x0000000000000000000000008f6272112c3b71474f6e24a8ad0be3b253123474"
+            ],
+            "data": "0x00000000000000000000000000000000000000000000000000000000019e38f6ffffffffffffffffffffffffffffffffffffffffffffff90b98ac741a75b38a9000000000000000000000000000000000084a0f89f7e7bbbe6eecc42a5afb2a80000000000000000000000000000000000000000000000000372da01ad9cd417000000000000000000000000000000000000000000000000000000000004e056",
+            "blockNumber": "50471753",
+            "blockHash": "0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75",
+            "transactionHash": "0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627",
+            "transactionIndex": "21",
+            "logIndex": "21",
+            "removed": false
+          },
+          "basis": [
+            "source_observation"
+          ],
+          "evidence": [
+            "evm-receipt-fb680322d5fd0d3b"
+          ]
+        },
+        {
+          "id": "evm-log-ca60981b237a1eb4",
+          "type": "evm.log",
+          "fields": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "topics": [
+              "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+              "0x0000000000000000000000008f6272112c3b71474f6e24a8ad0be3b253123474",
+              "0x0000000000000000000000003c4384f3664b37a3cb5a5cb3452b4b4a3aa1256f"
+            ],
+            "data": "0x00000000000000000000000000000000000000000000000000000000019e38f6",
+            "blockNumber": "50471753",
+            "blockHash": "0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75",
+            "transactionHash": "0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627",
+            "transactionIndex": "21",
+            "logIndex": "20",
+            "removed": false
+          },
+          "basis": [
+            "source_observation"
+          ],
+          "evidence": [
+            "evm-receipt-fb680322d5fd0d3b"
+          ]
+        }
+      ],
+      "conflicts": [],
+      "warnings": [
+        {
+          "code": "EVM_DIMENSIONS_NOT_EVALUATED",
+          "message": "Generic single-source EVM acquisition does not evaluate settlement or network-specific finality.",
+          "metadata": {
+            "dimensions": [
+              "finality",
+              "settlement"
+            ]
+          }
+        }
+      ],
+      "fragment": {
+        "network": {
+          "networkId": "eip155:8453",
+          "chainId": 8453,
+          "observedAt": {
+            "blockNumber": "50471753",
+            "blockId": "0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75",
+            "timestamp": "2026-08-26T08:27:33.000Z"
+          }
+        },
+        "subject": {
+          "type": "transaction",
+          "networkId": "eip155:8453",
+          "txId": "0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627"
+        },
+        "networkEvidence": {
+          "execution": {
+            "applicability": "applicable",
+            "verdict": "supported",
+            "basis": [
+              "source_observation"
+            ],
+            "evidence": [
+              "evm-receipt-fb680322d5fd0d3b"
+            ],
+            "reason": "Supported by this source's receipt observation alone; not a settlement or finality claim.",
+            "metadata": {
+              "proposition": "The subject transaction was executed on-chain and completed with a successful status, as observed by this single source."
+            }
+          },
+          "dataBinding": {
+            "applicability": "applicable",
+            "verdict": "supported",
+            "basis": [
+              "deterministic_derivation",
+              "source_observation"
+            ],
+            "evidence": [
+              "evm-receipt-fb680322d5fd0d3b",
+              "evm-transaction-a5a9b272435bab2a"
+            ],
+            "metadata": {
+              "proposition": "The acquired receipt binds to the requested subject transaction id."
+            }
+          },
+          "observedEffects": [
+            {
+              "id": "evm-log-326e8eb015e8dff0",
+              "type": "evm.log",
+              "fields": {
+                "address": "0xc5b6786d7b64767d775877b0b6a319ad946b11b5",
+                "topics": [
+                  "0xaa2dd386ed08047486db39ea1a9e5461b6a95c8bb3ca845cce27a537799a4672",
+                  "0x0000000000000000000000008f6272112c3b71474f6e24a8ad0be3b253123474",
+                  "0x0000000000000000000000008f6272112c3b71474f6e24a8ad0be3b253123474"
+                ],
+                "data": "0x",
+                "blockNumber": "50471753",
+                "blockHash": "0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75",
+                "transactionHash": "0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627",
+                "transactionIndex": "21",
+                "logIndex": "22",
+                "removed": false
+              },
+              "basis": [
+                "source_observation"
+              ],
+              "evidence": [
+                "evm-receipt-fb680322d5fd0d3b"
+              ]
+            },
+            {
+              "id": "evm-log-77d42e1a7a478e52",
+              "type": "evm.log",
+              "fields": {
+                "address": "0x9126236476efba9ad8ab77855c60eb5bf37586eb",
+                "topics": [
+                  "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+                  "0x0000000000000000000000003c4384f3664b37a3cb5a5cb3452b4b4a3aa1256f",
+                  "0x0000000000000000000000008f6272112c3b71474f6e24a8ad0be3b253123474"
+                ],
+                "data": "0x00000000000000000000000000000000000000000000006f467538be58a4c757",
+                "blockNumber": "50471753",
+                "blockHash": "0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75",
+                "transactionHash": "0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627",
+                "transactionIndex": "21",
+                "logIndex": "19",
+                "removed": false
+              },
+              "basis": [
+                "source_observation"
+              ],
+              "evidence": [
+                "evm-receipt-fb680322d5fd0d3b"
+              ]
+            },
+            {
+              "id": "evm-log-88c865bf34f35971",
+              "type": "evm.log",
+              "fields": {
+                "address": "0x3c4384f3664b37a3cb5a5cb3452b4b4a3aa1256f",
+                "topics": [
+                  "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67",
+                  "0x000000000000000000000000c5b6786d7b64767d775877b0b6a319ad946b11b5",
+                  "0x0000000000000000000000008f6272112c3b71474f6e24a8ad0be3b253123474"
+                ],
+                "data": "0x00000000000000000000000000000000000000000000000000000000019e38f6ffffffffffffffffffffffffffffffffffffffffffffff90b98ac741a75b38a9000000000000000000000000000000000084a0f89f7e7bbbe6eecc42a5afb2a80000000000000000000000000000000000000000000000000372da01ad9cd417000000000000000000000000000000000000000000000000000000000004e056",
+                "blockNumber": "50471753",
+                "blockHash": "0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75",
+                "transactionHash": "0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627",
+                "transactionIndex": "21",
+                "logIndex": "21",
+                "removed": false
+              },
+              "basis": [
+                "source_observation"
+              ],
+              "evidence": [
+                "evm-receipt-fb680322d5fd0d3b"
+              ]
+            },
+            {
+              "id": "evm-log-ca60981b237a1eb4",
+              "type": "evm.log",
+              "fields": {
+                "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+                "topics": [
+                  "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+                  "0x0000000000000000000000008f6272112c3b71474f6e24a8ad0be3b253123474",
+                  "0x0000000000000000000000003c4384f3664b37a3cb5a5cb3452b4b4a3aa1256f"
+                ],
+                "data": "0x00000000000000000000000000000000000000000000000000000000019e38f6",
+                "blockNumber": "50471753",
+                "blockHash": "0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75",
+                "transactionHash": "0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627",
+                "transactionIndex": "21",
+                "logIndex": "20",
+                "removed": false
+              },
+              "basis": [
+                "source_observation"
+              ],
+              "evidence": [
+                "evm-receipt-fb680322d5fd0d3b"
+              ]
+            }
+          ]
+        },
+        "evidence": [
+          {
+            "id": "evm-chainidentity-49c396d07e21091b",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_chainId:[]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:49c396d07e21091b161c08f9ec6086e53d3dacc65b8cd61b4db8a1655641a033",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_chainId",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "digestDomain": "resolver-evm-capture-v1"
+            },
+            "nativeSource": {
+              "namespace": "nec.resolver-evm.rpc-result",
+              "mediaType": "application/json",
+              "encoding": "base64",
+              "payload": "IjB4MjEwNSI=",
+              "contentDigest": "sha256:a6fc852f79a231e71783afe7f16bb2dcb2ad2a6a77aa8746e7e47ab4bf9f2922"
+            }
+          },
+          {
+            "id": "evm-receipt-fb680322d5fd0d3b",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getTransactionReceipt:\"0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627\"",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:fb680322d5fd0d3b58354f6a254b5126ab5a2222ebcfdbabc016e702b952b963",
+            "networkId": "eip155:8453",
+            "blockNumber": "50471753",
+            "blockId": "0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75",
+            "metadata": {
+              "rpcMethod": "eth_getTransactionReceipt",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "digestDomain": "resolver-evm-capture-v1"
+            },
+            "nativeSource": {
+              "namespace": "nec.resolver-evm.rpc-result",
+              "mediaType": "application/json",
+              "encoding": "base64",
+              "payload": "eyJibG9iR2FzVXNlZCI6IjB4NjhhNCIsImJsb2NrSGFzaCI6IjB4NjJjMDZmN2MxYmM1ZjBiYmQ3NTdlNTA4NWUxN2RhMjRiZDY4N2VhNDU4YjBjZWNhNWRmMGI4MzhhZDY0OWI3NSIsImJsb2NrTnVtYmVyIjoiMHgzMDIyMzQ5IiwiY29udHJhY3RBZGRyZXNzIjpudWxsLCJjdW11bGF0aXZlR2FzVXNlZCI6IjB4MzA5ZDY2IiwiZGFGb290cHJpbnRHYXNTY2FsYXIiOiIweDk0IiwiZWZmZWN0aXZlR2FzUHJpY2UiOiIweDcyNzBlMCIsImZyb20iOiIweDhmNjI3MjExMmMzYjcxNDc0ZjZlMjRhOGFkMGJlM2IyNTMxMjM0NzQiLCJnYXNVc2VkIjoiMHg0MWQwYSIsImwxQmFzZUZlZVNjYWxhciI6IjB4OGRkIiwibDFCbG9iQmFzZUZlZSI6IjB4MjFlNTUyIiwibDFCbG9iQmFzZUZlZVNjYWxhciI6IjB4MTAxYzEyIiwibDFGZWUiOiIweDJhZmI2YTEzIiwibDFHYXNQcmljZSI6IjB4MmFiNGVkNCIsImwxR2FzVXNlZCI6IjB4YjU5IiwibG9ncyI6W3siYWRkcmVzcyI6IjB4OTEyNjIzNjQ3NmVmYmE5YWQ4YWI3Nzg1NWM2MGViNWJmMzc1ODZlYiIsImJsb2NrSGFzaCI6IjB4NjJjMDZmN2MxYmM1ZjBiYmQ3NTdlNTA4NWUxN2RhMjRiZDY4N2VhNDU4YjBjZWNhNWRmMGI4MzhhZDY0OWI3NSIsImJsb2NrTnVtYmVyIjoiMHgzMDIyMzQ5IiwiYmxvY2tUaW1lc3RhbXAiOiIweDZhOGVhMzc1IiwiZGF0YSI6IjB4MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDZmNDY3NTM4YmU1OGE0Yzc1NyIsImxvZ0luZGV4IjoiMHgxMyIsInJlbW92ZWQiOmZhbHNlLCJ0b3BpY3MiOlsiMHhkZGYyNTJhZDFiZTJjODliNjljMmIwNjhmYzM3OGRhYTk1MmJhN2YxNjNjNGExMTYyOGY1NWE0ZGY1MjNiM2VmIiwiMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAzYzQzODRmMzY2NGIzN2EzY2I1YTVjYjM0NTJiNGI0YTNhYTEyNTZmIiwiMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA4ZjYyNzIxMTJjM2I3MTQ3NGY2ZTI0YThhZDBiZTNiMjUzMTIzNDc0Il0sInRyYW5zYWN0aW9uSGFzaCI6IjB4MjY2OTE0MTJhNzQzYzYxYTdjZDc3NWMwOGIyMThjYTkxODljMGRkNTM2YmFkNjE2MzZmMDRkOGNiMGU1ZTYyNyIsInRyYW5zYWN0aW9uSW5kZXgiOiIweDE1In0seyJhZGRyZXNzIjoiMHg4MzM1ODlmY2Q2ZWRiNmUwOGY0YzdjMzJkNGY3MWI1NGJkYTAyOTEzIiwiYmxvY2tIYXNoIjoiMHg2MmMwNmY3YzFiYzVmMGJiZDc1N2U1MDg1ZTE3ZGEyNGJkNjg3ZWE0NThiMGNlY2E1ZGYwYjgzOGFkNjQ5Yjc1IiwiYmxvY2tOdW1iZXIiOiIweDMwMjIzNDkiLCJibG9ja1RpbWVzdGFtcCI6IjB4NmE4ZWEzNzUiLCJkYXRhIjoiMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxOWUzOGY2IiwibG9nSW5kZXgiOiIweDE0IiwicmVtb3ZlZCI6ZmFsc2UsInRvcGljcyI6WyIweGRkZjI1MmFkMWJlMmM4OWI2OWMyYjA2OGZjMzc4ZGFhOTUyYmE3ZjE2M2M0YTExNjI4ZjU1YTRkZjUyM2IzZWYiLCIweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDhmNjI3MjExMmMzYjcxNDc0ZjZlMjRhOGFkMGJlM2IyNTMxMjM0NzQiLCIweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDNjNDM4NGYzNjY0YjM3YTNjYjVhNWNiMzQ1MmI0YjRhM2FhMTI1NmYiXSwidHJhbnNhY3Rpb25IYXNoIjoiMHgyNjY5MTQxMmE3NDNjNjFhN2NkNzc1YzA4YjIxOGNhOTE4OWMwZGQ1MzZiYWQ2MTYzNmYwNGQ4Y2IwZTVlNjI3IiwidHJhbnNhY3Rpb25JbmRleCI6IjB4MTUifSx7ImFkZHJlc3MiOiIweDNjNDM4NGYzNjY0YjM3YTNjYjVhNWNiMzQ1MmI0YjRhM2FhMTI1NmYiLCJibG9ja0hhc2giOiIweDYyYzA2ZjdjMWJjNWYwYmJkNzU3ZTUwODVlMTdkYTI0YmQ2ODdlYTQ1OGIwY2VjYTVkZjBiODM4YWQ2NDliNzUiLCJibG9ja051bWJlciI6IjB4MzAyMjM0OSIsImJsb2NrVGltZXN0YW1wIjoiMHg2YThlYTM3NSIsImRhdGEiOiIweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDE5ZTM4ZjZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmOTBiOThhYzc0MWE3NWIzOGE5MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDg0YTBmODlmN2U3YmJiZTZlZWNjNDJhNWFmYjJhODAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAzNzJkYTAxYWQ5Y2Q0MTcwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDRlMDU2IiwibG9nSW5kZXgiOiIweDE1IiwicmVtb3ZlZCI6ZmFsc2UsInRvcGljcyI6WyIweGM0MjA3OWY5NGE2MzUwZDdlNjIzNWYyOTE3NDkyNGY5MjhjYzJhYzgxOGViNjRmZWQ4MDA0ZTExNWZiY2NhNjciLCIweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMGM1YjY3ODZkN2I2NDc2N2Q3NzU4NzdiMGI2YTMxOWFkOTQ2YjExYjUiLCIweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDhmNjI3MjExMmMzYjcxNDc0ZjZlMjRhOGFkMGJlM2IyNTMxMjM0NzQiXSwidHJhbnNhY3Rpb25IYXNoIjoiMHgyNjY5MTQxMmE3NDNjNjFhN2NkNzc1YzA4YjIxOGNhOTE4OWMwZGQ1MzZiYWQ2MTYzNmYwNGQ4Y2IwZTVlNjI3IiwidHJhbnNhY3Rpb25JbmRleCI6IjB4MTUifSx7ImFkZHJlc3MiOiIweGM1YjY3ODZkN2I2NDc2N2Q3NzU4NzdiMGI2YTMxOWFkOTQ2YjExYjUiLCJibG9ja0hhc2giOiIweDYyYzA2ZjdjMWJjNWYwYmJkNzU3ZTUwODVlMTdkYTI0YmQ2ODdlYTQ1OGIwY2VjYTVkZjBiODM4YWQ2NDliNzUiLCJibG9ja051bWJlciI6IjB4MzAyMjM0OSIsImJsb2NrVGltZXN0YW1wIjoiMHg2YThlYTM3NSIsImRhdGEiOiIweCIsImxvZ0luZGV4IjoiMHgxNiIsInJlbW92ZWQiOmZhbHNlLCJ0b3BpY3MiOlsiMHhhYTJkZDM4NmVkMDgwNDc0ODZkYjM5ZWExYTllNTQ2MWI2YTk1YzhiYjNjYTg0NWNjZTI3YTUzNzc5OWE0NjcyIiwiMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA4ZjYyNzIxMTJjM2I3MTQ3NGY2ZTI0YThhZDBiZTNiMjUzMTIzNDc0IiwiMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA4ZjYyNzIxMTJjM2I3MTQ3NGY2ZTI0YThhZDBiZTNiMjUzMTIzNDc0Il0sInRyYW5zYWN0aW9uSGFzaCI6IjB4MjY2OTE0MTJhNzQzYzYxYTdjZDc3NWMwOGIyMThjYTkxODljMGRkNTM2YmFkNjE2MzZmMDRkOGNiMGU1ZTYyNyIsInRyYW5zYWN0aW9uSW5kZXgiOiIweDE1In1dLCJsb2dzQmxvb20iOiIweDAwMDAwMDAwMDAwMDAwMDAwMDAyMDAwMDAwMDAwMDAwMDAwMjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDQwMDAwMDAwMDAwMDAwMDAwMDAwMTAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDgwODAwMDAwMDAwODAwMDgwMDBjMDAwMDAwMDAwMDAwMDAwMjAwMDgwMTAwMDAwMDAwMDAwMDAwMDAyMDAwODAwMDAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDA4MDAwMDAwMDAwMDAwMDAwMDEwMDAwODAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAyMDAwMDAwMDAwMDAwMjAwMDAwMDAwMDAwMDAwMDAxMDAwMDAwMDAwMDAwMDAwMDAwMDQwMDgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAyMDAwMDAwMDAwMDAwMDAwMDAwMDQwMDAwMDAwMTAwMDAwMDAwMDAwIiwic3RhdHVzIjoiMHgxIiwidG8iOiIweGM1YjY3ODZkN2I2NDc2N2Q3NzU4NzdiMGI2YTMxOWFkOTQ2YjExYjUiLCJ0cmFuc2FjdGlvbkhhc2giOiIweDI2NjkxNDEyYTc0M2M2MWE3Y2Q3NzVjMDhiMjE4Y2E5MTg5YzBkZDUzNmJhZDYxNjM2ZjA0ZDhjYjBlNWU2MjciLCJ0cmFuc2FjdGlvbkluZGV4IjoiMHgxNSIsInR5cGUiOiIweDAifQ==",
+              "contentDigest": "sha256:aa1d2c3fbfcb79b64dc00e805380925ff5dd34cecfe2d81d226870d2908f8443"
+            }
+          },
+          {
+            "id": "evm-block-04c8274b17327b76",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:04c8274b17327b766af4e818b6a3c7e03ef85ad2b416f067403f0c4b84905507",
+            "networkId": "eip155:8453",
+            "blockNumber": "50471753",
+            "blockId": "0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "digestDomain": "resolver-evm-capture-v1"
+            },
+            "nativeSource": {
+              "namespace": "nec.resolver-evm.rpc-result",
+              "mediaType": "application/json",
+              "encoding": "base64",
+              "payload": "eyJiYXNlRmVlUGVyR2FzIjoiMHg0YzRiNDAiLCJibG9iR2FzVXNlZCI6IjB4M2I1Yzk4IiwiZGlmZmljdWx0eSI6IjB4MCIsImV4Y2Vzc0Jsb2JHYXMiOiIweDAiLCJleHRyYURhdGEiOiIweDAxMDAwMDAwNjQwMDAwMDAwNTAwMDAwMDAwMDA0YzRiNDAiLCJnYXNMaW1pdCI6IjB4MTdkNzg0MDAiLCJnYXNVc2VkIjoiMHgxOGQwNTc0IiwiaGFzaCI6IjB4NjJjMDZmN2MxYmM1ZjBiYmQ3NTdlNTA4NWUxN2RhMjRiZDY4N2VhNDU4YjBjZWNhNWRmMGI4MzhhZDY0OWI3NSIsImxvZ3NCbG9vbSI6IjB4NWMzMTU1NGE0NTM5ZDE3YWM0M2Y3MDg0ZWUyMDdjMDFiOTNiMTQ4MDM4NDBhMjRjM2UyYzhhNjdmODQ4N2MwOTI3YWZjYzRkN2IyNTI3MjdmZjg3MzRkMWUwNTdiNGEwNjdiNmZhNjZkNmVkYjljOGE2ZDMyN2ZiMjJiZDkwNTE2NDRkZDdjMjQzNTMwNjQ5OWE4ZTU4NmRlMDEwMjdhNzlkZjQyZDBmNzY3ZGNiZjA1ODkyYzk0MDg2NzZmMWVhMzM5YjI0ZWU5ZTRiM2U2NDc3YzU4YTQ0ODM0NjJlNGY1NWYwYzkyMzY5MTRhNjdkODEwNzhmNTZjMjliOGEyYTA5NmQzMmNhN2YwOGVkZjQ0OWU5MDYxMmQ3MTc0ODI0NWFjOGM5NGJlYTMxZTUyYzUwODI4MjBlNTFjNWY4NTgyMmM2YTUwMmU2YmNjMGVlMTA3N2QxY2UxYWM2NzBlNTc3OTVjMjc5YmNiNmFlM2E1OWNmYTM1OTlhMjI3YWEzMWE5ODFiYmE3MmMzODZhMTI1MjNlYTkxMDY2ZGQ0OGI3MjY4YTk3YWU3MjA0ODVhY2FiOTQwZjM4ZWE4ZjgyOWUwZmMxY2FiNTA5NGEyMDU3NjQ4ODM5Y2EwMWMyZGVlMDVhN2U1NTY0MTk2ZjY3MGViN2ViNTQ3ZTY0YjlmN2QiLCJtaW5lciI6IjB4NDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxMSIsIm1peEhhc2giOiIweDA3OWQzNDY5ODZkYWQ3MTQ2YzJhZDk1MzEyM2I5MGIxNDFmZWFiZDBiMzlhM2ViMzFjZGYwZDliZTQzYWI0NmEiLCJub25jZSI6IjB4MDAwMDAwMDAwMDAwMDAwMCIsIm51bWJlciI6IjB4MzAyMjM0OSIsInBhcmVudEJlYWNvbkJsb2NrUm9vdCI6IjB4MmY0YWM3N2NiOTBiZGU1OWU4YzM1ZTc4MDI0YmI1MmE5ZDBjNTdlZjA4NzRjMjExNTg2ZTM4Y2FhNTAzOTNmMSIsInBhcmVudEhhc2giOiIweDM3YTM2OTdhNDY0N2FjOGNmNGIzYjRiMWZmZWI1YWUxMzIzZTQ0ZmI1MDhkNDBjMjE5ODg3M2Y1NjJhNzdhMjYiLCJyZWNlaXB0c1Jvb3QiOiIweDMzZTE0OTFmOTk4YWM0OGFjNmNjYzIwYTVlZDAxODZlM2ZkODIxOWJlMmJlMzdlNmNhNmM5MmM1NTA2ZGJjNDkiLCJyZXF1ZXN0c0hhc2giOiIweGUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJzaGEzVW5jbGVzIjoiMHgxZGNjNGRlOGRlYzc1ZDdhYWI4NWI1NjdiNmNjZDQxYWQzMTI0NTFiOTQ4YTc0MTNmMGExNDJmZDQwZDQ5MzQ3Iiwic2l6ZSI6IjB4MTU0Y2QiLCJzdGF0ZVJvb3QiOiIweDRiN2RmMzNiNDM1NzRjNjBiYTIzNjY0ODU0NmJlMDczY2UwNjAwNGNhZDgxNjdiZmMwNTRlZDQ1MGUxZjk2ZDgiLCJ0aW1lc3RhbXAiOiIweDZhOGVhMzc1IiwidHJhbnNhY3Rpb25zIjpbIjB4ZGJhYmJkOTE2NjVmMjVjMzUxM2NhOTg1MDk4OTYxN2JjYjcyNzVjZmNkMDA0OTQxYTEzM2UwMGMyN2QzNTYxOCIsIjB4MDk2NTc5MzA1NjA0YTdkODU3NWYwN2FmMjFiNTYyMGU5YjRmZGEwODhlNGIyNjU5ZmVlNjU1OTIwNmFlOTE3YiIsIjB4MDg5NzA5OWFjZWYyZjNiMTgxYTlkNDAzNTQ1ZWQwZmZmNGNhM2NjNDA5MGQxZWQ2MzFjM2I4N2Q0NmE1OTI5NyIsIjB4OWZkOTQyODlkMWZmZWFiZDIwNTc1OGFhOTU4MzU5ZjA5YWUxNGM0MTZiMjRjZTk1YjczODQ5ZmViOTc0NWEwOSIsIjB4NTNiY2RkZDhmNmUzMTI4MGZhYjYzZTMyZGVlMzkyNTJjODYyNmE4YmEyNmNhYThiOTUzMDdmNWNhMWE5ODVjMSIsIjB4NjYzMjUwMDYxZTY4ODRhNmY2NTE5OTVmNWRhODg3YzhhZmUzMDMxYWFhMjlmNmI0ZmYxOWE3NGMwMDllMzZkZSIsIjB4YjNjZjYzZTdhZGZkOThjODljNTMxOWMyMmNmOTQ3NWM4MDNkZWE5ZjA0MmFlYTA4ZTg2NzgwYjQ1NzQ4MGUwNSIsIjB4MGY5YWRmOGNlMjFiZmJkOTM5YmE0ZGQ0NzM1Y2QyYjgxNjNiYjk5YTQyZTM2ODkwNjU1YzM3N2ZiNjFlYmEzYyIsIjB4MjM2ZDkyYjQxOTIwMjFmNjg0OGVkODFlNzM5MTU2OGY1YWFkZTA5Yzc5YzVkZGM3Yjg1OTFhZDExNDNmOGY5NCIsIjB4NGQ1Y2JlYzFiNjVjNGZhMzZhMWY0ZDdiYzdmYmNjYWExMWU3ZjM4OTc2ZjRkZTQxZDk2ZTczZDc0OTUwYzBmYiIsIjB4NDMzZjQ3ZmU0NDQ4ZDczNzI5YzM0YTk4ZmQ4YWRjMTViMTAxMmE3NGFhM2Y4ZWIwNTFhYzgxMDYzODRjMGJiNSIsIjB4MDJiY2Y4MTQwOWYwNWJlYWVmNzIyZjdjM2MyYjY0NGFjOTBmNjVmZTE1OGUwOWFiNjJjNDgwMTZmM2JkMmMyYyIsIjB4N2Y2ZjI4MDhlODRiZjJlZmNiYWM3MWQyOGI3OTRjNTdjYTgxZTExNGUyMzNhOWRkMjMxMzcxZmJlYTJhYjM2MCIsIjB4NjcyOWFiZjVhOGYwMTYzNjNmNDEzMTVmNjA0OTQwMjcyN2FhYTYwOGM5YTVmODExZWMwYmNmMDI0YzJkNWRkMiIsIjB4MzQ1ODVkNmEzYzc1YTg0ZDg4NGZhZDZjZTFjYjU5NjRjZjYxZTkzOTJkNDM4ZWQ4YTNhZmFmOGY0M2Y1NWE1MiIsIjB4NTQ5YmZiYTQ0M2ZlOTQ5NTNhMDBmZGZlMjVkMzZjMDNhNDQ1MzFiNjI4ZTY3MGY5YTFkY2E5ODYwM2ZhZTM5MyIsIjB4NmJkMGNhMzk2MzYxMDhhMDRjY2VmNTQ2YWM4Y2RhYjhiM2ZlZWEyZGZkMjE2NWY2ZjhmMjRjNzYxNTI1ZGNiYSIsIjB4M2JiMWM5NTdkNWFiZGNlOGE4MmRiMmZkOGU1ZTc2ZjdlNGJjZDBmOWU3OTcxMjQ1NDczZTExNzFmNjQzMWY0NSIsIjB4YjRiNWI1NWQ2NzE0YTI5OTE1ZGRhMjAwYzEyZDFmODEyMzRjNzExNWY4NzNhNjA5NDAxMjBlNGJmMzUxNzlhZCIsIjB4ZjRlNGU1ZjgxNWM5ZmRlODhiYzg0MGNiMTQyZGIzZGQ0NWI2MTQyMTAyNjdlMGM4ZWFkZGM3OWM1MTY5YTJjYSIsIjB4NWJhM2FhYmFlMWEwYTI1MmQ2NjRhMmVjMDJjZmZjYzBjYmExNTQwOWM1NTE1NDhkYzE2ZmY5MjlhMTAxZjBhMSIsIjB4MjY2OTE0MTJhNzQzYzYxYTdjZDc3NWMwOGIyMThjYTkxODljMGRkNTM2YmFkNjE2MzZmMDRkOGNiMGU1ZTYyNyIsIjB4MDQ0NDMzYzBlMTRhODg4NWUyYmVlOWRkNzUyOWM5YTRhNTc3MzBjODFmOGNkN2Q5MWY3N2ZjOWQ5ZjAxMjdkMyIsIjB4ZDU1OTllMjU4YWRhZDI5MTk0NjJmMmJjMWYwOGRkNDBjYzRmOWM0MTg2NGQ3OWMwOGNlMGNmYzM5ZGEwODEzOSIsIjB4ZjU5M2Q3ZDEzNmVmNzIyMzkzZjk1OWIxNmZlMWYxYTMxNjY0MzIxZTNiOGY0ZTg4ODhiOGQwNzY3MTY5M2I1MSIsIjB4NjAyMzk1YzM1Yjc1MTU0MjgzYzI2YjBkMTZjODljNDM4ZDg0NDZjZDI4MjRlNWJhMmNiOGI1ZTdiOGIxZWJmMyIsIjB4ODRlMjU3NGQ4NmQ2ZWMwMWRhYzIwYzIxNzAzNWRhMDA0MWVlZDViMzg2YmM2MzM2NjU2YmMwZjI2NDMwMTY4MyIsIjB4YjhmNWRjYTFjNjAzMjJhZWQwOWJmMjFkM2FkNjViMTYxZmI0N2VkNGZiYjMwNTRmM2Q2NzE1MTQ0OTUzNjY2ZCIsIjB4Njc2M2JiZWY2NmNhZTUyZTcxMmE0Y2VhOWY0MGNhODMwYzcxYmQ1N2VmZTc0ZTM5YmY0NDRkZTU5NDBhODIzOCIsIjB4ZTIzMGVlZWEyYWJhNzUzOGYwOGZmOGQyZDc0MmUxNWY2MDM2NmI1OTc1OTc4OWNlYmZlYzk4NzIwNTc1MDMwZiIsIjB4MjUyYTU2ZmVjYTdjM2RmYmYzMjNjYzU5ODlmZmI5MmFmYzYzYjUxOThlMmYxMjgyYzQxMmFlMWU1MTg5NjMxOCIsIjB4MGUxNzcxOGI4Y2VlNWIzMDc2ZDViZWM1MGY5MGIyY2RjYTEzYmI3ZGRlMWNiOWI5ZjVjMjdjNTk4ZWRiMmFhNSIsIjB4YmZlNWY1MTAzY2Y4NmJhMDA1M2QwYmQ0M2RhODBiNGQ5M2EzNjAzNjNjZmRlMWU5NDA3NTczMDM2Yjg4ODFkMiIsIjB4NWY1MzU2N2Y4NjBkYjY5M2NjYzk4ZmI5MGY0N2IwZjdhYjdhNDY4OGRjMTE1OTgwNTNhMDRmMDUzYzE1ZTUwZiIsIjB4ODViOTM3ZjAzNzE2NmYyY2E0YWEzODQ3MWMwNDVjMjk4ODUzZTViOWQzNjE1N2VjMDE2MTJjOTIxZTFlYmUyNSIsIjB4YjVlOGI5OWE1YjI5NmMzY2NiOTY5ODI0ZmU0ZTkyMGJiMzE2MTg2MmZlYmY5YmM1YmEzZTYzNzYwZTczMTM2MyIsIjB4NWNiNzg2ZjVlMDE1ZGQ3NGVkZjc3NTlhYjg0MTg2ODUwZGIzZjM1ZmEwNjI5NGVmMDA5MjI3ODI1MzEwNzJjNyIsIjB4NTkwNGQ4M2M3MjNkM2NiZDgwYzJhYzAzOTQzMWI3MTQ4ZGYyNDEzNGVhZTk4ZDBkNjllM2Y5NmNhYTFiMGI3NSIsIjB4MjJjZWEyYmE1MjVlOTg5YmFhNDNmMTI5ZGZlMWZiODY3YjAyYzkyNDk2Mzk5OTdmYzBjMTY4N2Q3MDA3ZGFmMCIsIjB4OTJiOTI1ZjhiNjQ4OTdiZWEwZWYzYmE0YWZjNDBmM2I2Yjc5YjQyOGIwMmNmNzRkMDJmY2Y2MjAxOGMwMTdjMSIsIjB4ZTYyMTczMGFjMWFkNWEwZTgzNWJkYmFhODE1ZGFiMWNmNDRiZTRkZmFmZWExNjU3YjAxNTZhMmRiNWIzY2JhYyIsIjB4ZmFiNjFiNTU4MmIxN2EyNTYwNGU3ZmNjNzNlNWU3NzMxZGU1NmZlMjVlZDRlYTUyNjYxZDJlODFkOGRmMDlkZiIsIjB4YmE5MWVhZjJjZmIxZmI0YzRhYTg4Mjk2NTU3ODM0ODExY2NiZjY1YzExNTQ5MGZiYmIyYmQzYTJkYzA0ZGY2ZSIsIjB4MDRkZjNlYzBiZWUwYWMxMDk5OGU5MDc1ODA2YjcwOTA4NDJjOGZlMmRjY2ZhNmJhNTQ0OTdmOTkyMDhkZWVjYyIsIjB4ODA0MjdjYTJmZjExMDA3MDM1Y2ViNjg0Y2FiYjZjYWMyNmNmMzc1MTUzNGVkMmM3ZjAxMzljYTFmNGVkMmY5MCIsIjB4NTE0NDU0NDBkNTI1ODRiNTY2Njg3OTVmMGY5Mjg1YTFlM2NiMmRlY2NjOTA3YmQ1MjI4OTAzYmJhZWJhMDg1YyIsIjB4YmZlMmNiNmIyY2RiNmU1N2FjZDE4OWQ3OTAzNDQzZjYzYWE4YzVjY2ZhMTg2NTQ0NzBhOWQ1ZDE5ODE1NjAxMSIsIjB4OTk4M2UwOTU2ZGNmZmQ2NmM1MjQwM2IyNzhmNGVmMGRlMjQ5ZTIwMDM2NmM5ZmFkY2MwZWI2ZWY3MjlmODMxNCIsIjB4ODk3MjQwNGEzYWU2OWRiYzAxNTA3NTI2MjE1ZGQ4MDQyNjlkYmMyYjUzMmFiNmNkYzRlMTdhZDViMDE3MDBkZCIsIjB4NTk1ZDJjOWE1NjQ2ZmExOTY2MzAxNTAxOTAxMTcxYWMxMzdiZDE2YmE5N2M0NzQ1YTAwYjU0MTk5ZTY0MmEyZiIsIjB4NmM5MDM5NjI3ZGUyMjc3Y2E3ZmM1M2JhZjMwOGExNGFmZjA4ZWVjMmMwOGJiMzA3Y2MxOGY3MGE3ZjJjMzQyNSIsIjB4ZmE2NTM2MWU3MGMxYmRlMjgwMmE1NmMxZGE2YmU5MWI0ZTZjZjQxNWRhYjdhZWMwODY3MTRjYmIwOTg5MzBlYSIsIjB4OGJlNDMzNjkzOTM4ZjU4MTE0ZTNkYTBkMmU2NjJkMzJmMGY0YzQ4NjhlMWQ4YjQ2YjVmNTc2MWFjYWE1NDUzMCIsIjB4NzFlYjM3MTI3ZWM4MjNkMmU5M2FjNDMxZTZlMDMyODJhNGQzYTUwMDcxMDA0MTdhMGFmMGU0ZmFjZDQ5NWU3MiIsIjB4ZWU4YTY4MWJmYzdmYzUyMWM0NTVlM2I1NWJlMjBjOGExYTYwMmM5OTk4ZjA2MmI5YTI2ZDlkY2Y5NjYxMzExYyIsIjB4MTg2OGViOGYxZmYwYzViYzRjNzNjN2E0OTMzNmRkMWVjNmIzYjEyYTc0OTkyODViYTUxMjRmNzM5YmU0YWY1YSIsIjB4ZTgxNmRmMTZlNTczODlmNGVmMTFjM2QwODU0YzliZGYxMWI0NDBmZjU1YmZkOGY1NjFkYjE1ODlkOTM3ZTk0ZSIsIjB4YzgyMGI2YjY5ZTlkYzE1ZDAwZjA4Mjc0YWUyZmMzYThlMDllMDZhODcxZmQ3OWE0MjgwMmFkNDIwNmYwNDZhYSIsIjB4MTFmYjNmYzI2NzdiM2U3ZjY4MDZjNTVmYzZkMWZlODc1NzM3MjM0MTU5MTJhYWMxY2M3MDg0NTVmZjAwOWMyMCIsIjB4OWQwMGUxZGFlMGMwYWM0MzUzNWFiOTdlYTY4YmRmMmRjMGQ5OWEzYTU0MGY5N2M1Zjg2NTNiMTFkYWY3NDJmOCIsIjB4M2ZkZWM2NjE5OTAxOTYwOWFmNjc3ZGEzYzUzODk0YzY5OTIwN2RlOTMzYjM0ZTAxYzNiMWRkYjc2ZWYxZGU2YiIsIjB4MzA0OGMwODNlZmIyYTM2MDNmZmU1YmEzMGEzM2Y0OTdmOWU1YmI2Y2YzNmMxMTM5ZDE5N2NiNWI1NzhhZjc3ZSIsIjB4OTliZTNjYjY5ODE5N2I4YTgzOGI0NTFiYjM4NGM2YjkwNDQwMTE1NGE5NTRhZWY2ZWUyNTk0YjFjNjU5NjRkMiIsIjB4MDdiYzM1ZTU5MzJhNzYyZTkyZThiZTViN2Y5NzBiMzg4YmMxZmJhODcxMWFjYThiZjg2OTk3NmQwMzc0ZTUyMCIsIjB4Y2E0YzE3NDRhYmViMTVmMTA2Njg1NTc4NzIwZmU4MTJiMzFmNTYwMTE1Y2VkMTkxZjQ1NTIxYjViNWJiMWQ3MCIsIjB4NmY5YTI5ZGE5MGMxYzc1ZmM5MTI1OTVhYjhlOTljZWExYzZiYzZhODgyM2JhN2E3Zjk1OTQ4YWQ3YTRkYzI3ZiIsIjB4MzVkMjc3ZDQ5NDdkN2Y0ZjRlYmQ5YzkzNTIzNGVkMmExN2IzMTcyZWFmNWQzNmIzYmI3MTY3MDUyYjhhM2YwNSIsIjB4Yjk0YzVlODUzYTY4OGQ0ZTM1MzY1ODNkZDUzYTgwNzI3ODRkZTViN2ZiZjc0NzM1YzM2OGI4OWZjNzE2NzgxMCIsIjB4OWJjNWIyYTAzOTk1MTMzN2YyNTlkNzA4MDg4ZGIzYzZjOWJkMTViZmMxYTZhNDc0ODQzNGM2NDMxN2VlYzBhZSIsIjB4YmRhMGU5NTE0MjZiMTc1ZjhhMGFkMTZiMzM5YTNiMzc1ODRiOGIyOTBhZjBjODk4ZTBkY2RhZjgzZjIxOTJmMiIsIjB4ZGFmOTJmMTJjMjI0MTYzMjYxZDM4YzgxMzUzNzQ2ZjVhNmFlNmFjNmUwYmE1NWEzOGExYWVkNzllY2NjN2RlZSIsIjB4NmI4ODE5ZTE4MTBlOWI4NzUxYTZmMmRhZTVhNTYyYzczNjFjY2MyMTM5YTE3MWRhMjk5OGYwZWFjOTBmOGE3NyIsIjB4Y2RlZjUyMWU3MTA1NzQ2ZmU0N2E0NzllMzJjOGI4NGFhNDRhNjRlOWNmZTZiMmQyY2Y3MTQwM2UyMzJkZmU3MyIsIjB4ZDA5NmM2MjAzZDI1YjczZmYzMDU2NTJjN2EyZWFkYzM5NjNjNTA3MTM5ZGQ4ZmE0ZTU0N2IyNzU1ZGI4YmFjNiIsIjB4MWU2OGE3OWJiNjdlMGJjYzNiMDZmNzRlZjU4OWI4NjFhOWRlOGEzNGFhMzhmMzQ0MGY3MDM3NDRmMGQxYjBhMCIsIjB4MDdlYTllODA4YWRjYWY0MDUwYmFlZGI1MjZlNjA1NzI1ZjllZDYyOGU3OTVkNmUzYTkwZTRmMTEzMjZmMmQyMCIsIjB4OWQ3MjA0ZTQ5YWZiOTI0ZmY5YzVlMTVmZmQ2MDBlMzA0MzE4Njk2NjE0ODc1YTUwNTg0ZGNiNmRmYWNiODQyMyIsIjB4NTU2ZTI5OGMzZmRiYjllN2ViNjliNGMxZTEwMWUxNTcxMDA2NjczYWFhOTdkZDVkNzIxOThjN2FhNGRhZTBiZSIsIjB4NTNjZDkzZDkwM2NhODgwYzliM2NkMTIzOGQ3MzljMzA4NjcxNjUxNjU2MjQ3NTgwYzk5MmVmMjEwOWZhNjEzMyIsIjB4NGI2YmM0YmEyMGRhM2U2YjMwOWY2ZTg4ODUwOTFhZTg4MzI2OGE2ZmFhNmIzODU1NjYwMzQwYTIxOTcxMzU3MSIsIjB4ODM0MTc1Y2QzODhmMTk2ZDc0N2RmMzE1MTg1NThmZTQ5ZGExYzA4ZTkyMmQ4YmU1YzE5YzdiYTU1N2U2NjdlNSIsIjB4N2NhZDY0ZTYyNmI4NjViMDQ2OTU4OTg5NzMyMWVjZTkyNjEwMWE1Y2ZiYjEyZGUyMzNlNDVhNjVlMGU3MTcwZCIsIjB4NDM2YTYzN2E0NjFkZWM5OTIzZTllNDZlOTBlYzA5ODAzMzY2NjEzMjYxYzVjNjU1MjVhMGMwYWViOTUyYzk4MSIsIjB4ZDI5MGE2MjMxNDEyZWYyNGU3MmRiMDc1YzM3ZDE2NTA3NTQ1ZmIxOTk3Nzc5NWI5NGQ0ZDc4YjQ2YzU0N2ExMSIsIjB4NDgzNjAyZDc1MjEzZTY3MGY0NTYwOTIzOGQ4NzYwOTk0MGJhZmQzMWY0ZjZkZDQ2OGQzODQxMDgyMGE5ODk4MSIsIjB4ZGVmNmVkYjAwZjYyMDAyMDk4MzA4MzVlMzRkOTg1ZmM2NGRjNzZiZjQ4ZTY4NGQ5MWUwYjIxMTE1YmUxMDJkOCIsIjB4YWQwMTRkNGYxM2FkZGE4YjFhYmE5YmZlNmQ3MDIwMzU4ZGRiYzg4OGVmODY3NWU0ODY4NTQ4MTUxMDMzMWQ0ZCIsIjB4NzQyZmNlNDhhMjNmY2Y4NTUwZjQ5Y2NhNzA0MjQ3OWE1MGJmYzgzMzU3OTZiOGQ1NjJkNGMwYTQ1NDAzOGVjOSIsIjB4YWI0MzJlNjk5MWUwNTA3MGU4ZmE5YzJkOGQxM2UzNjIwNWYxOWZhYzliMzgzNDRmZTZhNGM0MTBhOGZlMzA3NSIsIjB4ZDZlNTk4YWNjNzhkNzdiZTZmYjU5ZDZiMjcxOWViZmI2MTMyYjcyZDQ5M2ZkNmE2NDE0YjA0OThhOTQ4YTk1NiIsIjB4ZGJhYzE0Y2E3MGFkY2E5ZmQzNDY0NDM3NGI4NDY3YmUyYTc5YTc5ZWIxMjAxYTRjZjIxZDEwZDhhY2Y0MjRmYyIsIjB4NjBlMGVjZWFmM2RkYmY0OWM1ZWU4NjgyMDkzZTA2NTVmYjQxNDI2ZTZmZTY3ZjNmYWQwMGUxMzMwZGJjYzdhMyIsIjB4ZmI4ZTEwZDc4MDJkMjJhY2FlNDJhNWNmMzNjNzE0MTcxNmFiMDMxYTUzNjMxODRjMDIzNjliYjNhZmYxNjdhMSIsIjB4ZGU1MWZkYWNjZjQ0MWQwYjhkZTYwYmNjNzExYTMwM2NjYTE3NGRhMmU5ZTllMjkxMzQ2ZmFlMmZjZTA5NWNiMSIsIjB4NWM2OWFiYzM2MjYxNjUyMjE5MGRjNmE1ZmYwNjc3MGQxMjhmZmNlMmY5OTVhNzA3MGU2MmJlZTU1NjUyMGY0MiIsIjB4YzEzMzYxZDZlZTg2YTEwZjE2NDI2YjY2MGUyZTkxZmViYTRkYWIwOWQzNGZmYjI3NGFkMWMzYTg1M2E0NDk3NCIsIjB4NTE1MjRjZDA0MmZjOWJiMTY3MmMyMTZlOWVhZTNmZWVjYWU1MzFjODE2MmViNzJiOTdjNWUzYjIxZmM2NGEyOCIsIjB4YmY3M2ZjMzlhNWI2NTgwZTQ5YTZmZjNmN2RkNGU4MDk0ZGJkM2QzOWRlMDZjNjlmNThjZDY4MzExY2U4MWViYyIsIjB4MDI2MDgwNGM2ZDNkMDQ3NTM2YzU3M2NmNzgyOWY1OGVlMWM2MjgyOTJkMGNjMzEyM2IyNDMyNmY5Mzc2M2I4ZCIsIjB4ZWU0YjI1NzM2NDJjZTNmYjQ0ZDJmNDM1ZWU3ZmEzZmNhMDY5NDdhYTQ1YTkyMmVjMjY4M2FlMjk2M2QzOTQ1NSIsIjB4NWIyNWM0NzBkZjQ4MmI5MWFmZTNhOTE0ZWM1ZDIxODUzODEzODhkZDZkYTI5YjdkYjZlMzczYzg3NWYzZjhhOCIsIjB4MjNhNjZjYjE3NWU3YTQ4MWM5YzRiMDQ4ZjQ0YTA2NjhjMTVjZDMzZGE1Y2NjOTgyYWFmNTQ5N2VhNmM5NGY4YiIsIjB4NGZhZWQ4OTVhYzAxMDgwMjQ0Nzc4NDI2YTMwZjg4NjFjMTFiN2FhZmI3ZGZmZTRlNjE2YzQyMWMwZGU3MGUwYyIsIjB4MmVjMDAyYzNkNzYzMmZjNzgxMDdjYTM5YWM0OTk3OGFmYjg3NjIzYTFlZmMzMjZjMWM4MjcwM2I4MWI1MDY2ZiIsIjB4NmEyZGY1YTU3NmQ5ZGM3MWNmMWI4YzA2MjA0OTFjYTYwMzhmYzBlMjk4NjE3Y2I0YjY5ZjE1NjRmMGZiZjI3MSIsIjB4YzA1NGZhMTE2OTQ4OThiNTMwMGNmNjk2ZWY3NGI3ODAzYjc0ODk4ZThlNzEyYmEyMjlkNjNiMGI2OWVkMTBlNiIsIjB4YWRmOGNlY2U4NjU4YmQyZDA4YTJhZWE5ZmYxMTE4ZjNkZThhMWJiMDVjMDdjODdmNDhjMjA4ZDQzNjY1NzU2ZSIsIjB4ZDBkY2ZiNTg0ZTM1ZmE4N2M3YjYyMTg4MTU0MzRiODFkZmQ5ZTE1ZWFmMTY4M2NhOTZiNmEzOGMzOTllMzc5MyIsIjB4MWU0YTNiYzFhMGVlZDBiNzllMWUwNmNjYmY4Yjk1OTM2ZmI1ZDRjNmQ4YzAxN2RlMGQwNTFlNTQzYjc4ZWJkYiIsIjB4NjEyYTgzYWE1ZTZjNWFhNmM5MGJmMWExYmIwZDdmYmE4NGJlNGI5ZWY2YjAzODkxMmU4OTM1MTVhMzdmOWQyMSIsIjB4MDVlZGQ4MDc1MWVkMWU1OTEyNWM2YmNkOWExN2Y4N2NmNjY2OTEwMzkzY2E2NDA2Njc5ODcxOGQ0NDEyYjQxYSIsIjB4OTZhNTc0NGNhNDg3MzE3YjRjMjJhOGY3NGRlMGU2M2NjMTc3ZDVlMTU3NGViMzJkNTAyMzQ1NTE3YmZlMTlhNSIsIjB4MTNjOWVhOGU3MmFhNTUyZWZkMjk5MjFjZjM0YmIwNjMzY2ZiZTAzODBhYTJiNzQ5NWZlMGYzMjk4YzI0Yjc4MCIsIjB4YWFlNDUxMjNjZTJlODUxMTJlY2RkZWMxYjM5NTc5MDM2MzhkNjlkMTliNzdkYzU0ZDk2MjY3ZWVlNTgyOTZlNiIsIjB4YjkwMmVkNzgwYjJhODkxZjI3ZmQ3NDI2ZGNjZWFjMDFmY2Q2NWJjOTNhYzgzZGFlNzgzMWIxMzczODNkZjRlYiIsIjB4MGE1ZWQyYjNlODAyNGM2Y2M3MjFjZDFkODg3MzIzNmJhMmY4ZTZkM2FlMDVlM2Q0ZTI4OGYzNzU1Yzg1MDZmNyIsIjB4MzZlMmYzNTJmOGExOTUxYzc4ODYzMzgwMzNmY2YyZmRkZjFjYWNkZWE5YzZlNzM1OTQyYTQ3ODBhOWUyMmM4NCIsIjB4NGM5YTZiN2QxZmY1MzIxOWRkMWNjMzk0Y2E2YTcyN2ZjMjM5MDk5NjQ0OTEyYzM5MmI2ZjQ5OTg0YmU0M2M3MSIsIjB4NDAyZmFiNDk1ZWEwODE2MDYxMmMyZGI2MDhkODQzNDE2YmNlZWNhNDM5ZGM1MTI3YzBiMDFmY2JjMjEzZTA4MCIsIjB4NDJlYWI0ODEwY2Q5YTYyYjBkYjNlN2E3YjY5NzdhMmIyMDkyODZiM2VlZGNmYTczMGU4ZTRlNjU5OWQ2M2Y2MiIsIjB4YTFmNjIyZWNjZWY5MTQyYjU4NmZiMDU3ODkyZTlkYjdjNGUwOTdjZDI4MjlmNTg2MDM3NmFiNGMwMjUzZGRlZCIsIjB4M2E5ODgyNDUxZWFhZTYyNzc1MjUxMTcxOTMzYWU5ZDdmOGFmMGYwNTFiMTZlMzFkZDIzMjhmZDhkNDBjZGZlNSIsIjB4MjFiM2Q5Yzc3Y2UyMTI1YjEyMjFhYWMyNDgxNDg5M2I5MmIyYTAwYjA1OTQyN2NmMzJmMGYxOGEyOTk4NjM0NiIsIjB4NTc0NGY3M2Q2NGUzMWIxMWIxZTgwZWZkMzZhMjFiNTk5ODQzZGNiOTFmMTJhMTliMzNlZTVlNzYyMWIyMjk4ZCIsIjB4YmVmODI0MjNjZmQ4ZGUwZDBmODJjNTQ5MzdjNTRhNTY3OTIyYWYxMWQ4MjRhYmVjODY0Y2M5M2UxODcwMWRlNiIsIjB4ZTdiNTA5MDM0ODY1ZDNkYTQ0MTcxNTcwZDQ0YTM3NDdhZDNhNWI0YTQwNzU3MjY4ZDY1NGJhMDRhYTI4ZmNlZCIsIjB4ZTA1Nzc3ZjhhYzE2ZmEzZWFjZTRmMmQ5ZGMxNmY4YmM0YjlmZTViNjc5NDAxMGEyZmEyNDlkYjRmZWFmNWI0ZSIsIjB4YWYwM2JhZjliMTE5N2NmNDc3ZWMwNWVlYWQ1YjljMTAzOGY4ODc1NGE3MDYwZjc4YTI2MjYxODg2ZGY3OTU1MSIsIjB4NDI1ZDdmOTYyZTlhYWMxNDk2ZGU4OWI3OTBkYTZmMzlmMTVhZDRjMDgxZDY1MzBlOTg2NmFjMWM3YWUzOTRjMiIsIjB4M2NlNjljZGZhMjFjZjMyYjRkOGQ3NGM1NzQ4NTQ1MTEzNDgwYmJhY2FhYTMzMjg3NzU2OTg1MzA4YzdjZmEwYiIsIjB4ZDI2OWMzODZjYWI2NDE5MmFmNjNiMjRjNzJlYTIzYmU2M2Y2MmY5ZDUyMmIwYTAyZjJiM2IyYmNlMTE0NGQ5NyIsIjB4NDA1ODk3Y2NhMDNiZWU0MTZjZWRiYWQyODA5YmQ0YjFiYzMyOTRmODYxZWQ5NDBjNjU2MTI1MWI1YWMxMzg3MCIsIjB4NTIwMGM5ZTYzMGQxYjQ0ZDY2ZTg1NmEyOWZmNTJhM2U0NGFkYWFmMGEyMzYwZmJkYzJjMWRkOTVlYmU4Njk4NyIsIjB4OTVkOWZmNDIwZDc2YzQ2YWUxMmIwMTQ0YTMxNzFkNDMxYjZhN2FmNTM0YmUwZDA2NDNlNzI3YzJlNTdjNjlkZiJdLCJ0cmFuc2FjdGlvbnNSb290IjoiMHgyMGRiNmMzNDNkMmNmYmZmYjIzODk3MjQwNTc4OGNmZmE0ZWJmNDQ4YmVlNGU3NDljMGE0OGIxNWQwNzliODQ4IiwidW5jbGVzIjpbXSwid2l0aGRyYXdhbHMiOltdLCJ3aXRoZHJhd2Fsc1Jvb3QiOiIweDc0NDA0OTMxMGEzNjczNDY4YmY0MzIyNWFlNDA3NGYzZGE5NDNkYWNmOWIxMjY1NDhiNjM1ZTkxNWVkODM2MjIifQ==",
+              "contentDigest": "sha256:2181812d9d982dbc3113d26085b43647a58fe2c193e52afc46013bc90983974d"
+            }
+          },
+          {
+            "id": "evm-transaction-a5a9b272435bab2a",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getTransactionByHash:\"0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627\"",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:a5a9b272435bab2a687f60601c9b73f3474112850514ba4c84c8420cf370154d",
+            "networkId": "eip155:8453",
+            "blockNumber": "50471753",
+            "blockId": "0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75",
+            "metadata": {
+              "rpcMethod": "eth_getTransactionByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "digestDomain": "resolver-evm-capture-v1"
+            },
+            "nativeSource": {
+              "namespace": "nec.resolver-evm.rpc-result",
+              "mediaType": "application/json",
+              "encoding": "base64",
+              "payload": "eyJibG9ja0hhc2giOiIweDYyYzA2ZjdjMWJjNWYwYmJkNzU3ZTUwODVlMTdkYTI0YmQ2ODdlYTQ1OGIwY2VjYTVkZjBiODM4YWQ2NDliNzUiLCJibG9ja051bWJlciI6IjB4MzAyMjM0OSIsImJsb2NrVGltZXN0YW1wIjoiMHg2YThlYTM3NSIsImNoYWluSWQiOiIweDIxMDUiLCJmcm9tIjoiMHg4ZjYyNzIxMTJjM2I3MTQ3NGY2ZTI0YThhZDBiZTNiMjUzMTIzNDc0IiwiZ2FzIjoiMHg5MjdjMCIsImdhc1ByaWNlIjoiMHg3MjcwZTAiLCJoYXNoIjoiMHgyNjY5MTQxMmE3NDNjNjFhN2NkNzc1YzA4YjIxOGNhOTE4OWMwZGQ1MzZiYWQ2MTYzNmYwNGQ4Y2IwZTVlNjI3IiwiaW5wdXQiOiIweDI0ODU2YmMzMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA0MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwODAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxMDEwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEyMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDhmNjI3MjExMmMzYjcxNDc0ZjZlMjRhOGFkMGJlM2IyNTMxMjM0NzQwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNmY0Njc1MzhiZTU4YTRjNzU3MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMWEyNWQ1ZTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwYzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMmI5MTI2MjM2NDc2ZWZiYTlhZDhhYjc3ODU1YzYwZWI1YmYzNzU4NmViMDgwMDY0ODMzNTg5ZmNkNmVkYjZlMDhmNGM3YzMyZDRmNzFiNTRiZGEwMjkxMzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsIm5vbmNlIjoiMHgxYTgxNyIsInIiOiIweGVhNTdiZGM4YjkxOTNkN2VlOTAyMzhkZDYzY2Y1ZTZmMTUyMTE4MzMzOGViMDY5NWJlMDI1N2IwZWQ4NDEwMjIiLCJzIjoiMHgxMzEwYzNkYTQyNGU4ZjQ2YWFmNjc1MDI3MDZmYzNhNjdiMTg3NGYwYzgzOGEyMGNkMjA3NDU0MTliNmY3MmVmIiwidG8iOiIweGM1YjY3ODZkN2I2NDc2N2Q3NzU4NzdiMGI2YTMxOWFkOTQ2YjExYjUiLCJ0cmFuc2FjdGlvbkluZGV4IjoiMHgxNSIsInR5cGUiOiIweDAiLCJ2IjoiMHg0MjJkIiwidmFsdWUiOiIweDAifQ==",
+              "contentDigest": "sha256:ba2ca790f264f9515db655ec54c2c0dcb899a2faf0e12ec9c65e92583c8e6b21"
+            }
+          }
+        ],
+        "conflicts": [],
+        "warnings": [
+          {
+            "code": "EVM_DIMENSIONS_NOT_EVALUATED",
+            "message": "Generic single-source EVM acquisition does not evaluate settlement or network-specific finality.",
+            "metadata": {
+              "dimensions": [
+                "finality",
+                "settlement"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "opStackFinalityEvaluation": {
+      "profile": "nec-resolver-opstack-evaluation-v1",
+      "config": {
+        "family": "opstack",
+        "ruleset": "opstack.rpc-finalized-head-v1",
+        "rulesetVersion": "1",
+        "networkId": "eip155:8453"
+      },
+      "networkId": "eip155:8453",
+      "subject": {
+        "type": "transaction",
+        "networkId": "eip155:8453",
+        "txId": "0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627"
+      },
+      "dimension": {
+        "name": "finality",
+        "scope": {
+          "kind": "dimension",
+          "dimension": "finality"
+        },
+        "proposition": "The subject transaction's containing L2 block remains the observed canonical block at its height, is connected by a complete unbroken parentHash ancestry to this single source's observed OP Stack finalized head within one bounded observation burst, and lies at or below that finalized head, under the pinned rpc-finalized-head ruleset.",
+        "dimension": {
+          "applicability": "applicable",
+          "verdict": "supported",
+          "basis": [
+            "source_observation"
+          ],
+          "evidence": [
+            "evm-block-04c8274b17327b76",
+            "evm-receipt-fb680322d5fd0d3b",
+            "opstack-ancestry-block-04c8274b17327b76",
+            "opstack-ancestry-block-c82b071cb549e247",
+            "opstack-canonical-block-02e53f26fae3b577",
+            "opstack-chainidentity-49c396d07e21091b",
+            "opstack-finalized-head-f90d564a2580cc74",
+            "opstack-latest-head-c6504a8378464ad1",
+            "opstack-safe-head-171ab894f58bed8c"
+          ],
+          "reason": "Supported under the pinned rpc-finalized-head ruleset: within one bounded observation burst this source returned an unbroken parentHash ancestry from its observed finalized head down to the subject height with the terminal hash equal to the subject containing-block hash, the canonical block at the subject height still equals the subject block, head ordering finalized <= safe <= latest held, and the finalized head was unchanged between the first and final read. This is direct source observation — not cryptographic proof, not local consensus verification, not OP derivation replay, and not withdrawal finalization.",
+          "metadata": {
+            "proposition": "The subject transaction's containing L2 block remains the observed canonical block at its height, is connected by a complete unbroken parentHash ancestry to this single source's observed OP Stack finalized head within one bounded observation burst, and lies at or below that finalized head, under the pinned rpc-finalized-head ruleset.",
+            "family": "opstack",
+            "ruleset": "opstack.rpc-finalized-head-v1",
+            "rulesetVersion": "1",
+            "networkId": "eip155:8453",
+            "observedVia": "eth_getBlockByNumber(\"finalized\"|\"safe\"|\"latest\"|<height>, false) + eth_getBlockByHash(<parentHash>, false)",
+            "maxAncestryDepth": 10000,
+            "ancestryRequiredDepth": "15",
+            "ancestryWalkedLinks": "15",
+            "subjectBlockNumber": "50471753",
+            "finalizedHeadNumber": "50471768",
+            "safeHeadNumber": "50472229",
+            "latestHeadNumber": "50472264"
+          }
+        }
+      },
+      "conflicts": [],
+      "warnings": [
+        {
+          "code": "CROSS_SOURCE_CONSENSUS_NOT_ESTABLISHED",
+          "message": "All finality observations come from ONE configured JSON-RPC source; one source is not independent consensus."
+        },
+        {
+          "code": "INDEPENDENT_L1_DERIVATION_NOT_ESTABLISHED",
+          "message": "The full OP Stack L1 derivation pipeline was not independently replayed; head observations are interpreted, not recomputed."
+        },
+        {
+          "code": "LOCAL_ROLLUP_NODE_VERIFICATION_NOT_ESTABLISHED",
+          "message": "No local rollup node or derivation engine verified these observations; every conclusion rests on direct source observation only."
+        },
+        {
+          "code": "WITHDRAWAL_FINALIZATION_NOT_EVALUATED",
+          "message": "L2 block finality is not withdrawal finalization: \"finalized\" here is this source's OP Stack L2 finalized view — withdrawal proving/finalizing after the fault-proof dispute period was NOT evaluated."
+        }
+      ],
+      "fragment": {
+        "network": {
+          "networkId": "eip155:8453",
+          "chainId": 8453,
+          "observedAt": {
+            "blockNumber": "50471768",
+            "blockId": "0xdcc35a93565446aa571e8e56f97ecbce34c04f09253ecbed48eb1d69d543ffb3",
+            "timestamp": "2026-08-26T08:28:03.000Z"
+          }
+        },
+        "subject": {
+          "type": "transaction",
+          "networkId": "eip155:8453",
+          "txId": "0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627"
+        },
+        "networkEvidence": {
+          "finality": {
+            "applicability": "applicable",
+            "verdict": "supported",
+            "basis": [
+              "source_observation"
+            ],
+            "evidence": [
+              "evm-block-04c8274b17327b76",
+              "evm-receipt-fb680322d5fd0d3b",
+              "opstack-ancestry-block-04c8274b17327b76",
+              "opstack-ancestry-block-c82b071cb549e247",
+              "opstack-canonical-block-02e53f26fae3b577",
+              "opstack-chainidentity-49c396d07e21091b",
+              "opstack-finalized-head-f90d564a2580cc74",
+              "opstack-latest-head-c6504a8378464ad1",
+              "opstack-safe-head-171ab894f58bed8c"
+            ],
+            "reason": "Supported under the pinned rpc-finalized-head ruleset: within one bounded observation burst this source returned an unbroken parentHash ancestry from its observed finalized head down to the subject height with the terminal hash equal to the subject containing-block hash, the canonical block at the subject height still equals the subject block, head ordering finalized <= safe <= latest held, and the finalized head was unchanged between the first and final read. This is direct source observation — not cryptographic proof, not local consensus verification, not OP derivation replay, and not withdrawal finalization.",
+            "metadata": {
+              "proposition": "The subject transaction's containing L2 block remains the observed canonical block at its height, is connected by a complete unbroken parentHash ancestry to this single source's observed OP Stack finalized head within one bounded observation burst, and lies at or below that finalized head, under the pinned rpc-finalized-head ruleset.",
+              "family": "opstack",
+              "ruleset": "opstack.rpc-finalized-head-v1",
+              "rulesetVersion": "1",
+              "networkId": "eip155:8453",
+              "observedVia": "eth_getBlockByNumber(\"finalized\"|\"safe\"|\"latest\"|<height>, false) + eth_getBlockByHash(<parentHash>, false)",
+              "maxAncestryDepth": 10000,
+              "ancestryRequiredDepth": "15",
+              "ancestryWalkedLinks": "15",
+              "subjectBlockNumber": "50471753",
+              "finalizedHeadNumber": "50471768",
+              "safeHeadNumber": "50472229",
+              "latestHeadNumber": "50472264"
+            }
+          }
+        },
+        "evidence": [
+          {
+            "id": "evm-block-04c8274b17327b76",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:04c8274b17327b766af4e818b6a3c7e03ef85ad2b416f067403f0c4b84905507",
+            "networkId": "eip155:8453",
+            "blockNumber": "50471753",
+            "blockId": "0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "digestDomain": "resolver-evm-capture-v1"
+            },
+            "nativeSource": {
+              "namespace": "nec.resolver-evm.rpc-result",
+              "mediaType": "application/json",
+              "encoding": "base64",
+              "payload": "eyJiYXNlRmVlUGVyR2FzIjoiMHg0YzRiNDAiLCJibG9iR2FzVXNlZCI6IjB4M2I1Yzk4IiwiZGlmZmljdWx0eSI6IjB4MCIsImV4Y2Vzc0Jsb2JHYXMiOiIweDAiLCJleHRyYURhdGEiOiIweDAxMDAwMDAwNjQwMDAwMDAwNTAwMDAwMDAwMDA0YzRiNDAiLCJnYXNMaW1pdCI6IjB4MTdkNzg0MDAiLCJnYXNVc2VkIjoiMHgxOGQwNTc0IiwiaGFzaCI6IjB4NjJjMDZmN2MxYmM1ZjBiYmQ3NTdlNTA4NWUxN2RhMjRiZDY4N2VhNDU4YjBjZWNhNWRmMGI4MzhhZDY0OWI3NSIsImxvZ3NCbG9vbSI6IjB4NWMzMTU1NGE0NTM5ZDE3YWM0M2Y3MDg0ZWUyMDdjMDFiOTNiMTQ4MDM4NDBhMjRjM2UyYzhhNjdmODQ4N2MwOTI3YWZjYzRkN2IyNTI3MjdmZjg3MzRkMWUwNTdiNGEwNjdiNmZhNjZkNmVkYjljOGE2ZDMyN2ZiMjJiZDkwNTE2NDRkZDdjMjQzNTMwNjQ5OWE4ZTU4NmRlMDEwMjdhNzlkZjQyZDBmNzY3ZGNiZjA1ODkyYzk0MDg2NzZmMWVhMzM5YjI0ZWU5ZTRiM2U2NDc3YzU4YTQ0ODM0NjJlNGY1NWYwYzkyMzY5MTRhNjdkODEwNzhmNTZjMjliOGEyYTA5NmQzMmNhN2YwOGVkZjQ0OWU5MDYxMmQ3MTc0ODI0NWFjOGM5NGJlYTMxZTUyYzUwODI4MjBlNTFjNWY4NTgyMmM2YTUwMmU2YmNjMGVlMTA3N2QxY2UxYWM2NzBlNTc3OTVjMjc5YmNiNmFlM2E1OWNmYTM1OTlhMjI3YWEzMWE5ODFiYmE3MmMzODZhMTI1MjNlYTkxMDY2ZGQ0OGI3MjY4YTk3YWU3MjA0ODVhY2FiOTQwZjM4ZWE4ZjgyOWUwZmMxY2FiNTA5NGEyMDU3NjQ4ODM5Y2EwMWMyZGVlMDVhN2U1NTY0MTk2ZjY3MGViN2ViNTQ3ZTY0YjlmN2QiLCJtaW5lciI6IjB4NDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxMSIsIm1peEhhc2giOiIweDA3OWQzNDY5ODZkYWQ3MTQ2YzJhZDk1MzEyM2I5MGIxNDFmZWFiZDBiMzlhM2ViMzFjZGYwZDliZTQzYWI0NmEiLCJub25jZSI6IjB4MDAwMDAwMDAwMDAwMDAwMCIsIm51bWJlciI6IjB4MzAyMjM0OSIsInBhcmVudEJlYWNvbkJsb2NrUm9vdCI6IjB4MmY0YWM3N2NiOTBiZGU1OWU4YzM1ZTc4MDI0YmI1MmE5ZDBjNTdlZjA4NzRjMjExNTg2ZTM4Y2FhNTAzOTNmMSIsInBhcmVudEhhc2giOiIweDM3YTM2OTdhNDY0N2FjOGNmNGIzYjRiMWZmZWI1YWUxMzIzZTQ0ZmI1MDhkNDBjMjE5ODg3M2Y1NjJhNzdhMjYiLCJyZWNlaXB0c1Jvb3QiOiIweDMzZTE0OTFmOTk4YWM0OGFjNmNjYzIwYTVlZDAxODZlM2ZkODIxOWJlMmJlMzdlNmNhNmM5MmM1NTA2ZGJjNDkiLCJyZXF1ZXN0c0hhc2giOiIweGUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJzaGEzVW5jbGVzIjoiMHgxZGNjNGRlOGRlYzc1ZDdhYWI4NWI1NjdiNmNjZDQxYWQzMTI0NTFiOTQ4YTc0MTNmMGExNDJmZDQwZDQ5MzQ3Iiwic2l6ZSI6IjB4MTU0Y2QiLCJzdGF0ZVJvb3QiOiIweDRiN2RmMzNiNDM1NzRjNjBiYTIzNjY0ODU0NmJlMDczY2UwNjAwNGNhZDgxNjdiZmMwNTRlZDQ1MGUxZjk2ZDgiLCJ0aW1lc3RhbXAiOiIweDZhOGVhMzc1IiwidHJhbnNhY3Rpb25zIjpbIjB4ZGJhYmJkOTE2NjVmMjVjMzUxM2NhOTg1MDk4OTYxN2JjYjcyNzVjZmNkMDA0OTQxYTEzM2UwMGMyN2QzNTYxOCIsIjB4MDk2NTc5MzA1NjA0YTdkODU3NWYwN2FmMjFiNTYyMGU5YjRmZGEwODhlNGIyNjU5ZmVlNjU1OTIwNmFlOTE3YiIsIjB4MDg5NzA5OWFjZWYyZjNiMTgxYTlkNDAzNTQ1ZWQwZmZmNGNhM2NjNDA5MGQxZWQ2MzFjM2I4N2Q0NmE1OTI5NyIsIjB4OWZkOTQyODlkMWZmZWFiZDIwNTc1OGFhOTU4MzU5ZjA5YWUxNGM0MTZiMjRjZTk1YjczODQ5ZmViOTc0NWEwOSIsIjB4NTNiY2RkZDhmNmUzMTI4MGZhYjYzZTMyZGVlMzkyNTJjODYyNmE4YmEyNmNhYThiOTUzMDdmNWNhMWE5ODVjMSIsIjB4NjYzMjUwMDYxZTY4ODRhNmY2NTE5OTVmNWRhODg3YzhhZmUzMDMxYWFhMjlmNmI0ZmYxOWE3NGMwMDllMzZkZSIsIjB4YjNjZjYzZTdhZGZkOThjODljNTMxOWMyMmNmOTQ3NWM4MDNkZWE5ZjA0MmFlYTA4ZTg2NzgwYjQ1NzQ4MGUwNSIsIjB4MGY5YWRmOGNlMjFiZmJkOTM5YmE0ZGQ0NzM1Y2QyYjgxNjNiYjk5YTQyZTM2ODkwNjU1YzM3N2ZiNjFlYmEzYyIsIjB4MjM2ZDkyYjQxOTIwMjFmNjg0OGVkODFlNzM5MTU2OGY1YWFkZTA5Yzc5YzVkZGM3Yjg1OTFhZDExNDNmOGY5NCIsIjB4NGQ1Y2JlYzFiNjVjNGZhMzZhMWY0ZDdiYzdmYmNjYWExMWU3ZjM4OTc2ZjRkZTQxZDk2ZTczZDc0OTUwYzBmYiIsIjB4NDMzZjQ3ZmU0NDQ4ZDczNzI5YzM0YTk4ZmQ4YWRjMTViMTAxMmE3NGFhM2Y4ZWIwNTFhYzgxMDYzODRjMGJiNSIsIjB4MDJiY2Y4MTQwOWYwNWJlYWVmNzIyZjdjM2MyYjY0NGFjOTBmNjVmZTE1OGUwOWFiNjJjNDgwMTZmM2JkMmMyYyIsIjB4N2Y2ZjI4MDhlODRiZjJlZmNiYWM3MWQyOGI3OTRjNTdjYTgxZTExNGUyMzNhOWRkMjMxMzcxZmJlYTJhYjM2MCIsIjB4NjcyOWFiZjVhOGYwMTYzNjNmNDEzMTVmNjA0OTQwMjcyN2FhYTYwOGM5YTVmODExZWMwYmNmMDI0YzJkNWRkMiIsIjB4MzQ1ODVkNmEzYzc1YTg0ZDg4NGZhZDZjZTFjYjU5NjRjZjYxZTkzOTJkNDM4ZWQ4YTNhZmFmOGY0M2Y1NWE1MiIsIjB4NTQ5YmZiYTQ0M2ZlOTQ5NTNhMDBmZGZlMjVkMzZjMDNhNDQ1MzFiNjI4ZTY3MGY5YTFkY2E5ODYwM2ZhZTM5MyIsIjB4NmJkMGNhMzk2MzYxMDhhMDRjY2VmNTQ2YWM4Y2RhYjhiM2ZlZWEyZGZkMjE2NWY2ZjhmMjRjNzYxNTI1ZGNiYSIsIjB4M2JiMWM5NTdkNWFiZGNlOGE4MmRiMmZkOGU1ZTc2ZjdlNGJjZDBmOWU3OTcxMjQ1NDczZTExNzFmNjQzMWY0NSIsIjB4YjRiNWI1NWQ2NzE0YTI5OTE1ZGRhMjAwYzEyZDFmODEyMzRjNzExNWY4NzNhNjA5NDAxMjBlNGJmMzUxNzlhZCIsIjB4ZjRlNGU1ZjgxNWM5ZmRlODhiYzg0MGNiMTQyZGIzZGQ0NWI2MTQyMTAyNjdlMGM4ZWFkZGM3OWM1MTY5YTJjYSIsIjB4NWJhM2FhYmFlMWEwYTI1MmQ2NjRhMmVjMDJjZmZjYzBjYmExNTQwOWM1NTE1NDhkYzE2ZmY5MjlhMTAxZjBhMSIsIjB4MjY2OTE0MTJhNzQzYzYxYTdjZDc3NWMwOGIyMThjYTkxODljMGRkNTM2YmFkNjE2MzZmMDRkOGNiMGU1ZTYyNyIsIjB4MDQ0NDMzYzBlMTRhODg4NWUyYmVlOWRkNzUyOWM5YTRhNTc3MzBjODFmOGNkN2Q5MWY3N2ZjOWQ5ZjAxMjdkMyIsIjB4ZDU1OTllMjU4YWRhZDI5MTk0NjJmMmJjMWYwOGRkNDBjYzRmOWM0MTg2NGQ3OWMwOGNlMGNmYzM5ZGEwODEzOSIsIjB4ZjU5M2Q3ZDEzNmVmNzIyMzkzZjk1OWIxNmZlMWYxYTMxNjY0MzIxZTNiOGY0ZTg4ODhiOGQwNzY3MTY5M2I1MSIsIjB4NjAyMzk1YzM1Yjc1MTU0MjgzYzI2YjBkMTZjODljNDM4ZDg0NDZjZDI4MjRlNWJhMmNiOGI1ZTdiOGIxZWJmMyIsIjB4ODRlMjU3NGQ4NmQ2ZWMwMWRhYzIwYzIxNzAzNWRhMDA0MWVlZDViMzg2YmM2MzM2NjU2YmMwZjI2NDMwMTY4MyIsIjB4YjhmNWRjYTFjNjAzMjJhZWQwOWJmMjFkM2FkNjViMTYxZmI0N2VkNGZiYjMwNTRmM2Q2NzE1MTQ0OTUzNjY2ZCIsIjB4Njc2M2JiZWY2NmNhZTUyZTcxMmE0Y2VhOWY0MGNhODMwYzcxYmQ1N2VmZTc0ZTM5YmY0NDRkZTU5NDBhODIzOCIsIjB4ZTIzMGVlZWEyYWJhNzUzOGYwOGZmOGQyZDc0MmUxNWY2MDM2NmI1OTc1OTc4OWNlYmZlYzk4NzIwNTc1MDMwZiIsIjB4MjUyYTU2ZmVjYTdjM2RmYmYzMjNjYzU5ODlmZmI5MmFmYzYzYjUxOThlMmYxMjgyYzQxMmFlMWU1MTg5NjMxOCIsIjB4MGUxNzcxOGI4Y2VlNWIzMDc2ZDViZWM1MGY5MGIyY2RjYTEzYmI3ZGRlMWNiOWI5ZjVjMjdjNTk4ZWRiMmFhNSIsIjB4YmZlNWY1MTAzY2Y4NmJhMDA1M2QwYmQ0M2RhODBiNGQ5M2EzNjAzNjNjZmRlMWU5NDA3NTczMDM2Yjg4ODFkMiIsIjB4NWY1MzU2N2Y4NjBkYjY5M2NjYzk4ZmI5MGY0N2IwZjdhYjdhNDY4OGRjMTE1OTgwNTNhMDRmMDUzYzE1ZTUwZiIsIjB4ODViOTM3ZjAzNzE2NmYyY2E0YWEzODQ3MWMwNDVjMjk4ODUzZTViOWQzNjE1N2VjMDE2MTJjOTIxZTFlYmUyNSIsIjB4YjVlOGI5OWE1YjI5NmMzY2NiOTY5ODI0ZmU0ZTkyMGJiMzE2MTg2MmZlYmY5YmM1YmEzZTYzNzYwZTczMTM2MyIsIjB4NWNiNzg2ZjVlMDE1ZGQ3NGVkZjc3NTlhYjg0MTg2ODUwZGIzZjM1ZmEwNjI5NGVmMDA5MjI3ODI1MzEwNzJjNyIsIjB4NTkwNGQ4M2M3MjNkM2NiZDgwYzJhYzAzOTQzMWI3MTQ4ZGYyNDEzNGVhZTk4ZDBkNjllM2Y5NmNhYTFiMGI3NSIsIjB4MjJjZWEyYmE1MjVlOTg5YmFhNDNmMTI5ZGZlMWZiODY3YjAyYzkyNDk2Mzk5OTdmYzBjMTY4N2Q3MDA3ZGFmMCIsIjB4OTJiOTI1ZjhiNjQ4OTdiZWEwZWYzYmE0YWZjNDBmM2I2Yjc5YjQyOGIwMmNmNzRkMDJmY2Y2MjAxOGMwMTdjMSIsIjB4ZTYyMTczMGFjMWFkNWEwZTgzNWJkYmFhODE1ZGFiMWNmNDRiZTRkZmFmZWExNjU3YjAxNTZhMmRiNWIzY2JhYyIsIjB4ZmFiNjFiNTU4MmIxN2EyNTYwNGU3ZmNjNzNlNWU3NzMxZGU1NmZlMjVlZDRlYTUyNjYxZDJlODFkOGRmMDlkZiIsIjB4YmE5MWVhZjJjZmIxZmI0YzRhYTg4Mjk2NTU3ODM0ODExY2NiZjY1YzExNTQ5MGZiYmIyYmQzYTJkYzA0ZGY2ZSIsIjB4MDRkZjNlYzBiZWUwYWMxMDk5OGU5MDc1ODA2YjcwOTA4NDJjOGZlMmRjY2ZhNmJhNTQ0OTdmOTkyMDhkZWVjYyIsIjB4ODA0MjdjYTJmZjExMDA3MDM1Y2ViNjg0Y2FiYjZjYWMyNmNmMzc1MTUzNGVkMmM3ZjAxMzljYTFmNGVkMmY5MCIsIjB4NTE0NDU0NDBkNTI1ODRiNTY2Njg3OTVmMGY5Mjg1YTFlM2NiMmRlY2NjOTA3YmQ1MjI4OTAzYmJhZWJhMDg1YyIsIjB4YmZlMmNiNmIyY2RiNmU1N2FjZDE4OWQ3OTAzNDQzZjYzYWE4YzVjY2ZhMTg2NTQ0NzBhOWQ1ZDE5ODE1NjAxMSIsIjB4OTk4M2UwOTU2ZGNmZmQ2NmM1MjQwM2IyNzhmNGVmMGRlMjQ5ZTIwMDM2NmM5ZmFkY2MwZWI2ZWY3MjlmODMxNCIsIjB4ODk3MjQwNGEzYWU2OWRiYzAxNTA3NTI2MjE1ZGQ4MDQyNjlkYmMyYjUzMmFiNmNkYzRlMTdhZDViMDE3MDBkZCIsIjB4NTk1ZDJjOWE1NjQ2ZmExOTY2MzAxNTAxOTAxMTcxYWMxMzdiZDE2YmE5N2M0NzQ1YTAwYjU0MTk5ZTY0MmEyZiIsIjB4NmM5MDM5NjI3ZGUyMjc3Y2E3ZmM1M2JhZjMwOGExNGFmZjA4ZWVjMmMwOGJiMzA3Y2MxOGY3MGE3ZjJjMzQyNSIsIjB4ZmE2NTM2MWU3MGMxYmRlMjgwMmE1NmMxZGE2YmU5MWI0ZTZjZjQxNWRhYjdhZWMwODY3MTRjYmIwOTg5MzBlYSIsIjB4OGJlNDMzNjkzOTM4ZjU4MTE0ZTNkYTBkMmU2NjJkMzJmMGY0YzQ4NjhlMWQ4YjQ2YjVmNTc2MWFjYWE1NDUzMCIsIjB4NzFlYjM3MTI3ZWM4MjNkMmU5M2FjNDMxZTZlMDMyODJhNGQzYTUwMDcxMDA0MTdhMGFmMGU0ZmFjZDQ5NWU3MiIsIjB4ZWU4YTY4MWJmYzdmYzUyMWM0NTVlM2I1NWJlMjBjOGExYTYwMmM5OTk4ZjA2MmI5YTI2ZDlkY2Y5NjYxMzExYyIsIjB4MTg2OGViOGYxZmYwYzViYzRjNzNjN2E0OTMzNmRkMWVjNmIzYjEyYTc0OTkyODViYTUxMjRmNzM5YmU0YWY1YSIsIjB4ZTgxNmRmMTZlNTczODlmNGVmMTFjM2QwODU0YzliZGYxMWI0NDBmZjU1YmZkOGY1NjFkYjE1ODlkOTM3ZTk0ZSIsIjB4YzgyMGI2YjY5ZTlkYzE1ZDAwZjA4Mjc0YWUyZmMzYThlMDllMDZhODcxZmQ3OWE0MjgwMmFkNDIwNmYwNDZhYSIsIjB4MTFmYjNmYzI2NzdiM2U3ZjY4MDZjNTVmYzZkMWZlODc1NzM3MjM0MTU5MTJhYWMxY2M3MDg0NTVmZjAwOWMyMCIsIjB4OWQwMGUxZGFlMGMwYWM0MzUzNWFiOTdlYTY4YmRmMmRjMGQ5OWEzYTU0MGY5N2M1Zjg2NTNiMTFkYWY3NDJmOCIsIjB4M2ZkZWM2NjE5OTAxOTYwOWFmNjc3ZGEzYzUzODk0YzY5OTIwN2RlOTMzYjM0ZTAxYzNiMWRkYjc2ZWYxZGU2YiIsIjB4MzA0OGMwODNlZmIyYTM2MDNmZmU1YmEzMGEzM2Y0OTdmOWU1YmI2Y2YzNmMxMTM5ZDE5N2NiNWI1NzhhZjc3ZSIsIjB4OTliZTNjYjY5ODE5N2I4YTgzOGI0NTFiYjM4NGM2YjkwNDQwMTE1NGE5NTRhZWY2ZWUyNTk0YjFjNjU5NjRkMiIsIjB4MDdiYzM1ZTU5MzJhNzYyZTkyZThiZTViN2Y5NzBiMzg4YmMxZmJhODcxMWFjYThiZjg2OTk3NmQwMzc0ZTUyMCIsIjB4Y2E0YzE3NDRhYmViMTVmMTA2Njg1NTc4NzIwZmU4MTJiMzFmNTYwMTE1Y2VkMTkxZjQ1NTIxYjViNWJiMWQ3MCIsIjB4NmY5YTI5ZGE5MGMxYzc1ZmM5MTI1OTVhYjhlOTljZWExYzZiYzZhODgyM2JhN2E3Zjk1OTQ4YWQ3YTRkYzI3ZiIsIjB4MzVkMjc3ZDQ5NDdkN2Y0ZjRlYmQ5YzkzNTIzNGVkMmExN2IzMTcyZWFmNWQzNmIzYmI3MTY3MDUyYjhhM2YwNSIsIjB4Yjk0YzVlODUzYTY4OGQ0ZTM1MzY1ODNkZDUzYTgwNzI3ODRkZTViN2ZiZjc0NzM1YzM2OGI4OWZjNzE2NzgxMCIsIjB4OWJjNWIyYTAzOTk1MTMzN2YyNTlkNzA4MDg4ZGIzYzZjOWJkMTViZmMxYTZhNDc0ODQzNGM2NDMxN2VlYzBhZSIsIjB4YmRhMGU5NTE0MjZiMTc1ZjhhMGFkMTZiMzM5YTNiMzc1ODRiOGIyOTBhZjBjODk4ZTBkY2RhZjgzZjIxOTJmMiIsIjB4ZGFmOTJmMTJjMjI0MTYzMjYxZDM4YzgxMzUzNzQ2ZjVhNmFlNmFjNmUwYmE1NWEzOGExYWVkNzllY2NjN2RlZSIsIjB4NmI4ODE5ZTE4MTBlOWI4NzUxYTZmMmRhZTVhNTYyYzczNjFjY2MyMTM5YTE3MWRhMjk5OGYwZWFjOTBmOGE3NyIsIjB4Y2RlZjUyMWU3MTA1NzQ2ZmU0N2E0NzllMzJjOGI4NGFhNDRhNjRlOWNmZTZiMmQyY2Y3MTQwM2UyMzJkZmU3MyIsIjB4ZDA5NmM2MjAzZDI1YjczZmYzMDU2NTJjN2EyZWFkYzM5NjNjNTA3MTM5ZGQ4ZmE0ZTU0N2IyNzU1ZGI4YmFjNiIsIjB4MWU2OGE3OWJiNjdlMGJjYzNiMDZmNzRlZjU4OWI4NjFhOWRlOGEzNGFhMzhmMzQ0MGY3MDM3NDRmMGQxYjBhMCIsIjB4MDdlYTllODA4YWRjYWY0MDUwYmFlZGI1MjZlNjA1NzI1ZjllZDYyOGU3OTVkNmUzYTkwZTRmMTEzMjZmMmQyMCIsIjB4OWQ3MjA0ZTQ5YWZiOTI0ZmY5YzVlMTVmZmQ2MDBlMzA0MzE4Njk2NjE0ODc1YTUwNTg0ZGNiNmRmYWNiODQyMyIsIjB4NTU2ZTI5OGMzZmRiYjllN2ViNjliNGMxZTEwMWUxNTcxMDA2NjczYWFhOTdkZDVkNzIxOThjN2FhNGRhZTBiZSIsIjB4NTNjZDkzZDkwM2NhODgwYzliM2NkMTIzOGQ3MzljMzA4NjcxNjUxNjU2MjQ3NTgwYzk5MmVmMjEwOWZhNjEzMyIsIjB4NGI2YmM0YmEyMGRhM2U2YjMwOWY2ZTg4ODUwOTFhZTg4MzI2OGE2ZmFhNmIzODU1NjYwMzQwYTIxOTcxMzU3MSIsIjB4ODM0MTc1Y2QzODhmMTk2ZDc0N2RmMzE1MTg1NThmZTQ5ZGExYzA4ZTkyMmQ4YmU1YzE5YzdiYTU1N2U2NjdlNSIsIjB4N2NhZDY0ZTYyNmI4NjViMDQ2OTU4OTg5NzMyMWVjZTkyNjEwMWE1Y2ZiYjEyZGUyMzNlNDVhNjVlMGU3MTcwZCIsIjB4NDM2YTYzN2E0NjFkZWM5OTIzZTllNDZlOTBlYzA5ODAzMzY2NjEzMjYxYzVjNjU1MjVhMGMwYWViOTUyYzk4MSIsIjB4ZDI5MGE2MjMxNDEyZWYyNGU3MmRiMDc1YzM3ZDE2NTA3NTQ1ZmIxOTk3Nzc5NWI5NGQ0ZDc4YjQ2YzU0N2ExMSIsIjB4NDgzNjAyZDc1MjEzZTY3MGY0NTYwOTIzOGQ4NzYwOTk0MGJhZmQzMWY0ZjZkZDQ2OGQzODQxMDgyMGE5ODk4MSIsIjB4ZGVmNmVkYjAwZjYyMDAyMDk4MzA4MzVlMzRkOTg1ZmM2NGRjNzZiZjQ4ZTY4NGQ5MWUwYjIxMTE1YmUxMDJkOCIsIjB4YWQwMTRkNGYxM2FkZGE4YjFhYmE5YmZlNmQ3MDIwMzU4ZGRiYzg4OGVmODY3NWU0ODY4NTQ4MTUxMDMzMWQ0ZCIsIjB4NzQyZmNlNDhhMjNmY2Y4NTUwZjQ5Y2NhNzA0MjQ3OWE1MGJmYzgzMzU3OTZiOGQ1NjJkNGMwYTQ1NDAzOGVjOSIsIjB4YWI0MzJlNjk5MWUwNTA3MGU4ZmE5YzJkOGQxM2UzNjIwNWYxOWZhYzliMzgzNDRmZTZhNGM0MTBhOGZlMzA3NSIsIjB4ZDZlNTk4YWNjNzhkNzdiZTZmYjU5ZDZiMjcxOWViZmI2MTMyYjcyZDQ5M2ZkNmE2NDE0YjA0OThhOTQ4YTk1NiIsIjB4ZGJhYzE0Y2E3MGFkY2E5ZmQzNDY0NDM3NGI4NDY3YmUyYTc5YTc5ZWIxMjAxYTRjZjIxZDEwZDhhY2Y0MjRmYyIsIjB4NjBlMGVjZWFmM2RkYmY0OWM1ZWU4NjgyMDkzZTA2NTVmYjQxNDI2ZTZmZTY3ZjNmYWQwMGUxMzMwZGJjYzdhMyIsIjB4ZmI4ZTEwZDc4MDJkMjJhY2FlNDJhNWNmMzNjNzE0MTcxNmFiMDMxYTUzNjMxODRjMDIzNjliYjNhZmYxNjdhMSIsIjB4ZGU1MWZkYWNjZjQ0MWQwYjhkZTYwYmNjNzExYTMwM2NjYTE3NGRhMmU5ZTllMjkxMzQ2ZmFlMmZjZTA5NWNiMSIsIjB4NWM2OWFiYzM2MjYxNjUyMjE5MGRjNmE1ZmYwNjc3MGQxMjhmZmNlMmY5OTVhNzA3MGU2MmJlZTU1NjUyMGY0MiIsIjB4YzEzMzYxZDZlZTg2YTEwZjE2NDI2YjY2MGUyZTkxZmViYTRkYWIwOWQzNGZmYjI3NGFkMWMzYTg1M2E0NDk3NCIsIjB4NTE1MjRjZDA0MmZjOWJiMTY3MmMyMTZlOWVhZTNmZWVjYWU1MzFjODE2MmViNzJiOTdjNWUzYjIxZmM2NGEyOCIsIjB4YmY3M2ZjMzlhNWI2NTgwZTQ5YTZmZjNmN2RkNGU4MDk0ZGJkM2QzOWRlMDZjNjlmNThjZDY4MzExY2U4MWViYyIsIjB4MDI2MDgwNGM2ZDNkMDQ3NTM2YzU3M2NmNzgyOWY1OGVlMWM2MjgyOTJkMGNjMzEyM2IyNDMyNmY5Mzc2M2I4ZCIsIjB4ZWU0YjI1NzM2NDJjZTNmYjQ0ZDJmNDM1ZWU3ZmEzZmNhMDY5NDdhYTQ1YTkyMmVjMjY4M2FlMjk2M2QzOTQ1NSIsIjB4NWIyNWM0NzBkZjQ4MmI5MWFmZTNhOTE0ZWM1ZDIxODUzODEzODhkZDZkYTI5YjdkYjZlMzczYzg3NWYzZjhhOCIsIjB4MjNhNjZjYjE3NWU3YTQ4MWM5YzRiMDQ4ZjQ0YTA2NjhjMTVjZDMzZGE1Y2NjOTgyYWFmNTQ5N2VhNmM5NGY4YiIsIjB4NGZhZWQ4OTVhYzAxMDgwMjQ0Nzc4NDI2YTMwZjg4NjFjMTFiN2FhZmI3ZGZmZTRlNjE2YzQyMWMwZGU3MGUwYyIsIjB4MmVjMDAyYzNkNzYzMmZjNzgxMDdjYTM5YWM0OTk3OGFmYjg3NjIzYTFlZmMzMjZjMWM4MjcwM2I4MWI1MDY2ZiIsIjB4NmEyZGY1YTU3NmQ5ZGM3MWNmMWI4YzA2MjA0OTFjYTYwMzhmYzBlMjk4NjE3Y2I0YjY5ZjE1NjRmMGZiZjI3MSIsIjB4YzA1NGZhMTE2OTQ4OThiNTMwMGNmNjk2ZWY3NGI3ODAzYjc0ODk4ZThlNzEyYmEyMjlkNjNiMGI2OWVkMTBlNiIsIjB4YWRmOGNlY2U4NjU4YmQyZDA4YTJhZWE5ZmYxMTE4ZjNkZThhMWJiMDVjMDdjODdmNDhjMjA4ZDQzNjY1NzU2ZSIsIjB4ZDBkY2ZiNTg0ZTM1ZmE4N2M3YjYyMTg4MTU0MzRiODFkZmQ5ZTE1ZWFmMTY4M2NhOTZiNmEzOGMzOTllMzc5MyIsIjB4MWU0YTNiYzFhMGVlZDBiNzllMWUwNmNjYmY4Yjk1OTM2ZmI1ZDRjNmQ4YzAxN2RlMGQwNTFlNTQzYjc4ZWJkYiIsIjB4NjEyYTgzYWE1ZTZjNWFhNmM5MGJmMWExYmIwZDdmYmE4NGJlNGI5ZWY2YjAzODkxMmU4OTM1MTVhMzdmOWQyMSIsIjB4MDVlZGQ4MDc1MWVkMWU1OTEyNWM2YmNkOWExN2Y4N2NmNjY2OTEwMzkzY2E2NDA2Njc5ODcxOGQ0NDEyYjQxYSIsIjB4OTZhNTc0NGNhNDg3MzE3YjRjMjJhOGY3NGRlMGU2M2NjMTc3ZDVlMTU3NGViMzJkNTAyMzQ1NTE3YmZlMTlhNSIsIjB4MTNjOWVhOGU3MmFhNTUyZWZkMjk5MjFjZjM0YmIwNjMzY2ZiZTAzODBhYTJiNzQ5NWZlMGYzMjk4YzI0Yjc4MCIsIjB4YWFlNDUxMjNjZTJlODUxMTJlY2RkZWMxYjM5NTc5MDM2MzhkNjlkMTliNzdkYzU0ZDk2MjY3ZWVlNTgyOTZlNiIsIjB4YjkwMmVkNzgwYjJhODkxZjI3ZmQ3NDI2ZGNjZWFjMDFmY2Q2NWJjOTNhYzgzZGFlNzgzMWIxMzczODNkZjRlYiIsIjB4MGE1ZWQyYjNlODAyNGM2Y2M3MjFjZDFkODg3MzIzNmJhMmY4ZTZkM2FlMDVlM2Q0ZTI4OGYzNzU1Yzg1MDZmNyIsIjB4MzZlMmYzNTJmOGExOTUxYzc4ODYzMzgwMzNmY2YyZmRkZjFjYWNkZWE5YzZlNzM1OTQyYTQ3ODBhOWUyMmM4NCIsIjB4NGM5YTZiN2QxZmY1MzIxOWRkMWNjMzk0Y2E2YTcyN2ZjMjM5MDk5NjQ0OTEyYzM5MmI2ZjQ5OTg0YmU0M2M3MSIsIjB4NDAyZmFiNDk1ZWEwODE2MDYxMmMyZGI2MDhkODQzNDE2YmNlZWNhNDM5ZGM1MTI3YzBiMDFmY2JjMjEzZTA4MCIsIjB4NDJlYWI0ODEwY2Q5YTYyYjBkYjNlN2E3YjY5NzdhMmIyMDkyODZiM2VlZGNmYTczMGU4ZTRlNjU5OWQ2M2Y2MiIsIjB4YTFmNjIyZWNjZWY5MTQyYjU4NmZiMDU3ODkyZTlkYjdjNGUwOTdjZDI4MjlmNTg2MDM3NmFiNGMwMjUzZGRlZCIsIjB4M2E5ODgyNDUxZWFhZTYyNzc1MjUxMTcxOTMzYWU5ZDdmOGFmMGYwNTFiMTZlMzFkZDIzMjhmZDhkNDBjZGZlNSIsIjB4MjFiM2Q5Yzc3Y2UyMTI1YjEyMjFhYWMyNDgxNDg5M2I5MmIyYTAwYjA1OTQyN2NmMzJmMGYxOGEyOTk4NjM0NiIsIjB4NTc0NGY3M2Q2NGUzMWIxMWIxZTgwZWZkMzZhMjFiNTk5ODQzZGNiOTFmMTJhMTliMzNlZTVlNzYyMWIyMjk4ZCIsIjB4YmVmODI0MjNjZmQ4ZGUwZDBmODJjNTQ5MzdjNTRhNTY3OTIyYWYxMWQ4MjRhYmVjODY0Y2M5M2UxODcwMWRlNiIsIjB4ZTdiNTA5MDM0ODY1ZDNkYTQ0MTcxNTcwZDQ0YTM3NDdhZDNhNWI0YTQwNzU3MjY4ZDY1NGJhMDRhYTI4ZmNlZCIsIjB4ZTA1Nzc3ZjhhYzE2ZmEzZWFjZTRmMmQ5ZGMxNmY4YmM0YjlmZTViNjc5NDAxMGEyZmEyNDlkYjRmZWFmNWI0ZSIsIjB4YWYwM2JhZjliMTE5N2NmNDc3ZWMwNWVlYWQ1YjljMTAzOGY4ODc1NGE3MDYwZjc4YTI2MjYxODg2ZGY3OTU1MSIsIjB4NDI1ZDdmOTYyZTlhYWMxNDk2ZGU4OWI3OTBkYTZmMzlmMTVhZDRjMDgxZDY1MzBlOTg2NmFjMWM3YWUzOTRjMiIsIjB4M2NlNjljZGZhMjFjZjMyYjRkOGQ3NGM1NzQ4NTQ1MTEzNDgwYmJhY2FhYTMzMjg3NzU2OTg1MzA4YzdjZmEwYiIsIjB4ZDI2OWMzODZjYWI2NDE5MmFmNjNiMjRjNzJlYTIzYmU2M2Y2MmY5ZDUyMmIwYTAyZjJiM2IyYmNlMTE0NGQ5NyIsIjB4NDA1ODk3Y2NhMDNiZWU0MTZjZWRiYWQyODA5YmQ0YjFiYzMyOTRmODYxZWQ5NDBjNjU2MTI1MWI1YWMxMzg3MCIsIjB4NTIwMGM5ZTYzMGQxYjQ0ZDY2ZTg1NmEyOWZmNTJhM2U0NGFkYWFmMGEyMzYwZmJkYzJjMWRkOTVlYmU4Njk4NyIsIjB4OTVkOWZmNDIwZDc2YzQ2YWUxMmIwMTQ0YTMxNzFkNDMxYjZhN2FmNTM0YmUwZDA2NDNlNzI3YzJlNTdjNjlkZiJdLCJ0cmFuc2FjdGlvbnNSb290IjoiMHgyMGRiNmMzNDNkMmNmYmZmYjIzODk3MjQwNTc4OGNmZmE0ZWJmNDQ4YmVlNGU3NDljMGE0OGIxNWQwNzliODQ4IiwidW5jbGVzIjpbXSwid2l0aGRyYXdhbHMiOltdLCJ3aXRoZHJhd2Fsc1Jvb3QiOiIweDc0NDA0OTMxMGEzNjczNDY4YmY0MzIyNWFlNDA3NGYzZGE5NDNkYWNmOWIxMjY1NDhiNjM1ZTkxNWVkODM2MjIifQ==",
+              "contentDigest": "sha256:2181812d9d982dbc3113d26085b43647a58fe2c193e52afc46013bc90983974d"
+            }
+          },
+          {
+            "id": "evm-chainidentity-49c396d07e21091b",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_chainId:[]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:49c396d07e21091b161c08f9ec6086e53d3dacc65b8cd61b4db8a1655641a033",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_chainId",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "digestDomain": "resolver-evm-capture-v1"
+            },
+            "nativeSource": {
+              "namespace": "nec.resolver-evm.rpc-result",
+              "mediaType": "application/json",
+              "encoding": "base64",
+              "payload": "IjB4MjEwNSI=",
+              "contentDigest": "sha256:a6fc852f79a231e71783afe7f16bb2dcb2ad2a6a77aa8746e7e47ab4bf9f2922"
+            }
+          },
+          {
+            "id": "evm-receipt-fb680322d5fd0d3b",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getTransactionReceipt:\"0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627\"",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:fb680322d5fd0d3b58354f6a254b5126ab5a2222ebcfdbabc016e702b952b963",
+            "networkId": "eip155:8453",
+            "blockNumber": "50471753",
+            "blockId": "0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75",
+            "metadata": {
+              "rpcMethod": "eth_getTransactionReceipt",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "digestDomain": "resolver-evm-capture-v1"
+            },
+            "nativeSource": {
+              "namespace": "nec.resolver-evm.rpc-result",
+              "mediaType": "application/json",
+              "encoding": "base64",
+              "payload": "eyJibG9iR2FzVXNlZCI6IjB4NjhhNCIsImJsb2NrSGFzaCI6IjB4NjJjMDZmN2MxYmM1ZjBiYmQ3NTdlNTA4NWUxN2RhMjRiZDY4N2VhNDU4YjBjZWNhNWRmMGI4MzhhZDY0OWI3NSIsImJsb2NrTnVtYmVyIjoiMHgzMDIyMzQ5IiwiY29udHJhY3RBZGRyZXNzIjpudWxsLCJjdW11bGF0aXZlR2FzVXNlZCI6IjB4MzA5ZDY2IiwiZGFGb290cHJpbnRHYXNTY2FsYXIiOiIweDk0IiwiZWZmZWN0aXZlR2FzUHJpY2UiOiIweDcyNzBlMCIsImZyb20iOiIweDhmNjI3MjExMmMzYjcxNDc0ZjZlMjRhOGFkMGJlM2IyNTMxMjM0NzQiLCJnYXNVc2VkIjoiMHg0MWQwYSIsImwxQmFzZUZlZVNjYWxhciI6IjB4OGRkIiwibDFCbG9iQmFzZUZlZSI6IjB4MjFlNTUyIiwibDFCbG9iQmFzZUZlZVNjYWxhciI6IjB4MTAxYzEyIiwibDFGZWUiOiIweDJhZmI2YTEzIiwibDFHYXNQcmljZSI6IjB4MmFiNGVkNCIsImwxR2FzVXNlZCI6IjB4YjU5IiwibG9ncyI6W3siYWRkcmVzcyI6IjB4OTEyNjIzNjQ3NmVmYmE5YWQ4YWI3Nzg1NWM2MGViNWJmMzc1ODZlYiIsImJsb2NrSGFzaCI6IjB4NjJjMDZmN2MxYmM1ZjBiYmQ3NTdlNTA4NWUxN2RhMjRiZDY4N2VhNDU4YjBjZWNhNWRmMGI4MzhhZDY0OWI3NSIsImJsb2NrTnVtYmVyIjoiMHgzMDIyMzQ5IiwiYmxvY2tUaW1lc3RhbXAiOiIweDZhOGVhMzc1IiwiZGF0YSI6IjB4MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDZmNDY3NTM4YmU1OGE0Yzc1NyIsImxvZ0luZGV4IjoiMHgxMyIsInJlbW92ZWQiOmZhbHNlLCJ0b3BpY3MiOlsiMHhkZGYyNTJhZDFiZTJjODliNjljMmIwNjhmYzM3OGRhYTk1MmJhN2YxNjNjNGExMTYyOGY1NWE0ZGY1MjNiM2VmIiwiMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAzYzQzODRmMzY2NGIzN2EzY2I1YTVjYjM0NTJiNGI0YTNhYTEyNTZmIiwiMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA4ZjYyNzIxMTJjM2I3MTQ3NGY2ZTI0YThhZDBiZTNiMjUzMTIzNDc0Il0sInRyYW5zYWN0aW9uSGFzaCI6IjB4MjY2OTE0MTJhNzQzYzYxYTdjZDc3NWMwOGIyMThjYTkxODljMGRkNTM2YmFkNjE2MzZmMDRkOGNiMGU1ZTYyNyIsInRyYW5zYWN0aW9uSW5kZXgiOiIweDE1In0seyJhZGRyZXNzIjoiMHg4MzM1ODlmY2Q2ZWRiNmUwOGY0YzdjMzJkNGY3MWI1NGJkYTAyOTEzIiwiYmxvY2tIYXNoIjoiMHg2MmMwNmY3YzFiYzVmMGJiZDc1N2U1MDg1ZTE3ZGEyNGJkNjg3ZWE0NThiMGNlY2E1ZGYwYjgzOGFkNjQ5Yjc1IiwiYmxvY2tOdW1iZXIiOiIweDMwMjIzNDkiLCJibG9ja1RpbWVzdGFtcCI6IjB4NmE4ZWEzNzUiLCJkYXRhIjoiMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxOWUzOGY2IiwibG9nSW5kZXgiOiIweDE0IiwicmVtb3ZlZCI6ZmFsc2UsInRvcGljcyI6WyIweGRkZjI1MmFkMWJlMmM4OWI2OWMyYjA2OGZjMzc4ZGFhOTUyYmE3ZjE2M2M0YTExNjI4ZjU1YTRkZjUyM2IzZWYiLCIweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDhmNjI3MjExMmMzYjcxNDc0ZjZlMjRhOGFkMGJlM2IyNTMxMjM0NzQiLCIweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDNjNDM4NGYzNjY0YjM3YTNjYjVhNWNiMzQ1MmI0YjRhM2FhMTI1NmYiXSwidHJhbnNhY3Rpb25IYXNoIjoiMHgyNjY5MTQxMmE3NDNjNjFhN2NkNzc1YzA4YjIxOGNhOTE4OWMwZGQ1MzZiYWQ2MTYzNmYwNGQ4Y2IwZTVlNjI3IiwidHJhbnNhY3Rpb25JbmRleCI6IjB4MTUifSx7ImFkZHJlc3MiOiIweDNjNDM4NGYzNjY0YjM3YTNjYjVhNWNiMzQ1MmI0YjRhM2FhMTI1NmYiLCJibG9ja0hhc2giOiIweDYyYzA2ZjdjMWJjNWYwYmJkNzU3ZTUwODVlMTdkYTI0YmQ2ODdlYTQ1OGIwY2VjYTVkZjBiODM4YWQ2NDliNzUiLCJibG9ja051bWJlciI6IjB4MzAyMjM0OSIsImJsb2NrVGltZXN0YW1wIjoiMHg2YThlYTM3NSIsImRhdGEiOiIweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDE5ZTM4ZjZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmOTBiOThhYzc0MWE3NWIzOGE5MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDg0YTBmODlmN2U3YmJiZTZlZWNjNDJhNWFmYjJhODAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAzNzJkYTAxYWQ5Y2Q0MTcwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDRlMDU2IiwibG9nSW5kZXgiOiIweDE1IiwicmVtb3ZlZCI6ZmFsc2UsInRvcGljcyI6WyIweGM0MjA3OWY5NGE2MzUwZDdlNjIzNWYyOTE3NDkyNGY5MjhjYzJhYzgxOGViNjRmZWQ4MDA0ZTExNWZiY2NhNjciLCIweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMGM1YjY3ODZkN2I2NDc2N2Q3NzU4NzdiMGI2YTMxOWFkOTQ2YjExYjUiLCIweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDhmNjI3MjExMmMzYjcxNDc0ZjZlMjRhOGFkMGJlM2IyNTMxMjM0NzQiXSwidHJhbnNhY3Rpb25IYXNoIjoiMHgyNjY5MTQxMmE3NDNjNjFhN2NkNzc1YzA4YjIxOGNhOTE4OWMwZGQ1MzZiYWQ2MTYzNmYwNGQ4Y2IwZTVlNjI3IiwidHJhbnNhY3Rpb25JbmRleCI6IjB4MTUifSx7ImFkZHJlc3MiOiIweGM1YjY3ODZkN2I2NDc2N2Q3NzU4NzdiMGI2YTMxOWFkOTQ2YjExYjUiLCJibG9ja0hhc2giOiIweDYyYzA2ZjdjMWJjNWYwYmJkNzU3ZTUwODVlMTdkYTI0YmQ2ODdlYTQ1OGIwY2VjYTVkZjBiODM4YWQ2NDliNzUiLCJibG9ja051bWJlciI6IjB4MzAyMjM0OSIsImJsb2NrVGltZXN0YW1wIjoiMHg2YThlYTM3NSIsImRhdGEiOiIweCIsImxvZ0luZGV4IjoiMHgxNiIsInJlbW92ZWQiOmZhbHNlLCJ0b3BpY3MiOlsiMHhhYTJkZDM4NmVkMDgwNDc0ODZkYjM5ZWExYTllNTQ2MWI2YTk1YzhiYjNjYTg0NWNjZTI3YTUzNzc5OWE0NjcyIiwiMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA4ZjYyNzIxMTJjM2I3MTQ3NGY2ZTI0YThhZDBiZTNiMjUzMTIzNDc0IiwiMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA4ZjYyNzIxMTJjM2I3MTQ3NGY2ZTI0YThhZDBiZTNiMjUzMTIzNDc0Il0sInRyYW5zYWN0aW9uSGFzaCI6IjB4MjY2OTE0MTJhNzQzYzYxYTdjZDc3NWMwOGIyMThjYTkxODljMGRkNTM2YmFkNjE2MzZmMDRkOGNiMGU1ZTYyNyIsInRyYW5zYWN0aW9uSW5kZXgiOiIweDE1In1dLCJsb2dzQmxvb20iOiIweDAwMDAwMDAwMDAwMDAwMDAwMDAyMDAwMDAwMDAwMDAwMDAwMjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDQwMDAwMDAwMDAwMDAwMDAwMDAwMTAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDgwODAwMDAwMDAwODAwMDgwMDBjMDAwMDAwMDAwMDAwMDAwMjAwMDgwMTAwMDAwMDAwMDAwMDAwMDAyMDAwODAwMDAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDA4MDAwMDAwMDAwMDAwMDAwMDEwMDAwODAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAyMDAwMDAwMDAwMDAwMjAwMDAwMDAwMDAwMDAwMDAxMDAwMDAwMDAwMDAwMDAwMDAwMDQwMDgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAyMDAwMDAwMDAwMDAwMDAwMDAwMDQwMDAwMDAwMTAwMDAwMDAwMDAwIiwic3RhdHVzIjoiMHgxIiwidG8iOiIweGM1YjY3ODZkN2I2NDc2N2Q3NzU4NzdiMGI2YTMxOWFkOTQ2YjExYjUiLCJ0cmFuc2FjdGlvbkhhc2giOiIweDI2NjkxNDEyYTc0M2M2MWE3Y2Q3NzVjMDhiMjE4Y2E5MTg5YzBkZDUzNmJhZDYxNjM2ZjA0ZDhjYjBlNWU2MjciLCJ0cmFuc2FjdGlvbkluZGV4IjoiMHgxNSIsInR5cGUiOiIweDAifQ==",
+              "contentDigest": "sha256:aa1d2c3fbfcb79b64dc00e805380925ff5dd34cecfe2d81d226870d2908f8443"
+            }
+          },
+          {
+            "id": "evm-transaction-a5a9b272435bab2a",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getTransactionByHash:\"0x26691412a743c61a7cd775c08b218ca9189c0dd536bad61636f04d8cb0e5e627\"",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:a5a9b272435bab2a687f60601c9b73f3474112850514ba4c84c8420cf370154d",
+            "networkId": "eip155:8453",
+            "blockNumber": "50471753",
+            "blockId": "0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75",
+            "metadata": {
+              "rpcMethod": "eth_getTransactionByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "digestDomain": "resolver-evm-capture-v1"
+            },
+            "nativeSource": {
+              "namespace": "nec.resolver-evm.rpc-result",
+              "mediaType": "application/json",
+              "encoding": "base64",
+              "payload": "eyJibG9ja0hhc2giOiIweDYyYzA2ZjdjMWJjNWYwYmJkNzU3ZTUwODVlMTdkYTI0YmQ2ODdlYTQ1OGIwY2VjYTVkZjBiODM4YWQ2NDliNzUiLCJibG9ja051bWJlciI6IjB4MzAyMjM0OSIsImJsb2NrVGltZXN0YW1wIjoiMHg2YThlYTM3NSIsImNoYWluSWQiOiIweDIxMDUiLCJmcm9tIjoiMHg4ZjYyNzIxMTJjM2I3MTQ3NGY2ZTI0YThhZDBiZTNiMjUzMTIzNDc0IiwiZ2FzIjoiMHg5MjdjMCIsImdhc1ByaWNlIjoiMHg3MjcwZTAiLCJoYXNoIjoiMHgyNjY5MTQxMmE3NDNjNjFhN2NkNzc1YzA4YjIxOGNhOTE4OWMwZGQ1MzZiYWQ2MTYzNmYwNGQ4Y2IwZTVlNjI3IiwiaW5wdXQiOiIweDI0ODU2YmMzMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA0MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwODAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxMDEwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEyMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDhmNjI3MjExMmMzYjcxNDc0ZjZlMjRhOGFkMGJlM2IyNTMxMjM0NzQwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNmY0Njc1MzhiZTU4YTRjNzU3MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMWEyNWQ1ZTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwYzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMmI5MTI2MjM2NDc2ZWZiYTlhZDhhYjc3ODU1YzYwZWI1YmYzNzU4NmViMDgwMDY0ODMzNTg5ZmNkNmVkYjZlMDhmNGM3YzMyZDRmNzFiNTRiZGEwMjkxMzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsIm5vbmNlIjoiMHgxYTgxNyIsInIiOiIweGVhNTdiZGM4YjkxOTNkN2VlOTAyMzhkZDYzY2Y1ZTZmMTUyMTE4MzMzOGViMDY5NWJlMDI1N2IwZWQ4NDEwMjIiLCJzIjoiMHgxMzEwYzNkYTQyNGU4ZjQ2YWFmNjc1MDI3MDZmYzNhNjdiMTg3NGYwYzgzOGEyMGNkMjA3NDU0MTliNmY3MmVmIiwidG8iOiIweGM1YjY3ODZkN2I2NDc2N2Q3NzU4NzdiMGI2YTMxOWFkOTQ2YjExYjUiLCJ0cmFuc2FjdGlvbkluZGV4IjoiMHgxNSIsInR5cGUiOiIweDAiLCJ2IjoiMHg0MjJkIiwidmFsdWUiOiIweDAifQ==",
+              "contentDigest": "sha256:ba2ca790f264f9515db655ec54c2c0dcb899a2faf0e12ec9c65e92583c8e6b21"
+            }
+          },
+          {
+            "id": "opstack-ancestry-block-04c8274b17327b76",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0x62c06f7c1bc5f0bbd757e5085e17da24bd687ea458b0ceca5df0b838ad649b75\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:04c8274b17327b766af4e818b6a3c7e03ef85ad2b416f067403f0c4b84905507",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-ancestry-block-0edaaa919cc2a0fe",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0xa4fa3e3292456fdced58a3f1de3dacce179169a8bf42afaeec3516238c78ebc2\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:0edaaa919cc2a0fe1541e2fc92feee9fc99618b5c65f4dc827274c570b0695fd",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-ancestry-block-1cf5082710280325",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0xc70457744d6fc6c2263eebb0dcf2f3d030ffaa6441b5a1a2163a619b19103e5f\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:1cf50827102803259d2b74aa5a2e9850ad1f60655d886b45797f5e54eb79dca7",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-ancestry-block-1f53fc70566143f5",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0xd3f0886238ea3df1e2e4f50abb02a1912480e5d7d96fb1ad08d30192a05ecf58\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:1f53fc70566143f5be6e48f109cdd050ad769b3202a9bb712421254dc9f617fb",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-ancestry-block-20ef355bf3644606",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0x653ebf7057bf2e3bd71fd48d5d24a690d06cc0e60e2fc376701b98548e51225e\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:20ef355bf3644606ee027b41fb11606dc54857ab5f9dbf78d068a19c2064eda7",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-ancestry-block-2589fc99ccdda807",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0x7f1d357d67f7afa49dd2583b39fba46151df2234da0d34b91eb3795976386745\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:2589fc99ccdda8071a4dd3cbd91468f2a1d60cff46a4d5e26c7d7c62e1a3bde8",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-ancestry-block-3d5e7b7524d24a68",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0xf844f81f4b160d394a83226e782ba81990e2d1671955b82d1e36798d25ca4aa9\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:3d5e7b7524d24a689160f6a32ad2fe85b6b189adc699c5f89333bec32d44884a",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-ancestry-block-50aea97c76a55901",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0x421c907e253128012c7188afb962b07846583b1672614ad9450c552c150a3a44\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:50aea97c76a5590164b302ea90c89c0f8f93d10d812654b82fbe4fc4df4ce8fb",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-ancestry-block-66c9b1402450188f",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0x25ff990a994fd96f5179625cdd69ffe9f675d89eda92abf294d34995c861f817\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:66c9b1402450188fb7bc582c078469e801e4f42e0d2e1ca95250c89dddaae3d1",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-ancestry-block-6990c667260a3af8",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0x6a03dc70c2e2cf0dfb3c9e96386c0d41beb391e600bf0889a5c79ee6aac54183\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:6990c667260a3af84a27255e90428c4a97cedbf01f7bb4eb2b35ec4f4b9da3d6",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-ancestry-block-922bbeb09a3b2042",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0x1fe263e6ed641a3e695367ae6d7ef91f59d4d9a57abe9f981b239eda3b4c78b1\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:922bbeb09a3b2042e30e697c9cea813cf94491b74b0341a5d6fded76d6436dd2",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-ancestry-block-c01dd4f2d05d01ff",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0x58dfc3a75b981d4eff3610fa30c73d7a09f83f446e681ed7f1fc1e48fe1a5f9f\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:c01dd4f2d05d01ff43ed0eff30ebbab48149ba860039dfd9976dd83056c1c5ee",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-ancestry-block-c82b071cb549e247",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0x6eaeb9e5702d13a7f822676ae941657ab9c374f51443802fdf40b78002c83106\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:c82b071cb549e247b5ebf30e58155ee26db75e995f0dac8798a5bca2f0a3ac9f",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-ancestry-block-dc0d33b6650a5a56",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0x012bc5777eebf3f3299ab1d6ec93e5d70ab06851fd9c42296230f5ffc3348146\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:dc0d33b6650a5a5628babba04c255cdae72e9eeebe6aeff12db17fa4c3682a02",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-ancestry-block-e2748cd6740dad00",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByHash:[\"0xce9dbf2a429b3175556d075717512f1cae88310f6521829bd9c98d208eccc273\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:e2748cd6740dad005f38c15d33a67bf26dcd44d57f73bc3f53a49cc31e814157",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByHash",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-canonical-block-02e53f26fae3b577",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByNumber:[\"0x3022349\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:02e53f26fae3b577d52458b16a0e0925bde67ca309ac43c89951182df25ceac0",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByNumber",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-chainidentity-49c396d07e21091b",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_chainId:[]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:49c396d07e21091b161c08f9ec6086e53d3dacc65b8cd61b4db8a1655641a033",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_chainId",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-finalized-head-f90d564a2580cc74",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByNumber:[\"finalized\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:f90d564a2580cc74d631cea228d2bff5f09e8ab0fc1a03525ae0ae5ca0160572",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByNumber",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-latest-head-c6504a8378464ad1",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByNumber:[\"latest\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:c6504a8378464ad148c2435729d7a2e4356d4ea06a1534193bb82541f72a3244",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByNumber",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          },
+          {
+            "id": "opstack-safe-head-171ab894f58bed8c",
+            "sourceId": "src.base.public",
+            "sourceType": "evm_rpc",
+            "independenceGroup": "base-public-rpc",
+            "locator": "eth_getBlockByNumber:[\"safe\",false]",
+            "retrievedAt": "2026-08-26T08:44:34.320Z",
+            "contentDigest": "sha256:171ab894f58bed8c69e007e3598284816b0429a3ce8d3fcb81fc31953abdf9ff",
+            "networkId": "eip155:8453",
+            "metadata": {
+              "rpcMethod": "eth_getBlockByNumber",
+              "httpStatus": 200,
+              "captureProfile": "nec-resolver-evm-capture-v1",
+              "observationProfile": "nec-resolver-opstack-acquisition-v1"
+            }
+          }
+        ],
+        "conflicts": [],
+        "warnings": [
+          {
+            "code": "CROSS_SOURCE_CONSENSUS_NOT_ESTABLISHED",
+            "message": "All finality observations come from ONE configured JSON-RPC source; one source is not independent consensus."
+          },
+          {
+            "code": "INDEPENDENT_L1_DERIVATION_NOT_ESTABLISHED",
+            "message": "The full OP Stack L1 derivation pipeline was not independently replayed; head observations are interpreted, not recomputed."
+          },
+          {
+            "code": "LOCAL_ROLLUP_NODE_VERIFICATION_NOT_ESTABLISHED",
+            "message": "No local rollup node or derivation engine verified these observations; every conclusion rests on direct source observation only."
+          },
+          {
+            "code": "WITHDRAWAL_FINALIZATION_NOT_EVALUATED",
+            "message": "L2 block finality is not withdrawal finalization: \"finalized\" here is this source's OP Stack L2 finalized view — withdrawal proving/finalizing after the fault-proof dispute period was NOT evaluated."
+          }
+        ]
+      }
+    }
+  }
+}

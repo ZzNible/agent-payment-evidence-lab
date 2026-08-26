@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:apel:schema:verification-report:0.1",
+  "$id": "urn:apel:schema:verification-report:0.2",
   "title": "Agent Payment Evidence Lab verification report",
   "description": "A non-economic evaluation of precommitted technical claims. It is neither a payment instruction nor a clearing decision.",
   "type": "object",
@@ -18,7 +18,7 @@
   ],
   "properties": {
     "specVersion": {
-      "const": "apel.verification-report/0.1"
+      "const": "apel.verification-report/0.2"
     },
     "reportId": {
       "$ref": "#/$defs/identifier"
@@ -204,6 +204,7 @@
                 "enum": [
                   "FACILITATOR_ACCEPTED_PAYMENT_PAYLOAD",
                   "LOCAL_SETTLEMENT_BOUNDARY_SUCCEEDED",
+                  "NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED",
                   "HTTP_RESPONSE_CAPTURED",
                   "HTTP_STATUS_MATCHED",
                   "JSON_SCHEMA_MATCH",
@@ -263,7 +264,15 @@
                   "PAYMENT_RESOURCE_MISMATCH",
                   "ARTIFACT_ISSUER_MISMATCH",
                   "SOURCE_STATEMENT_INTERACTION_MISMATCH",
-                  "HTTP_RESOURCE_MISMATCH"
+                  "HTTP_RESOURCE_MISMATCH",
+                  "NEC_ARTIFACT_DIGEST_MISMATCH",
+                  "NEC_NETWORK_OR_SUBJECT_MISMATCH",
+                  "NEC_EXECUTION_NOT_SUPPORTED",
+                  "NEC_DATA_BINDING_NOT_SUPPORTED",
+                  "NEC_FINALITY_NOT_SUPPORTED",
+                  "NEC_PAYMENT_EFFECT_NOT_OBSERVED",
+                  "NEC_PAYMENT_EFFECT_MISMATCH",
+                  "NEC_OBSERVED_TX_HASH_MISMATCH"
                 ]
               },
               "evidence": {
@@ -323,7 +332,13 @@
                   "HTTP_RESOURCE_BINDING_MISSING",
                   "UNSUPPORTED_PAYMENT_VERIFICATION_PROFILE",
                   "UNSUPPORTED_SETTLEMENT_PROFILE",
-                  "UNSUPPORTED_PAYMENT_CANCELLATION_PROFILE"
+                  "UNSUPPORTED_PAYMENT_CANCELLATION_PROFILE",
+                  "NO_NEC_EVIDENCE_ARTIFACT",
+                  "NEC_ARTIFACT_SHAPE_INVALID",
+                  "UNSUPPORTED_NEC_EVIDENCE_PROFILE",
+                  "NEC_DIMENSION_NOT_EVALUATED",
+                  "NEC_FINALITY_NOT_EVALUATED",
+                  "UNSUPPORTED_OPSTACK_RULESET"
                 ]
               }
             }
@@ -391,9 +406,32 @@
             },
             "reasonCode": {
               "enum": [
+                "NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED",
+                "NEC_ARTIFACT_DIGEST_MISMATCH",
+                "NEC_NETWORK_OR_SUBJECT_MISMATCH",
+                "NEC_EXECUTION_NOT_SUPPORTED",
+                "NEC_DATA_BINDING_NOT_SUPPORTED",
+                "NEC_FINALITY_NOT_SUPPORTED",
+                "NEC_PAYMENT_EFFECT_NOT_OBSERVED",
+                "NEC_PAYMENT_EFFECT_MISMATCH",
+                "NEC_OBSERVED_TX_HASH_MISMATCH",
                 "NO_REGISTERED_VERIFIER",
                 "NO_ONCHAIN_CONFIRMATION_EVIDENCE",
-                "ONCHAIN_VERIFICATION_NOT_IMPLEMENTED"
+                "ONCHAIN_VERIFICATION_NOT_IMPLEMENTED",
+                "NO_NEC_EVIDENCE_ARTIFACT",
+                "NEC_ARTIFACT_SHAPE_INVALID",
+                "UNSUPPORTED_NEC_EVIDENCE_PROFILE",
+                "NEC_DIMENSION_NOT_EVALUATED",
+                "NEC_FINALITY_NOT_EVALUATED",
+                "UNSUPPORTED_OPSTACK_RULESET",
+                "ARTIFACT_ISSUER_PREDICATE_INCOMPLETE",
+                "ARTIFACT_ISSUER_MISMATCH",
+                "ARTIFACT_ISSUER_ROLE_MISMATCH",
+                "TRUST_PROFILE_COMMITMENT_MISMATCH",
+                "NO_ARTIFACT_SIGNATURE",
+                "ARTIFACT_KEY_NOT_BOUND_TO_ISSUER",
+                "ARTIFACT_KEY_BINDING_MISMATCH",
+                "ARTIFACT_SIGNATURE_INVALID"
               ]
             }
           }

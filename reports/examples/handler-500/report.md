@@ -11,7 +11,7 @@
 ## Input commitment
 
 - Interaction: `handler-500-2bfcd5f1-c228-4ebe-87d0-9e8c08b37e2c`
-- Plan: `plan-handler-500-2bfcd5f1-c228-4ebe-87d0-9e8c08b37e2c` — `sha256:9f177cf4ef960f5a26b3607be55374000fa552b51fc70c336740faa390566840`
+- Plan: `plan-handler-500-2bfcd5f1-c228-4ebe-87d0-9e8c08b37e2c` — `sha256:4acb235b0a984499a94c28e4a23efbbf388284ee6fa3b1861dd5266b8b2735ee`
 - Evidence bundle: `bundle-handler-500-2bfcd5f1-c228-4ebe-87d0-9e8c08b37e2c` — `sha256:843bdd230942e795603cc6c782283172a9b01323ac68e634fa89c037d6168263`
 - Engine: `agent-payment-evidence-lab@0.1.0`
 

@@ -76,9 +76,9 @@ The laboratory separates intent, observation, and conclusion:
 
 The schemas are versioned independently:
 
-- `apel.verification-plan/0.1`
+- `apel.verification-plan/0.2`
 - `apel.evidence-bundle/0.1`
-- `apel.verification-report/0.1`
+- `apel.verification-report/0.2`
 
 The report contains digests of its exact canonical inputs. This makes later semantic modification detectable when the same canonicalization and digest rules are applied. The commitment is to the canonical JSON value, not to incidental source-file whitespace or transport bytes, and it does not prove that the content was true when created.
 
@@ -189,7 +189,9 @@ When the lab evaluates a response-body binding, it hashes the canonical JSON **v
 
 ## On-chain non-assumption
 
-The v0.1 `ONCHAIN_SETTLEMENT` verifier always returns `UNKNOWN`. If no confirmation artifact exists, it reports that absence; if one is supplied, it still reports that chain verification is not implemented. Arbitrary JSON stating that a transaction is confirmed is not receipt, confirmation-depth, or finality evidence.
+The core v0.1 `ONCHAIN_SETTLEMENT` verifier always returns `UNKNOWN`. If no confirmation artifact exists, it reports that absence; if one is supplied, it still reports that chain verification is not implemented. Arbitrary JSON stating that a transaction is confirmed is not receipt, confirmation-depth, or finality evidence.
+
+Since `apel.verification-plan/0.2` and `apel.verification-report/0.2`, an optional external-consumer extension (`NecOnchainClaimVerifier`) may evaluate `ONCHAIN_SETTLEMENT` against a frozen-profile NEC network-evidence artifact under the narrow `D_narrow` proposition only: the plan-precommitted payment (network, asset, payer, payTo, amount) matches the observed effect of the exact executed transaction and the containing L2 block is finalized under `opstack.rpc-finalized-head-v1`. This remains a single-source L2 block-finality observation; it is not withdrawal finalization, L1 claimability, or economic irreversibility, and it evaluates no economic action. The core lab does not register that verifier by default.
 
 ## Validation assumptions
 
@@ -209,7 +211,7 @@ For the current x402 adapter, “supported version” means exactly `2.19.0`, no
 
 `trace.json` is a diagnostic export of local control flow. It is not an evidence artifact, is not signed or covered by the plan/bundle/report commitments, and is not reproduced or authenticated by dossier verification. The current verifier does require the file to exist and parse as JSON as a dossier-shape check; its content is not an input to claim derivation. Claim results derive from the verification plan and evidence bundle, not from the exported trace. Internal recorder events may still be used by the scenario runner to construct an evidence artifact (for example, cancellation); that capture mechanism is distinct from trusting `trace.json` itself.
 
-The public report schema applies a closed compatibility matrix across claim type, status, and reason code. This is a semantic validation boundary, not only a field-shape check. It structurally rejects `OBLIGATION_FULFILLED / PROVEN` and `ONCHAIN_SETTLEMENT / PROVEN` in v0.1.
+The public report schema applies a closed compatibility matrix across claim type, status, and reason code. This is a semantic validation boundary, not only a field-shape check. Since report spec 0.2 it structurally rejects `OBLIGATION_FULFILLED / PROVEN`; for `ONCHAIN_SETTLEMENT` it accepts `PROVEN` only with the single extension reason code `NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED`, which requires a frozen-profile NEC evidence artifact as described above.
 
 ## Explicit non-assumptions
 

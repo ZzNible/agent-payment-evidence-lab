@@ -25,6 +25,12 @@ describe("verification report JSON Schema", () => {
       claimResult("PAYMENT_VERIFIED", "PROVEN", "FACILITATOR_ACCEPTED_PAYMENT_PAYLOAD"),
       claimResult("SETTLEMENT_BOUNDARY_SUCCEEDED", "PROVEN", "LOCAL_SETTLEMENT_BOUNDARY_SUCCEEDED"),
       claimResult("ONCHAIN_SETTLEMENT", "UNKNOWN", "NO_ONCHAIN_CONFIRMATION_EVIDENCE"),
+      claimResult(
+        "ONCHAIN_SETTLEMENT",
+        "PROVEN",
+        "NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED"
+      ),
+      claimResult("ONCHAIN_SETTLEMENT", "NOT_PROVEN", "NEC_FINALITY_NOT_SUPPORTED"),
       claimResult("HTTP_RESPONSE_RECEIVED", "PROVEN", "HTTP_RESPONSE_CAPTURED"),
       claimResult("HTTP_STATUS_MATCH", "PROVEN", "HTTP_STATUS_MATCHED"),
       claimResult("OUTPUT_SCHEMA_VALID", "PROVEN", "JSON_SCHEMA_MATCH"),
@@ -116,7 +122,7 @@ function reportWithClaim(
 
 function validSchemaReport(): Record<string, unknown> {
   return {
-    specVersion: "apel.verification-report/0.1",
+    specVersion: "apel.verification-report/0.2",
     reportId: "report-1",
     generatedAt: "2026-07-21T10:00:00.000Z",
     engine: {

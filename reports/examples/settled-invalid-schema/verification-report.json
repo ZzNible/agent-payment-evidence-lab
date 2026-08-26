@@ -1,5 +1,5 @@
 {
-  "specVersion": "apel.verification-report/0.1",
+  "specVersion": "apel.verification-report/0.2",
   "reportId": "report-plan-settled-invalid-schema-8238ea36-0a6c-450b-ae59-636d6b0228da",
   "generatedAt": "2026-07-21T08:56:30.565Z",
   "engine": {
@@ -7,7 +7,7 @@
     "version": "0.1.0"
   },
   "inputs": {
-    "planDigest": "sha256:cc6017a8d32bb44dffdb6612dfd9be1ae2c2d901bfd46d36561b19e0c774536a",
+    "planDigest": "sha256:8fb881b4a757d8f59f87c87cb73ad436cf2ebe3394cbdac0e7c5f5ae7c6c63ce",
     "bundleDigest": "sha256:36e22d1f1119cc208e3157b131c381c620eb3b68b944f1769bb704fc393dd225"
   },
   "subject": {

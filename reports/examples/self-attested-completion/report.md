@@ -11,7 +11,7 @@
 ## Input commitment
 
 - Interaction: `self-attested-completion-305bf88c-a7a7-42da-80ae-901a166f7ced`
-- Plan: `plan-self-attested-completion-305bf88c-a7a7-42da-80ae-901a166f7ced` — `sha256:7a43d631707a25c2a172d84deb1b1a8db2c7bd35c0e7136252d4ed8929f0b023`
+- Plan: `plan-self-attested-completion-305bf88c-a7a7-42da-80ae-901a166f7ced` — `sha256:e8b6e1931687068ccbdde7b92b6fe644c43d00d6350f90ef2594c827abbce96c`
 - Evidence bundle: `bundle-self-attested-completion-305bf88c-a7a7-42da-80ae-901a166f7ced` — `sha256:5c1714840e75770d9fb52000e1f9c37ad9c7be588a28eae3a9cce5a631a6dc79`
 - Engine: `agent-payment-evidence-lab@0.1.0`
 

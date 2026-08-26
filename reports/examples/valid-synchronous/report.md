@@ -11,7 +11,7 @@
 ## Input commitment
 
 - Interaction: `valid-synchronous-4510124a-af75-4430-a68f-ed98db22ff97`
-- Plan: `plan-valid-synchronous-4510124a-af75-4430-a68f-ed98db22ff97` — `sha256:7290a159197bdcf1010c46c40e2669a630102573562ea9c094f14c43a412bf1c`
+- Plan: `plan-valid-synchronous-4510124a-af75-4430-a68f-ed98db22ff97` — `sha256:8ead69b20d8bb803076e6a8fcb620f688425f703a7a5f39b531e1dcb7dee9a20`
 - Evidence bundle: `bundle-valid-synchronous-4510124a-af75-4430-a68f-ed98db22ff97` — `sha256:ad3bea6d76461ad1a7ae0413a71541acbea603fb35012e0effaa393fa03467aa`
 - Engine: `agent-payment-evidence-lab@0.1.0`
 
