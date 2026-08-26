@@ -695,6 +695,92 @@ describe("malformed ERC-20 structure fails closed like the frozen x402 interpret
   });
 });
 
+describe("malformed evidence envelope fails closed like the frozen x402 interpreter", () => {
+  /** Mutate the whole pre-committed USDC Transfer effect (fields included). */
+  function mutateMatchingEffectWhole(mutate: (effect: Record<string, unknown>) => void): Record<string, unknown> {
+    const content = deepClone(fixtures.positiveContent);
+    const evm = (content.necEvidence as Record<string, unknown>).evmEvaluation as Record<string, unknown>;
+    const effects = deepClone(evm.observedEffects) as Array<Record<string, unknown>>;
+    const matching = effects.find(
+      effect => ((effect.fields ?? {}) as Record<string, unknown>).address === POSITIVE.asset
+    );
+    if (matching === undefined) {
+      throw new Error("fixture has no matching transfer effect");
+    }
+    mutate(matching);
+    evm.observedEffects = effects;
+    return content;
+  }
+
+  function stripRemoved(effect: Record<string, unknown>): Record<string, unknown> {
+    const fields = { ...(effect.fields as Record<string, unknown>) };
+    delete fields.removed;
+    return fields;
+  }
+
+  const cases: Array<[string, (effect: Record<string, unknown>) => void]> = [
+    ["fields is missing", effect => {
+      delete effect.fields;
+    }],
+    ["fields is null", effect => {
+      effect.fields = null;
+    }],
+    ["fields is an array", effect => {
+      effect.fields = [(effect.fields as Record<string, unknown>).removed];
+    }],
+    ["fields is a string", effect => {
+      effect.fields = "log";
+    }],
+    ["fields is a number", effect => {
+      effect.fields = 42;
+    }],
+    ["removed is missing", effect => {
+      effect.fields = stripRemoved(effect);
+    }],
+    ["removed is a string", effect => {
+      effect.fields = { ...(effect.fields as Record<string, unknown>), removed: "false" };
+    }],
+    ["removed is a number", effect => {
+      effect.fields = { ...(effect.fields as Record<string, unknown>), removed: 0 };
+    }],
+    ["removed is null", effect => {
+      effect.fields = { ...(effect.fields as Record<string, unknown>), removed: null };
+    }]
+  ];
+
+  for (const [label, mutate] of cases) {
+    it(`treats an effect with ${label} as unusable, never unobserved`, async () => {
+      const { report, result } = await run({ content: mutateMatchingEffectWhole(mutate) });
+      expect(result.status).toBe("UNKNOWN");
+      expect(result.reasonCode).toBe("NEC_PAYMENT_EFFECT_UNUSABLE");
+      expectNoEconomicAction(report);
+    });
+  }
+
+  it("keeps proving settlement when a non-Transfer unrelated effect sits beside a valid matching transfer", async () => {
+    const content = deepClone(fixtures.positiveContent);
+    const evm = (content.necEvidence as Record<string, unknown>).evmEvaluation as Record<string, unknown>;
+    const effects = deepClone(evm.observedEffects) as Array<Record<string, unknown>>;
+    const unrelated = {
+      id: "evm-log-nontransfer-unrelated",
+      type: "log",
+      basis: ["source_observation"],
+      evidence: [],
+      fields: {
+        address: POSITIVE.asset,
+        topics: ["0xaa2dd386ed08cffba41a0743017e66546cc06f5cb0043db0ef5a19a329a02f56"],
+        data: "0x",
+        removed: false
+      }
+    };
+    evm.observedEffects = [...effects, unrelated];
+    const { report, result } = await run({ content });
+    expect(result.status).toBe("PROVEN");
+    expect(result.reasonCode).toBe("NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED");
+    expectNoEconomicAction(report);
+  });
+});
+
 describe("artifact failure handling", () => {
   it("treats a missing NEC artifact as UNKNOWN", async () => {
     const { report, result } = await run({

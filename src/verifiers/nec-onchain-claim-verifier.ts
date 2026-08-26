@@ -442,8 +442,9 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
       // Transfer-shaped observations exist but at least one failed the
       // frozen structural rules: the surviving candidates cannot establish
       // OR reject the pre-committed effect beyond the evidence boundary.
+      // Malformed evidence is NOT valid negative evidence.
       return result(claim, "UNKNOWN", "NEC_PAYMENT_EFFECT_UNUSABLE", [], [
-        "Transfer-shaped observations failed the frozen structural rules (removed flag, topic layout, padding, or field shapes) and cannot back either side of the predicate."
+        "Transfer-shaped observations failed the frozen structural rules (fields record shape, removed flag, topic layout, padding, or field shapes) and cannot back either side of the predicate."
       ]);
     }
     if (candidates.length > 0 || matching.length > 1) {
@@ -458,7 +459,9 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
 /**
  * Local structural classification of one generic observed effect, mirroring
  * the FROZEN @nec/adapter-x402 x402-v0.1-freeze interpreter exactly. It must
- * never be more permissive than that freeze: a log claiming the Transfer
+ * never be more permissive than that freeze: an effect whose fields are not a
+ * plain record, or whose removed flag is not boolean, violates the generic
+ * log-observation contract and is EXCLUDED; a log claiming the Transfer
  * topic0 that violates any remaining structural rule is EXCLUDED (never
  * partially interpreted), and non-Transfer logs are unrelated.
  */
@@ -466,11 +469,11 @@ function parseTransferEffect(effect: unknown): TransferParse {
   const record = asRecord(effect);
   const fields = asRecord(record?.fields);
   if (record === undefined || fields === undefined) {
-    return { kind: "unrelated" };
+    return { kind: "excluded" };
   }
   const removedRaw = fields.removed;
   if (typeof removedRaw !== "boolean") {
-    return { kind: "unrelated" };
+    return { kind: "excluded" };
   }
   const topicsRaw = fields.topics;
   if (!Array.isArray(topicsRaw) || topicsRaw.length === 0) {
