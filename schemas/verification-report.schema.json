@@ -265,7 +265,6 @@
                   "ARTIFACT_ISSUER_MISMATCH",
                   "SOURCE_STATEMENT_INTERACTION_MISMATCH",
                   "HTTP_RESOURCE_MISMATCH",
-                  "NEC_ARTIFACT_DIGEST_MISMATCH",
                   "NEC_NETWORK_OR_SUBJECT_MISMATCH",
                   "NEC_EXECUTION_CONTRADICTED",
                   "NEC_DATABINDING_CONTRADICTED",
@@ -414,7 +413,6 @@
             "reasonCode": {
               "enum": [
                 "NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED",
-                "NEC_ARTIFACT_DIGEST_MISMATCH",
                 "NEC_NETWORK_OR_SUBJECT_MISMATCH",
                 "NEC_EXECUTION_CONTRADICTED",
                 "NEC_DATABINDING_CONTRADICTED",

@@ -5,8 +5,17 @@ Status: integration complete for `apel.verification-plan/0.2` +
 
 This document describes the Phase-B integration between this lab (APEL) and
 the external [NEC (network evidence core)](https://github.com/ZzNible/network-evidence-core)
-repository. It is the single authoritative description of what the
-integration proves and — equally important — what it does not.
+repository (which may be private; public accessibility is not assumed). It is
+the single authoritative description of what the integration proves and —
+equally important — what it does not.
+
+**No runtime NEC dependency.** APEL has zero runtime or test-time dependency
+on NEC packages: everything needed to evaluate this integration — fixtures,
+manifests, tests, and the local structural parser — is self-contained in this
+repository. The referenced NEC repository and its freeze tags are
+provenance/reproducibility references only (they let an auditor holding a
+frozen NEC checkout replay the committed raw captures); they are not a
+runtime requirement and no code is fetched from them.
 
 ## Roles
 
@@ -132,6 +141,11 @@ frozen `@nec/adapter-x402` (`x402-v0.1-freeze`,
 is never more permissive than that freeze:
 
 - `removed` must be a boolean; `removed === true` excludes the log;
+  - the generic log-observation envelope must be intact: an effect whose
+    `fields` are missing, `null`, an array, or otherwise not a plain record is
+    excluded (malformed), never treated as unrelated;
+  - a missing or non-boolean `removed` flag violates the same contract and is
+    excluded before any topic inspection;
 - every topic must be exactly `0x` + 64 hex characters;
 - `topic0` must equal the ERC-20 `Transfer` topic constant;
 - an interpreted Transfer has exactly 3 topics — no fourth topic, no
@@ -146,16 +160,20 @@ is never more permissive than that freeze:
 A log claiming the Transfer topic0 that violates any remaining rule is
 excluded, never partially interpreted. Excluded transfer-shaped evidence
 yields `UNKNOWN / NEC_PAYMENT_EFFECT_UNUSABLE`: unusable carriers can back
-neither side of the predicate. Adversarial tests cover extra topics, short
-and oversized words, non-zero padding, malformed addresses and transaction
-hashes, and `removed=true`; all fail closed.
+neither side of the predicate (malformed evidence is not valid negative
+evidence). Adversarial tests cover extra topics, short and oversized words,
+non-zero padding, malformed addresses and transaction hashes, `removed=true`,
+and the envelope-level cases above — missing / non-record `fields` and
+missing / non-boolean `removed`; all fail closed.
 
 ## What PROVEN requires
 
 `PROVEN / NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED` requires ALL of:
 
-1. artifact integrity (bundle digest), interaction correlation, issuer/key
-   authentication under the committed trust profile;
+1. artifact-envelope digest validity, Ed25519 signature verification, and
+   issuer/key binding inside the validated bundle and pre-committed trust
+   context, plus interaction correlation between the selected artifact and
+   the plan subject;
 2. frozen profiles: `nec-wire-json-v1`, core schema `0.1`,
    `nec-resolver-evm-evaluation-v1`, `nec-resolver-opstack-evaluation-v1`;
 3. both halves bound to exactly the pre-committed network and transaction;
@@ -167,10 +185,14 @@ hashes, and `removed=true`; all fail closed.
    raw observed log fields against the pre-committed terms, with no effect
    citing a different transaction.
 
-Nothing is hard-coded: the verifier accepts whatever replayed evidence
-actually emits, and maps every weaker outcome to explicit `NOT_PROVEN` /
-`UNKNOWN` reason codes in the report spec 0.2 compatibility matrix, preserving
-the epistemic weight table above.
+Fixture payment values are not hard-coded: the verifier accepts whatever
+replayed evidence actually emits, and maps every weaker outcome to explicit
+`NOT_PROVEN` / `UNKNOWN` reason codes in the report spec 0.2 compatibility
+matrix, preserving the epistemic weight table above. What IS intentionally
+pinned (fail-closed) are the contract constants: NEC profile identifiers
+(`nec-wire-json-v1`, core schema `0.1`, the two frozen evaluation profiles),
+the ERC-20 `Transfer` topic constant, and the OP Stack family/ruleset/version
+(`opstack` / `opstack.rpc-finalized-head-v1` / `1`).
 
 ## Boundary statements
 
@@ -189,6 +211,27 @@ the epistemic weight table above.
 Real Base mainnet evidence, captured through the FROZEN NEC resolver
 pipelines against one public RPC source, then replayed offline with poisoned
 global fetch to prove byte-exact reproduction before freezing.
+
+Precisely scoped provenance claims:
+
+- The committed Base network observations (transaction, logs, receipts,
+  finality observations) are **real public network evidence**; they were not
+  synthesized.
+- The evaluator outputs embedded in each artifact were **reproduced using
+  frozen NEC logic** at the pinned freeze commits (see "Reproducing the
+  fixtures" below).
+- The `EvidenceArtifact` envelope wrapping those outputs is **locally created
+  in this lab** and **Ed25519-signed by the integration fixture identity**
+  declared in the committed trust context. Within this lab that signature
+  authenticates the issuer and integrity-binds the APEL envelope bytes
+  against tampering after signing.
+- That signature is **NOT a signature from the RPC provider**, and it is
+  **NOT cryptographic proof that NEC itself produced the bytes**. The link to
+  NEC rests on the reproducibility procedure above, not on a producer
+  signature.
+- `issuer.role = INDEPENDENT_OBSERVER` is a **declared trust-role premise of
+  this research integration**, not an independently established fact; a real
+  deployment must establish issuer independence itself before relying on it.
 
 ### Positive fixture (finalized within the bounded walk)
 
@@ -259,9 +302,15 @@ ambiguous / not-evaluated), the real depth-exceeded insufficiency mapped to
 mismatch / changing finalized head variants, malformed ERC-20 structure
 adversarial cases (extra fourth topic, short and oversized topics and data
 words, non-zero indexed-address padding, malformed token address and
-transaction hash, `removed=true`) all failing closed, missing / malformed /
-tampered-digest / unsupported-profile artifacts, unrelated-transaction and
-cross-interaction correlation rejection, authentication reuse, plan-schema
-canonical-amount enforcement, and proof that the default core verifier still
-returns `UNKNOWN` for `ONCHAIN_SETTLEMENT`. Every positive, negative, and
-unknown path asserts `economicAction == NOT_EVALUATED`.
+transaction hash, `removed=true`) all failing closed, envelope-level
+malformations (missing / non-record `fields`, missing / non-boolean
+`removed`) mapped to `UNKNOWN / NEC_PAYMENT_EFFECT_UNUSABLE`, missing /
+malformed / tampered-digest / unsupported-profile artifacts,
+unrelated-transaction and cross-interaction correlation rejection,
+authentication reuse, plan-schema canonical-amount enforcement, proof that
+the default core verifier still returns `UNKNOWN` for `ONCHAIN_SETTLEMENT`,
+and end-to-end validation of REAL generated verifier reports against
+`schemas/verification-report.schema.json` for representative PROVEN /
+NOT_PROVEN / UNKNOWN outcomes (decisive negatives cite the selected artifact
+id). Every positive, negative, and unknown path asserts
+`economicAction == NOT_EVALUATED`.

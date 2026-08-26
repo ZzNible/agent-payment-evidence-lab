@@ -980,3 +980,102 @@ describe("frozen core semantics", () => {
     expect(bundle.specVersion).toBe("apel.evidence-bundle/0.1");
   });
 });
+
+describe("real generated reports satisfy verification-report.schema.json", () => {
+  /**
+   * Cross-layer gate: every representative outcome below is produced by the
+   * REAL verifier over real fixture bytes (not synthetic ClaimResult
+   * fixtures), then validated end-to-end against the report schema.
+   */
+  async function expectGeneratedReportValid(options: {
+    content?: Record<string, unknown>;
+    claim?: ReturnType<typeof onchainClaim>;
+    expectedStatus: ClaimResult["status"];
+    expectedReasonCode: string;
+    expectArtifactEvidence?: boolean;
+  }): Promise<void> {
+    const { report, result } = await run({
+      content: options.content ?? fixtures.positiveContent,
+      claim: options.claim
+    });
+    expect(result.status).toBe(options.expectedStatus);
+    expect(result.reasonCode).toBe(options.expectedReasonCode);
+    if (options.expectArtifactEvidence) {
+      expect(result.evidence).toContain(ARTIFACT_ID);
+    }
+    await expect(validateDocument("report", report)).resolves.toBeUndefined();
+    expectNoEconomicAction(report);
+  }
+
+  function withFinalityVerdict(verdict: string, warningCode: string): Record<string, unknown> {
+    const content = deepClone(fixtures.positiveContent);
+    const fin = (content.necEvidence as Record<string, unknown>)
+      .opStackFinalityEvaluation as Record<string, unknown>;
+    const dimensionWrapper = fin.dimension as Record<string, unknown>;
+    dimensionWrapper.dimension = {
+      ...(dimensionWrapper.dimension as Record<string, unknown>),
+      verdict,
+      reason: `test variant: ${warningCode}`
+    };
+    fin.warnings = [
+      ...(Array.isArray(fin.warnings) ? (fin.warnings as unknown[]) : []),
+      { code: warningCode, message: "Adversarial variant." }
+    ];
+    return content;
+  }
+
+  it("PROVEN / NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED is schema-valid", async () => {
+    await expectGeneratedReportValid({
+      expectedStatus: "PROVEN",
+      expectedReasonCode: "NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED",
+      expectArtifactEvidence: true
+    });
+  });
+
+  it("NOT_PROVEN / NEC_PAYMENT_EFFECT_MISMATCH is schema-valid and cites the artifact", async () => {
+    const expectation = { ...paymentExpectation(POSITIVE), amount: "27146487" };
+    await expectGeneratedReportValid({
+      claim: onchainClaim(ARTIFACT_ID, expectation),
+      expectedStatus: "NOT_PROVEN",
+      expectedReasonCode: "NEC_PAYMENT_EFFECT_MISMATCH",
+      expectArtifactEvidence: true
+    });
+  });
+
+  it("NOT_PROVEN / NEC_FINALITY_CONTRADICTED is schema-valid and cites the artifact", async () => {
+    await expectGeneratedReportValid({
+      content: withFinalityVerdict("contradicted", "OP_SUBJECT_NOT_CANONICAL_AT_HEIGHT"),
+      expectedStatus: "NOT_PROVEN",
+      expectedReasonCode: "NEC_FINALITY_CONTRADICTED",
+      expectArtifactEvidence: true
+    });
+  });
+
+  it("UNKNOWN / NEC_FINALITY_INSUFFICIENT is schema-valid", async () => {
+    await expectGeneratedReportValid({
+      content: fixtures.auditedContent,
+      claim: onchainClaim(ARTIFACT_ID, paymentExpectation(AUDITED_DEPTH_EXCEEDED)),
+      expectedStatus: "UNKNOWN",
+      expectedReasonCode: "NEC_FINALITY_INSUFFICIENT"
+    });
+  });
+
+  it("UNKNOWN / NEC_PAYMENT_EFFECT_UNUSABLE is schema-valid", async () => {
+    const content = deepClone(fixtures.positiveContent);
+    const evm = (content.necEvidence as Record<string, unknown>).evmEvaluation as Record<string, unknown>;
+    const effects = deepClone(evm.observedEffects) as Array<Record<string, unknown>>;
+    const matching = effects.find(
+      effect => ((effect.fields ?? {}) as Record<string, unknown>).address === POSITIVE.asset
+    );
+    if (matching === undefined) {
+      throw new Error("fixture has no matching transfer effect");
+    }
+    delete matching.fields;
+    evm.observedEffects = effects;
+    await expectGeneratedReportValid({
+      content,
+      expectedStatus: "UNKNOWN",
+      expectedReasonCode: "NEC_PAYMENT_EFFECT_UNUSABLE"
+    });
+  });
+});

@@ -134,18 +134,23 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
       return result(claim, "UNKNOWN", content, [artifact.id]);
     }
 
-    const correlationFailure = this.correlationFailure(claim, content, expectation);
+    const correlationFailure = this.correlationFailure(
+      claim,
+      content,
+      expectation,
+      artifact.id
+    );
     if (correlationFailure !== undefined) {
       return correlationFailure;
     }
     const dimensionFailure =
-      this.dimensionFailure(claim, content, "execution") ??
-      this.dimensionFailure(claim, content, "dataBinding") ??
-      this.finalityFailure(claim, content);
+      this.dimensionFailure(claim, content, "execution", artifact.id) ??
+      this.dimensionFailure(claim, content, "dataBinding", artifact.id) ??
+      this.finalityFailure(claim, content, artifact.id);
     if (dimensionFailure !== undefined) {
       return dimensionFailure;
     }
-    const effectFailure = this.paymentEffectFailure(claim, content, expectation);
+    const effectFailure = this.paymentEffectFailure(claim, content, expectation, artifact.id);
     if (effectFailure !== undefined) {
       return effectFailure;
     }
@@ -276,7 +281,8 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
   private correlationFailure(
     claim: PlanClaim,
     content: NecEvidenceContent,
-    expectation: NecPaymentExpectation
+    expectation: NecPaymentExpectation,
+    artifactId: string
   ): ClaimResult | undefined {
     const config = asRecord(content.opStackFinalityEvaluation.config);
     if (
@@ -300,7 +306,7 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
       finalitySubject?.txId === expectation.transactionHash;
     return coherent
       ? undefined
-      : result(claim, "NOT_PROVEN", "NEC_NETWORK_OR_SUBJECT_MISMATCH", [], [
+      : result(claim, "NOT_PROVEN", "NEC_NETWORK_OR_SUBJECT_MISMATCH", [artifactId], [
           "The artifact must describe exactly the pre-committed network and transaction on both its execution and finality halves."
         ]);
   }
@@ -333,7 +339,8 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
   private dimensionFailure(
     claim: PlanClaim,
     content: NecEvidenceContent,
-    name: "execution" | "dataBinding"
+    name: "execution" | "dataBinding",
+    artifactId: string
   ): ClaimResult | undefined {
     const { applicability, verdict } = this.evmDimensionObservation(content.evmEvaluation, name);
     if (applicability !== "applicable") {
@@ -345,11 +352,17 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
       return undefined;
     }
     if (verdict === "contradicted") {
-      return result(claim, "NOT_PROVEN", `${name === "execution" ? "NEC_EXECUTION" : "NEC_DATABINDING"}_CONTRADICTED`, [], [
-        name === "execution"
-          ? "Valid source evidence shows the subject transaction did not execute successfully, so the payment effect cannot have occurred as pre-committed."
-          : "Valid source evidence contradicts the binding between the acquired receipt and the pre-committed subject transaction."
-      ]);
+      return result(
+        claim,
+        "NOT_PROVEN",
+        `${name === "execution" ? "NEC_EXECUTION" : "NEC_DATABINDING"}_CONTRADICTED`,
+        [artifactId],
+        [
+          name === "execution"
+            ? "Valid source evidence shows the subject transaction did not execute successfully, so the payment effect cannot have occurred as pre-committed."
+            : "Valid source evidence contradicts the binding between the acquired receipt and the pre-committed subject transaction."
+        ]
+      );
     }
     if (verdict === "insufficient") {
       return result(claim, "UNKNOWN", `${name === "execution" ? "NEC_EXECUTION" : "NEC_DATABINDING"}_INSUFFICIENT`, [], [
@@ -364,7 +377,7 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
     return result(claim, "UNKNOWN", "UNSUPPORTED_NEC_EVIDENCE_PROFILE");
   }
 
-  private finalityFailure(claim: PlanClaim, content: NecEvidenceContent): ClaimResult | undefined {
+  private finalityFailure(claim: PlanClaim, content: NecEvidenceContent, artifactId: string): ClaimResult | undefined {
     const { applicability, verdict } = this.finalityDimensionObservation(
       content.opStackFinalityEvaluation
     );
@@ -377,7 +390,7 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
       return undefined;
     }
     if (verdict === "contradicted") {
-      return result(claim, "NOT_PROVEN", "NEC_FINALITY_CONTRADICTED", [], [
+      return result(claim, "NOT_PROVEN", "NEC_FINALITY_CONTRADICTED", [artifactId], [
         "Valid source evidence shows the pinned-ruleset finality conditions fail (for example a canonical-block mismatch), so D_narrow is not satisfied.",
         "This remains an L2 block-finality outcome only; it says nothing about withdrawal finalization."
       ]);
@@ -405,7 +418,8 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
   private paymentEffectFailure(
     claim: PlanClaim,
     content: NecEvidenceContent,
-    expectation: NecPaymentExpectation
+    expectation: NecPaymentExpectation,
+    artifactId: string
   ): ClaimResult | undefined {
     const effects = content.evmEvaluation.observedEffects as unknown[];
     const candidates: TransferCandidate[] = [];
@@ -424,7 +438,7 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
         candidate.transactionHash !== expectation.transactionHash
     );
     if (crossTx !== undefined) {
-      return result(claim, "NOT_PROVEN", "NEC_OBSERVED_TX_HASH_MISMATCH", [], [
+      return result(claim, "NOT_PROVEN", "NEC_OBSERVED_TX_HASH_MISMATCH", [artifactId], [
         `Effect ${crossTx.effectId} cites transaction ${crossTx.transactionHash}, not the pre-committed subject.`
       ]);
     }
@@ -448,11 +462,11 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
       ]);
     }
     if (candidates.length > 0 || matching.length > 1) {
-      return result(claim, "NOT_PROVEN", "NEC_PAYMENT_EFFECT_MISMATCH", [], [
+      return result(claim, "NOT_PROVEN", "NEC_PAYMENT_EFFECT_MISMATCH", [artifactId], [
         "Observed transfer effects do not exactly match the pre-committed network, asset, payer, payTo, and amount."
       ]);
     }
-    return result(claim, "NOT_PROVEN", "NEC_PAYMENT_EFFECT_NOT_OBSERVED", []);
+    return result(claim, "NOT_PROVEN", "NEC_PAYMENT_EFFECT_NOT_OBSERVED", [artifactId]);
   }
 }
 

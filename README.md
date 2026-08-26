@@ -66,7 +66,7 @@ The lab asks which narrow propositions follow from the captured artifacts. It do
 
 Requirements: Node.js `>=20.19.0` (CI uses Node.js 22) and npm.
 
-The current automated suite contains 107 tests covering the six scenarios, schema contracts, adversarial substitutions, signature/issuer bindings, the optional NEC on-chain verifier boundary, reproducibility, and CLI behavior.
+The automated suite (`npm test`) covers the six scenarios, schema contracts, adversarial substitutions, signature/issuer bindings, the optional NEC on-chain verifier boundary, reproducibility, and CLI behavior; run it for the current test count rather than relying on a pinned number here.
 
 ```bash
 npm ci
