@@ -204,7 +204,7 @@ the ERC-20 `Transfer` topic constant, and the OP Stack family/ruleset/version
 - **OP Stack L2 finality != withdrawal finalization.** The ruleset observes
   a finalized L2 head through one source; it does not evaluate dispute-game
   completion, withdrawal claimability on L1, or economic irreversibility.
-- **The fixture was not produced by APEL.**
+- **The underlying network transaction and RPC observations were not produced by APEL; the APEL EvidenceArtifact envelope is locally created and signed by the integration fixture identity.**
 
 ## NETWORK-VERIFIER FIXTURE provenance
 
