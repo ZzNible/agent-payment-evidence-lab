@@ -205,7 +205,7 @@ Before evaluating a claim, `analyzeEvidence`:
 
 `analyzeEvidence` validates the plan and bundle but does not itself validate the report it has just produced. Dossier verification is the separate outer check: it validates the stored public report against its schema, recomputes `plan + bundle -> report` using the stored evaluation context, and compares the Markdown projection.
 
-The report schema enforces a closed `claim type ↔ status ↔ reasonCode` matrix. It rejects combinations that the verifier semantics do not permit, notably `OBLIGATION_FULFILLED / PROVEN` and `ONCHAIN_SETTLEMENT / PROVEN` in v0.1.
+The report schema enforces a closed `claim type ↔ status ↔ reasonCode` matrix. It rejects combinations that the verifier semantics do not permit, notably `OBLIGATION_FULFILLED / PROVEN` in v0.1; `ONCHAIN_SETTLEMENT / PROVEN` validates only with the single extension reason code `NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED`, and NEC-derived insufficient or ambiguous outcomes validate only as `UNKNOWN`.
 
 A technical validation error is not an economic `FAIL`. The CLI may return a non-zero exit code because it could not process the inputs; the report's claim semantics remain separate.
 
@@ -223,7 +223,13 @@ Determinism is scoped to the same:
 
 External sources introduce time and availability. Adapters must capture enough raw evidence to explain a result rather than relying only on the latest mutable state.
 
-The v0.1 on-chain claim is intentionally non-operative: `ONCHAIN_SETTLEMENT` always remains `UNKNOWN`, including when a JSON artifact claims confirmation, because no chain-specific receipt/finality verifier is implemented.
+The default v0.1 on-chain claim remains intentionally non-operative:
+`CoreClaimVerifier` reports `ONCHAIN_SETTLEMENT = UNKNOWN`, including when a
+JSON artifact claims confirmation. An optional, explicitly registered
+external-consumer verifier (`NecOnchainClaimVerifier`) may prove only the
+narrow `D_narrow` proposition from a frozen-profile NEC evidence envelope;
+it is not registered by default and never broadens the core semantics (see
+[NEC Phase-B integration](./nec-phase-b-integration.md)).
 
 ## Why this is not a clearing oracle
 

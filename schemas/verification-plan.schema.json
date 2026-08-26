@@ -457,7 +457,7 @@
       "additionalProperties": false
     },
     "onchainSettlementParameters": {
-      "description": "Selects the NEC network-evidence artifact and precommits the exact payment expectation. The expectation is a correlation commitment only: it never authorizes, releases, refunds, or transfers funds.",
+      "description": "Selects an APEL-specific NEC evidence envelope (artifact kind apel.nec-network-evidence.v1, carrying frozen NEC public evaluator outputs) and precommits the exact payment expectation. The expectation is a correlation commitment only: it never authorizes, releases, refunds, or transfers funds. Amounts are canonical atomic-unit decimal strings (zero, or a nonzero integer without leading zeros). Addresses and transaction hashes are lowercase and exact.",
       "type": "object",
       "required": [
         "artifactId",
@@ -500,7 +500,7 @@
             },
             "amount": {
               "type": "string",
-              "pattern": "^[0-9]+$"
+              "pattern": "^(0|[1-9][0-9]*)$"
             },
             "transactionHash": {
               "type": "string",

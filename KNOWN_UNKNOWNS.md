@@ -23,6 +23,7 @@ These are technical propositions. They are useful precisely because they are sma
 The current version cannot establish:
 
 - that real funds moved or are final on a production network;
+- that a single-source L2 finalized-head observation (the narrow optional NEC verifier) establishes withdrawal finalization, L1 claimability, or economic irreversibility — it does not, and the default core verifier keeps `ONCHAIN_SETTLEMENT` at `UNKNOWN`;
 - that a production facilitator would verify or settle the same payment;
 - that a syntactically valid output is useful, correct, complete, or commercially acceptable;
 - that HTTP `200` means an asynchronous job later succeeded;

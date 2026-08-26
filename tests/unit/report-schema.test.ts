@@ -25,12 +25,17 @@ describe("verification report JSON Schema", () => {
       claimResult("PAYMENT_VERIFIED", "PROVEN", "FACILITATOR_ACCEPTED_PAYMENT_PAYLOAD"),
       claimResult("SETTLEMENT_BOUNDARY_SUCCEEDED", "PROVEN", "LOCAL_SETTLEMENT_BOUNDARY_SUCCEEDED"),
       claimResult("ONCHAIN_SETTLEMENT", "UNKNOWN", "NO_ONCHAIN_CONFIRMATION_EVIDENCE"),
-      claimResult(
-        "ONCHAIN_SETTLEMENT",
-        "PROVEN",
-        "NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED"
-      ),
-      claimResult("ONCHAIN_SETTLEMENT", "NOT_PROVEN", "NEC_FINALITY_NOT_SUPPORTED"),
+      claimResult("ONCHAIN_SETTLEMENT", "PROVEN", "NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED"),
+      claimResult("ONCHAIN_SETTLEMENT", "NOT_PROVEN", "NEC_FINALITY_CONTRADICTED"),
+      claimResult("ONCHAIN_SETTLEMENT", "UNKNOWN", "NEC_FINALITY_INSUFFICIENT"),
+      claimResult("ONCHAIN_SETTLEMENT", "UNKNOWN", "NEC_FINALITY_AMBIGUOUS"),
+      claimResult("ONCHAIN_SETTLEMENT", "NOT_PROVEN", "NEC_EXECUTION_CONTRADICTED"),
+      claimResult("ONCHAIN_SETTLEMENT", "UNKNOWN", "NEC_EXECUTION_INSUFFICIENT"),
+      claimResult("ONCHAIN_SETTLEMENT", "UNKNOWN", "NEC_EXECUTION_AMBIGUOUS"),
+      claimResult("ONCHAIN_SETTLEMENT", "NOT_PROVEN", "NEC_DATABINDING_CONTRADICTED"),
+      claimResult("ONCHAIN_SETTLEMENT", "UNKNOWN", "NEC_DATABINDING_INSUFFICIENT"),
+      claimResult("ONCHAIN_SETTLEMENT", "UNKNOWN", "NEC_DATABINDING_AMBIGUOUS"),
+      claimResult("ONCHAIN_SETTLEMENT", "UNKNOWN", "NEC_PAYMENT_EFFECT_UNUSABLE"),
       claimResult("HTTP_RESPONSE_RECEIVED", "PROVEN", "HTTP_RESPONSE_CAPTURED"),
       claimResult("HTTP_STATUS_MATCH", "PROVEN", "HTTP_STATUS_MATCHED"),
       claimResult("OUTPUT_SCHEMA_VALID", "PROVEN", "JSON_SCHEMA_MATCH"),
@@ -73,7 +78,13 @@ describe("verification report JSON Schema", () => {
       claimResult("ONCHAIN_SETTLEMENT", "PROVEN", "JSON_SCHEMA_MATCH"),
       claimResult("PAYMENT_VERIFIED", "PROVEN", "JSON_SCHEMA_MATCH"),
       claimResult("SOURCE_INDEPENDENT", "PROVEN", "ED25519_SIGNATURE_VALID"),
-      claimResult("HTTP_STATUS_MATCH", "PROVEN", "HTTP_RESPONSE_CAPTURED")
+      claimResult("HTTP_STATUS_MATCH", "PROVEN", "HTTP_RESPONSE_CAPTURED"),
+      // The retired flattening codes must not re-enter any tuple.
+      claimResult("ONCHAIN_SETTLEMENT", "NOT_PROVEN", "NEC_FINALITY_NOT_SUPPORTED"),
+      claimResult("ONCHAIN_SETTLEMENT", "NOT_PROVEN", "NEC_EXECUTION_NOT_SUPPORTED"),
+      // INSUFFICIENT/AMBIGUOUS are evidence-boundary outcomes, never negatives.
+      claimResult("ONCHAIN_SETTLEMENT", "NOT_PROVEN", "NEC_FINALITY_INSUFFICIENT"),
+      claimResult("ONCHAIN_SETTLEMENT", "NOT_PROVEN", "NEC_FINALITY_AMBIGUOUS")
     ];
 
     for (const claim of invalidClaims) {
@@ -82,6 +93,37 @@ describe("verification report JSON Schema", () => {
         `${String(claim.type)}/${String(claim.reasonCode)}`
       ).toBe(false);
     }
+  });
+});
+
+describe("verification plan JSON Schema", () => {
+  it("accepts only canonical atomic amounts in ONCHAIN_SETTLEMENT expectations", async () => {
+    const validate = await planValidator();
+    const plan = validSchemaPlan();
+
+    expect(validate(plan), JSON.stringify(validate.errors)).toBe(true);
+    expect(validate(withAmount(plan, "0")), "zero").toBe(true);
+    expect(validate(withAmount(plan, "27146486")), "plain integer").toBe(true);
+
+    for (const amount of ["007", "00", "-1", "+1", "", " 1", "0x10", "1_000", "1e3"]) {
+      expect(validate(withAmount(plan, amount)), `amount ${JSON.stringify(amount)}`).toBe(false);
+    }
+  });
+
+  it("keeps addresses and transaction hashes lowercase and exact", async () => {
+    const validate = await planValidator();
+    const plan = validSchemaPlan();
+
+    const mixedCase = JSON.parse(JSON.stringify(plan)) as Record<string, unknown>;
+    const claims = mixedCase.claims as Array<Record<string, unknown>>;
+    const claim0 = claims[0];
+    if (claim0 === undefined) {
+      throw new Error("plan fixture lost its claim");
+    }
+    const parameters = claim0.parameters as Record<string, unknown>;
+    const payment = parameters.payment as Record<string, unknown>;
+    payment.transactionHash = (payment.transactionHash as string).toUpperCase();
+    expect(validate(mixedCase)).toBe(false);
   });
 });
 
@@ -118,6 +160,58 @@ function reportWithClaim(
       unknown: claim.status === "UNKNOWN" ? 1 : 0
     }
   };
+}
+
+async function planValidator(): Promise<ValidateFunction> {
+  const schemaUrl = new URL("../../schemas/verification-plan.schema.json", import.meta.url);
+  const schema = JSON.parse(await readFile(schemaUrl, "utf8")) as object;
+  const ajv = new Ajv2020({ allErrors: true, strict: true });
+  const installFormats = addFormats as unknown as FormatsPlugin;
+  installFormats(ajv);
+  return ajv.compile(schema);
+}
+
+function validSchemaPlan(): Record<string, unknown> {
+  return {
+    specVersion: "apel.verification-plan/0.2",
+    planId: "plan-1",
+    createdAt: "2026-07-21T10:00:00.000Z",
+    subject: {
+      interactionId: "interaction-1",
+      resource: "https://resource.example/api"
+    },
+    claims: [
+      {
+        id: "onchain-settlement",
+        type: "ONCHAIN_SETTLEMENT",
+        parameters: {
+          artifactId: "nec-evidence-1",
+          issuerId: "nec-network-verifier",
+          payment: {
+            network: "eip155:8453",
+            asset: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            payer: "0x8f6272112c3b71474f6e24a8ad0be3b253123474",
+            payTo: "0x3c4384f3664b37a3cb5a5cb3452b4b4a3aa1256f",
+            amount: "27146486",
+            transactionHash: `0x${"ab".repeat(32)}`
+          }
+        }
+      }
+    ],
+    trustProfile: "nec-phase-b-demo",
+    trustProfileDigest: `sha256:${"2".repeat(64)}`
+  };
+}
+
+function withAmount(plan: Record<string, unknown>, amount: string): Record<string, unknown> {
+  const clone = JSON.parse(JSON.stringify(plan)) as Record<string, unknown>;
+  const claims = clone.claims as Array<Record<string, unknown>>;
+  const claim = claims[0];
+  if (claim === undefined) {
+    throw new Error("plan fixture lost its claim");
+  }
+  ((claim.parameters as Record<string, unknown>).payment as Record<string, unknown>).amount = amount;
+  return clone;
 }
 
 function validSchemaReport(): Record<string, unknown> {

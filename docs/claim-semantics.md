@@ -209,7 +209,31 @@ Only when the plan, source-control evidence, correlation, and status semantics a
 
 ## On-chain claim boundary
 
-`ONCHAIN_SETTLEMENT` always yields `UNKNOWN` in v0.1. With no artifact it reports missing confirmation evidence; with an alleged confirmation artifact it reports that chain verification is not implemented. A signed or well-formed JSON assertion is not a chain receipt, a confirmation-depth check, or a finality proof.
+Under the default `CoreClaimVerifier`, `ONCHAIN_SETTLEMENT` always yields
+`UNKNOWN` in v0.1. With no artifact it reports missing confirmation evidence;
+with an alleged confirmation artifact it reports that chain verification is
+not implemented. A signed or well-formed JSON assertion is not a chain
+receipt, a confirmation-depth check, or a finality proof.
+
+An optional external-consumer verifier, `NecOnchainClaimVerifier`, may prove a
+deliberately narrow proposition (`D_narrow`) from a frozen-profile NEC
+evidence envelope: the plan-precommitted payment matches the observed effect
+of the exact executed transaction and its containing L2 block is finalized
+under the pinned OP Stack ruleset. Even then:
+
+- NEC verdicts keep their epistemic weight: `supported` continues evaluation,
+  `contradicted` yields `NOT_PROVEN`, and `insufficient`, `ambiguous`, or an
+  unevaluable dimension yields `UNKNOWN`. A bounded outcome such as
+  `OP_ANCESTRY_DEPTH_EXCEEDED` means the frozen resolver could not establish
+  the required ancestry; it never becomes a claim that the block is not
+  finalized;
+- unusable transfer-shaped evidence (for example `removed=true` logs or
+  structurally malformed words) yields `UNKNOWN`, never a negative assertion;
+- L2 finality under one source's ruleset is not withdrawal finalization,
+  L1 claimability, or economic irreversibility.
+
+See [NEC Phase-B integration](./nec-phase-b-integration.md) for the full
+mapping table and artifact boundary.
 
 ## Reason codes and limitations
 
@@ -231,7 +255,7 @@ Statuses are deliberately small; reason codes explain how a verifier arrived the
 
 A limitation should accompany any result whose wording could reasonably be overread. Limitations are part of the structured result, not optional prose.
 
-The public report schema also constrains semantics structurally with a closed `type ↔ status ↔ reasonCode` matrix. An otherwise well-formed report is invalid if it combines incompatible values. In v0.1, `OBLIGATION_FULFILLED / PROVEN` and `ONCHAIN_SETTLEMENT / PROVEN` cannot validate.
+The public report schema also constrains semantics structurally with a closed `type ↔ status ↔ reasonCode` matrix. An otherwise well-formed report is invalid if it combines incompatible values. In v0.1, `OBLIGATION_FULFILLED / PROVEN` can never validate; `ONCHAIN_SETTLEMENT / PROVEN` validates only with the single extension reason code `NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED`, and NEC-derived `insufficient`/`ambiguous` outcomes are compatible only with `UNKNOWN`, never `NOT_PROVEN`.
 
 ## No aggregate commercial verdict
 

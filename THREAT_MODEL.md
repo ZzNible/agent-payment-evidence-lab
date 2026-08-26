@@ -145,7 +145,7 @@ Each entry distinguishes controls implemented by the current local fixture from 
 
 **Threat:** A valid settlement event, receipt, or HTTP `200` is presented as proof that the commercial obligation was fulfilled.
 
-**Mitigations:** Atomic claims, typed reason codes, no global commercial `PASS`, and `economicAction: "NOT_EVALUATED"`. The public report schema enforces a closed claim-type/status/reason-code matrix and structurally rejects both `OBLIGATION_FULFILLED / PROVEN` and `ONCHAIN_SETTLEMENT / PROVEN`. Payment and settlement proof is restricted to signed `local-recording-double` artifacts that explicitly declare `realNetworkVerification: false` or `realFundsMoved: false`; on-chain settlement is always `UNKNOWN` in v0.1.
+**Mitigations:** Atomic claims, typed reason codes, no global commercial `PASS`, and `economicAction: "NOT_EVALUATED"`. The public report schema enforces a closed claim-type/status/reason-code matrix: it always rejects `OBLIGATION_FULFILLED / PROVEN`, and accepts `ONCHAIN_SETTLEMENT / PROVEN` only with the single extension reason code `NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED`. Payment and settlement proof is restricted to signed `local-recording-double` artifacts that explicitly declare `realNetworkVerification: false` or `realFundsMoved: false`; the default core verifier keeps on-chain settlement at `UNKNOWN` in v0.1, and the optional NEC verifier can prove only its narrow precommitted proposition from frozen-profile evidence.
 
 **Residual risk:** Humans or downstream software may ignore limitations. Clear naming and schema-level prohibitions reduce but cannot eliminate misuse.
 
@@ -229,7 +229,7 @@ Changes should preserve the following invariants:
 - payment and HTTP artifacts must bind their resource URL to the plan resource before supporting their semantic claims;
 - a source statement must bind its plan-selected interaction field to the plan interaction;
 - a fixture adapter signature never implies provider, remote-origin, independence, or authority properties not separately committed and verified;
-- `ONCHAIN_SETTLEMENT` remains `UNKNOWN` until a chain-specific verifier is implemented;
+- `ONCHAIN_SETTLEMENT` remains `UNKNOWN` under the default core verifier; the optional NEC external-consumer verifier proves only its narrow `D_narrow` proposition and preserves NEC's verdict epistemics (`insufficient`/`ambiguous` map to `UNKNOWN`, never to a negative claim);
 - artifacts from inconsistent interactions are rejected or isolated;
 - plan and bundle digests in the report correspond to the evaluated canonical JSON values;
 - unknown versions and algorithms do not silently downgrade;

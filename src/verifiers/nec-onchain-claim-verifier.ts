@@ -28,6 +28,12 @@ import { verifyJsonSignature } from "../security/signatures.js";
  * - Correlation comes ONLY from the plan's pre-committed payment
  *   expectation. The artifact is never allowed to supply its own expected
  *   payment terms.
+ * - NEC verdicts preserve their epistemic weight. SUPPORTED continues
+ *   evaluation toward PROVEN; CONTRADICTED yields NOT_PROVEN; INSUFFICIENT,
+ *   AMBIGUOUS, and unevaluable dimensions yield UNKNOWN. A bounded outcome
+ *   such as OP_ANCESTRY_DEPTH_EXCEEDED means the frozen resolver could not
+ *   establish the required ancestry within its ruleset; it MUST NOT become
+ *   a claim that the block is not finalized.
  * - L2 finality under this ruleset is NOT OP Stack withdrawal
  *   finalization, L1 withdrawal claimability, or economic irreversibility.
  * - Execution/effect/finality support evaluates no economic action. No
@@ -45,12 +51,28 @@ const OPSTACK_FAMILY = "opstack";
 const OPSTACK_RULESET = "opstack.rpc-finalized-head-v1";
 const OPSTACK_RULESET_VERSION = "1";
 
+/**
+ * APEL-specific evidence envelope kind carrying frozen NEC public evaluator
+ * outputs. This is NOT a native NEC core NetworkEvidenceResult wire
+ * artifact; it is an integration envelope owned by APEL.
+ */
+const NEC_EVIDENCE_ARTIFACT_KIND = "apel.nec-network-evidence.v1";
+
 /** Standing NEC non-claim that must survive into every accepted artifact. */
 const WITHDRAWAL_FINALIZATION_NOT_EVALUATED = "WITHDRAWAL_FINALIZATION_NOT_EVALUATED";
 
+/** keccak256("Transfer(address,address,uint256)") — pinned constant. */
 const ERC20_TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
 
-const NEC_EVIDENCE_ARTIFACT_KIND = "nec.network-evidence-result";
+/**
+ * Structural patterns mirrored exactly from the FROZEN @nec/adapter-x402
+ * x402-v0.1-freeze interpreter (packages/adapter-x402/src/interpret.ts).
+ * This local re-derivation must never be more permissive than that freeze.
+ */
+const WORD32_PATTERN = /^0x[0-9a-fA-F]{64}$/;
+const ADDRESS_PATTERN = /^0x[0-9a-fA-F]{40}$/;
+const CANONICAL_DECIMAL_PATTERN = /^[0-9]+$/;
+const HEX_QUANTITY_PATTERN = /^0x[0-9a-f]+$/;
 
 export interface NecPaymentExpectation {
   readonly network: string;
@@ -62,8 +84,6 @@ export interface NecPaymentExpectation {
 }
 
 interface NecEvidenceContent {
-  wireProfile: unknown;
-  coreSchemaVersion: unknown;
   evmEvaluation: Record<string, unknown>;
   opStackFinalityEvaluation: Record<string, unknown>;
 }
@@ -76,6 +96,18 @@ interface TransferCandidate {
   readonly amount: string;
   readonly transactionHash: string | undefined;
 }
+
+type TransferParse =
+  | { readonly kind: "candidate"; readonly candidate: TransferCandidate }
+  | { readonly kind: "unrelated" }
+  | { readonly kind: "excluded" };
+
+interface DimensionObservation {
+  readonly applicability: unknown;
+  readonly verdict: unknown;
+}
+
+type EvmDimensionName = "execution" | "dataBinding";
 
 export class NecOnchainClaimVerifier implements ClaimVerifier {
   readonly claimTypes = supportedClaimTypes;
@@ -97,7 +129,7 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
     if (authenticationFailure !== undefined) {
       return authenticationFailure;
     }
-    const content = this.necContent(claim, artifact);
+    const content = this.necContent(artifact);
     if (typeof content === "string") {
       return result(claim, "UNKNOWN", content, [artifact.id]);
     }
@@ -107,8 +139,8 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
       return correlationFailure;
     }
     const dimensionFailure =
-      this.executionFailure(claim, content) ??
-      this.dataBindingFailure(claim, content) ??
+      this.dimensionFailure(claim, content, "execution") ??
+      this.dimensionFailure(claim, content, "dataBinding") ??
       this.finalityFailure(claim, content);
     if (dimensionFailure !== undefined) {
       return dimensionFailure;
@@ -208,7 +240,7 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
   }
 
   /** Returns the parsed NEC content, or the failing UNKNOWN reason code. */
-  private necContent(claim: PlanClaim, artifact: EvidenceArtifact): NecEvidenceContent | string {
+  private necContent(artifact: EvidenceArtifact): NecEvidenceContent | string {
     const root = asRecord(artifact.content);
     const necEvidence = asRecord(root?.necEvidence);
     if (necEvidence === undefined) {
@@ -221,6 +253,7 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
       necEvidence.coreSchemaVersion !== NEC_CORE_SCHEMA_VERSION ||
       evmEvaluation === undefined ||
       opStackFinalityEvaluation === undefined ||
+      !Array.isArray(evmEvaluation.observedEffects) ||
       evmEvaluation.profile !== NEC_EVM_EVALUATION_PROFILE ||
       opStackFinalityEvaluation.profile !== NEC_OPSTACK_EVALUATION_PROFILE
     ) {
@@ -232,7 +265,7 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
       // non-claim claims strictly more than frozen NEC emits.
       return "UNSUPPORTED_NEC_EVIDENCE_PROFILE";
     }
-    return { wireProfile: necEvidence.wireProfile, coreSchemaVersion: necEvidence.coreSchemaVersion, evmEvaluation, opStackFinalityEvaluation };
+    return { evmEvaluation, opStackFinalityEvaluation };
   }
 
   /**
@@ -272,70 +305,117 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
         ]);
   }
 
-  private dimensionVerdict(evaluation: Record<string, unknown>, name: string): { applicability: unknown; verdict: unknown } {
+  private evmDimensionObservation(
+    evaluation: Record<string, unknown>,
+    name: EvmDimensionName
+  ): DimensionObservation {
     const dimensions = asRecord(evaluation.dimensions);
-    const entry = asRecord(dimensions?.[name]);
+    const entry =
+      name === "execution"
+        ? asRecord(dimensions?.execution)
+        : asRecord(dimensions?.dataBinding);
     const dimension = asRecord(entry?.dimension);
     return { applicability: dimension?.applicability, verdict: dimension?.verdict };
   }
 
-  private singleDimensionVerdict(evaluation: Record<string, unknown>): { applicability: unknown; verdict: unknown } {
-    const dimension = asRecord(asRecord(evaluation.dimension)?.dimension);
+  private finalityDimensionObservation(
+    evaluation: Record<string, unknown>
+  ): DimensionObservation {
+    const wrapper = asRecord(evaluation.dimension);
+    const dimension = asRecord(wrapper?.dimension);
     return { applicability: dimension?.applicability, verdict: dimension?.verdict };
   }
 
-  private executionFailure(claim: PlanClaim, content: NecEvidenceContent): ClaimResult | undefined {
-    const { applicability, verdict } = this.dimensionVerdict(content.evmEvaluation, "execution");
-    if (applicability === "unknown" || applicability === undefined) {
-      return result(claim, "UNKNOWN", "NEC_DIMENSION_NOT_EVALUATED", []);
+  /**
+   * Preserves the epistemic weight of the frozen NEC verdict instead of
+   * flattening every non-supported outcome into NOT_PROVEN.
+   */
+  private dimensionFailure(
+    claim: PlanClaim,
+    content: NecEvidenceContent,
+    name: "execution" | "dataBinding"
+  ): ClaimResult | undefined {
+    const { applicability, verdict } = this.evmDimensionObservation(content.evmEvaluation, name);
+    if (applicability !== "applicable") {
+      return result(claim, "UNKNOWN", "NEC_DIMENSION_NOT_EVALUATED", [], [
+        "The frozen NEC evaluator did not establish this dimension for the subject, so the claim cannot be established or rejected."
+      ]);
     }
-    return verdict === "supported"
-      ? undefined
-      : result(claim, "NOT_PROVEN", "NEC_EXECUTION_NOT_SUPPORTED", [], [
-          "A reverted or unobserved transaction cannot prove the payment effect."
-        ]);
-  }
-
-  private dataBindingFailure(claim: PlanClaim, content: NecEvidenceContent): ClaimResult | undefined {
-    const { applicability, verdict } = this.dimensionVerdict(content.evmEvaluation, "dataBinding");
-    if (applicability === "unknown" || applicability === undefined) {
-      return result(claim, "UNKNOWN", "NEC_DIMENSION_NOT_EVALUATED", []);
+    if (verdict === "supported") {
+      return undefined;
     }
-    return verdict === "supported"
-      ? undefined
-      : result(claim, "NOT_PROVEN", "NEC_DATA_BINDING_NOT_SUPPORTED", []);
+    if (verdict === "contradicted") {
+      return result(claim, "NOT_PROVEN", `${name === "execution" ? "NEC_EXECUTION" : "NEC_DATABINDING"}_CONTRADICTED`, [], [
+        name === "execution"
+          ? "Valid source evidence shows the subject transaction did not execute successfully, so the payment effect cannot have occurred as pre-committed."
+          : "Valid source evidence contradicts the binding between the acquired receipt and the pre-committed subject transaction."
+      ]);
+    }
+    if (verdict === "insufficient") {
+      return result(claim, "UNKNOWN", `${name === "execution" ? "NEC_EXECUTION" : "NEC_DATABINDING"}_INSUFFICIENT`, [], [
+        "The frozen NEC resolver could not establish this dimension within its bounded ruleset; this is not a negative assertion about the subject."
+      ]);
+    }
+    if (verdict === "ambiguous") {
+      return result(claim, "UNKNOWN", `${name === "execution" ? "NEC_EXECUTION" : "NEC_DATABINDING"}_AMBIGUOUS`, [], [
+        "NEC reported an ambiguous observation for this dimension; the proposition cannot be established or rejected."
+      ]);
+    }
+    return result(claim, "UNKNOWN", "UNSUPPORTED_NEC_EVIDENCE_PROFILE");
   }
 
   private finalityFailure(claim: PlanClaim, content: NecEvidenceContent): ClaimResult | undefined {
-    const { applicability, verdict } = this.singleDimensionVerdict(content.opStackFinalityEvaluation);
-    if (applicability === "unknown" || applicability === undefined) {
-      return result(claim, "UNKNOWN", "NEC_FINALITY_NOT_EVALUATED", []);
+    const { applicability, verdict } = this.finalityDimensionObservation(
+      content.opStackFinalityEvaluation
+    );
+    if (applicability !== "applicable") {
+      return result(claim, "UNKNOWN", "NEC_FINALITY_NOT_EVALUATED", [], [
+        "The frozen NEC evaluator did not establish finality for the subject, so the claim cannot be established or rejected."
+      ]);
     }
-    return verdict === "supported"
-      ? undefined
-      : result(claim, "NOT_PROVEN", "NEC_FINALITY_NOT_SUPPORTED", [], [
-          "D_narrow requires the containing L2 block to be FINALIZED; safe-but-not-finalized, depth-bounded, contradictory, or otherwise insufficient observations do not satisfy it.",
-          "This remains an L2 block-finality outcome only; it says nothing about withdrawal finalization."
-        ]);
+    if (verdict === "supported") {
+      return undefined;
+    }
+    if (verdict === "contradicted") {
+      return result(claim, "NOT_PROVEN", "NEC_FINALITY_CONTRADICTED", [], [
+        "Valid source evidence shows the pinned-ruleset finality conditions fail (for example a canonical-block mismatch), so D_narrow is not satisfied.",
+        "This remains an L2 block-finality outcome only; it says nothing about withdrawal finalization."
+      ]);
+    }
+    if (verdict === "insufficient") {
+      return result(claim, "UNKNOWN", "NEC_FINALITY_INSUFFICIENT", [], [
+        "The frozen NEC resolver could not establish the required finalized-head ancestry within its bounded ruleset (for example OP_ANCESTRY_DEPTH_EXCEEDED); this does NOT assert that the block is not finalized.",
+        "This remains an L2 block-finality outcome only; it says nothing about withdrawal finalization."
+      ]);
+    }
+    if (verdict === "ambiguous") {
+      return result(claim, "UNKNOWN", "NEC_FINALITY_AMBIGUOUS", [], [
+        "NEC reported an ambiguous finality observation (for example a broken ancestry chain or unstable finalized head); finalization can be neither established nor rejected.",
+        "This remains an L2 block-finality outcome only; it says nothing about withdrawal finalization."
+      ]);
+    }
+    return result(claim, "UNKNOWN", "UNSUPPORTED_NEC_EVIDENCE_PROFILE");
   }
 
   /**
    * Independent re-derivation of the ERC-20 Transfer correlation from the
-   * artifact's raw observed log fields against the pre-committed terms.
+   * artifact's raw observed log fields against the pre-committed terms,
+   * using the frozen-rule structural parser below.
    */
   private paymentEffectFailure(
     claim: PlanClaim,
     content: NecEvidenceContent,
     expectation: NecPaymentExpectation
   ): ClaimResult | undefined {
-    const effects = Array.isArray(content.evmEvaluation.observedEffects)
-      ? content.evmEvaluation.observedEffects
-      : [];
+    const effects = content.evmEvaluation.observedEffects as unknown[];
     const candidates: TransferCandidate[] = [];
+    let excludedTransfers = 0;
     for (const effect of effects) {
-      const candidate = transferCandidate(effect);
-      if (candidate !== undefined) {
-        candidates.push(candidate);
+      const parsed = parseTransferEffect(effect);
+      if (parsed.kind === "candidate") {
+        candidates.push(parsed.candidate);
+      } else if (parsed.kind === "excluded") {
+        excludedTransfers += 1;
       }
     }
     const crossTx = candidates.find(
@@ -348,70 +428,133 @@ export class NecOnchainClaimVerifier implements ClaimVerifier {
         `Effect ${crossTx.effectId} cites transaction ${crossTx.transactionHash}, not the pre-committed subject.`
       ]);
     }
-    const assetCandidates = candidates.filter(candidate => sameAddress(candidate.asset, expectation.asset));
-    const matching = assetCandidates.filter(
+    const matching = candidates.filter(
       candidate =>
+        sameAddress(candidate.asset, expectation.asset) &&
         sameAddress(candidate.from, expectation.payer) &&
         sameAddress(candidate.to, expectation.payTo) &&
         amountsEqual(candidate.amount, expectation.amount)
     );
-    if (candidates.length === 0) {
-      return result(claim, "NOT_PROVEN", "NEC_PAYMENT_EFFECT_NOT_OBSERVED", []);
+    if (matching.length === 1) {
+      return undefined;
     }
-    return matching.length === 1
-      ? undefined
-      : result(claim, "NOT_PROVEN", "NEC_PAYMENT_EFFECT_MISMATCH", [], [
-          "Observed transfer effects do not exactly match the pre-committed network, asset, payer, payTo, and amount."
-        ]);
+    if (excludedTransfers > 0) {
+      // Transfer-shaped observations exist but at least one failed the
+      // frozen structural rules: the surviving candidates cannot establish
+      // OR reject the pre-committed effect beyond the evidence boundary.
+      return result(claim, "UNKNOWN", "NEC_PAYMENT_EFFECT_UNUSABLE", [], [
+        "Transfer-shaped observations failed the frozen structural rules (removed flag, topic layout, padding, or field shapes) and cannot back either side of the predicate."
+      ]);
+    }
+    if (candidates.length > 0 || matching.length > 1) {
+      return result(claim, "NOT_PROVEN", "NEC_PAYMENT_EFFECT_MISMATCH", [], [
+        "Observed transfer effects do not exactly match the pre-committed network, asset, payer, payTo, and amount."
+      ]);
+    }
+    return result(claim, "NOT_PROVEN", "NEC_PAYMENT_EFFECT_NOT_OBSERVED", []);
   }
 }
 
-function transferCandidate(effect: unknown): TransferCandidate | undefined {
+/**
+ * Local structural classification of one generic observed effect, mirroring
+ * the FROZEN @nec/adapter-x402 x402-v0.1-freeze interpreter exactly. It must
+ * never be more permissive than that freeze: a log claiming the Transfer
+ * topic0 that violates any remaining structural rule is EXCLUDED (never
+ * partially interpreted), and non-Transfer logs are unrelated.
+ */
+function parseTransferEffect(effect: unknown): TransferParse {
   const record = asRecord(effect);
   const fields = asRecord(record?.fields);
   if (record === undefined || fields === undefined) {
-    return undefined;
+    return { kind: "unrelated" };
   }
-  const topics = fields.topics;
+  const removedRaw = fields.removed;
+  if (typeof removedRaw !== "boolean") {
+    return { kind: "unrelated" };
+  }
+  const topicsRaw = fields.topics;
+  if (!Array.isArray(topicsRaw) || topicsRaw.length === 0) {
+    return { kind: "unrelated" };
+  }
+  for (let index = 0; index < topicsRaw.length; index += 1) {
+    const topic: unknown = topicsRaw[index];
+    if (typeof topic !== "string" || !WORD32_PATTERN.test(topic)) {
+      return index === 0 ? { kind: "unrelated" } : { kind: "excluded" };
+    }
+  }
+  const topic0 = (topicsRaw[0] as string).toLowerCase();
+  if (topic0 !== ERC20_TRANSFER_TOPIC) {
+    return { kind: "unrelated" };
+  }
+  if (removedRaw) {
+    return { kind: "excluded" };
+  }
+  const address = fields.address;
+  if (typeof address !== "string" || !ADDRESS_PATTERN.test(address)) {
+    return { kind: "excluded" };
+  }
+  if (topicsRaw.length !== 3) {
+    return { kind: "excluded" };
+  }
+  const data = fields.data;
+  if (typeof data !== "string" || !WORD32_PATTERN.test(data)) {
+    return { kind: "excluded" };
+  }
+  const from = decodeIndexedAddress(topicsRaw[1] as string);
+  const to = decodeIndexedAddress(topicsRaw[2] as string);
+  if (from === undefined || to === undefined) {
+    return { kind: "excluded" };
+  }
+  const txHashRaw = fields.transactionHash;
+  if (txHashRaw !== undefined && txHashRaw !== null) {
+    if (typeof txHashRaw !== "string" || !WORD32_PATTERN.test(txHashRaw)) {
+      return { kind: "excluded" };
+    }
+  }
   if (
-    !Array.isArray(topics) ||
-    topics.length < 3 ||
-    topics[0] !== ERC20_TRANSFER_TOPIC ||
-    typeof topics[1] !== "string" ||
-    typeof topics[2] !== "string" ||
-    typeof fields.address !== "string" ||
-    typeof fields.data !== "string" ||
-    fields.removed !== false
+    contextQuantityInvalid(fields.blockNumber) ||
+    contextQuantityInvalid(fields.logIndex)
   ) {
-    return undefined;
-  }
-  const amount = decodeAmount(fields.data);
-  if (amount === undefined) {
-    return undefined;
+    return { kind: "excluded" };
   }
   return {
-    effectId: typeof record.id === "string" ? record.id : "",
-    asset: fields.address,
-    from: topicToAddress(topics[1]),
-    to: topicToAddress(topics[2]),
-    amount,
-    transactionHash: typeof fields.transactionHash === "string" ? fields.transactionHash : undefined
+    kind: "candidate",
+    candidate: {
+      effectId: typeof record.id === "string" ? record.id : "",
+      asset: address.toLowerCase(),
+      from,
+      to,
+      amount: BigInt(data.toLowerCase()).toString(10),
+      transactionHash:
+        typeof txHashRaw === "string" ? txHashRaw.toLowerCase() : undefined
+    }
   };
 }
 
-function decodeAmount(data: string): string | undefined {
-  if (!data.startsWith("0x") || data.length < 2 || data.length > 66 || data.length % 2 !== 0) {
+/** Zero-padded high 12 bytes are mandatory for indexed address parameters. */
+function decodeIndexedAddress(topic: string): string | undefined {
+  const body = topic.toLowerCase().slice(2);
+  if (body.slice(0, 24) !== "0".repeat(24)) {
     return undefined;
   }
-  try {
-    return BigInt(data).toString(10);
-  } catch {
-    return undefined;
-  }
+  return `0x${body.slice(24)}`;
 }
 
-function topicToAddress(topic: string): string {
-  return `0x${topic.slice(-40)}`.toLowerCase();
+function contextQuantityInvalid(value: unknown): boolean {
+  if (value === undefined || value === null) {
+    return false;
+  }
+  if (typeof value !== "string" || value.length > 1002) {
+    return true;
+  }
+  if (CANONICAL_DECIMAL_PATTERN.test(value)) {
+    return false;
+  }
+  if (HEX_QUANTITY_PATTERN.test(value)) {
+    const body = value.slice(2);
+    return body.length > 1 && body.startsWith("0");
+  }
+  return true;
 }
 
 function sameAddress(observed: string, expected: string): boolean {
@@ -440,7 +583,7 @@ function result(
   claim: PlanClaim,
   status: ClaimStatus,
   reasonCode: string,
-  evidence: string[],
+  evidence: string[] = [],
   limitations: string[] = []
 ): ClaimResult {
   return { id: claim.id, type: claim.type, status, reasonCode, evidence, limitations };

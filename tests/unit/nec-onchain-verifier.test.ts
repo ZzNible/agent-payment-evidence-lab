@@ -126,7 +126,7 @@ function trustContext() {
 function necArtifact(content: Record<string, unknown>, overrides?: { id?: string; interactionId?: string; issuerRole?: "INDEPENDENT_OBSERVER" | "LAB_FIXTURE" | "CLIENT"; capturedAt?: string }): EvidenceArtifact {
   return createArtifact({
     id: overrides?.id ?? ARTIFACT_ID,
-    kind: "nec.network-evidence-result",
+    kind: "apel.nec-network-evidence.v1",
     capturedAt: overrides?.capturedAt ?? FIXED_TIME,
     issuerId: ISSUER_ID,
     issuerRole: overrides?.issuerRole ?? "INDEPENDENT_OBSERVER",
@@ -198,6 +198,23 @@ function expectNoEconomicAction(report: VerificationReport): void {
 
 function deepClone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
+}
+
+/** Replace one frozen NEC evaluator dimension with a model-permitted variant. */
+function mutateDimension(
+  half: "evm" | "finality",
+  name: "execution" | "dataBinding",
+  dimension: Record<string, unknown>
+): Record<string, unknown> {
+  const content = deepClone(fixtures.positiveContent);
+  const nec = content.necEvidence as Record<string, unknown>;
+  if (half === "finality") {
+    throw new Error("use mutateFinality for finality variants");
+  }
+  const evm = nec.evmEvaluation as Record<string, unknown>;
+  const dimensions = evm.dimensions as Record<string, unknown>;
+  (dimensions[name] as Record<string, unknown>).dimension = dimension;
+  return content;
 }
 
 describe("committed NEC fixture bytes", () => {
@@ -313,34 +330,120 @@ describe("negative effects: exact pre-committed terms are enforced", () => {
   });
 });
 
-describe("execution failures", () => {
-  it("does not prove settlement when NEC reports a reverted transaction", async () => {
+describe("execution mapping under the frozen verdict vocabulary", () => {
+  it("maps a contradicted execution dimension to NOT_PROVEN", async () => {
     // Model-permitted variant of the real positive artifact: this mutates
     // what the (frozen) NEC evaluator WOULD emit for a reverted receipt.
     // NEC's own revert detection is covered by its frozen upstream suite.
-    const content = deepClone(fixtures.positiveContent);
-    const evm = (content.necEvidence as Record<string, unknown>).evmEvaluation as Record<string, unknown>;
-    ((evm.dimensions as Record<string, unknown>).execution as Record<string, unknown>).dimension = {
+    const content = mutateDimension("evm", "execution", {
       applicability: "applicable",
       verdict: "contradicted",
       basis: ["source_observation"],
       evidence: ["evm-receipt-fb680322d5fd0d3b"],
       reason: "variant: reverted status"
-    };
+    });
     const { report, result } = await run({ content });
     expect(result.status).toBe("NOT_PROVEN");
-    expect(result.reasonCode).toBe("NEC_EXECUTION_NOT_SUPPORTED");
+    expect(result.reasonCode).toBe("NEC_EXECUTION_CONTRADICTED");
+    expectNoEconomicAction(report);
+  });
+
+  it("maps an insufficient execution dimension to UNKNOWN, never NOT_PROVEN", async () => {
+    const content = mutateDimension("evm", "execution", {
+      applicability: "applicable",
+      verdict: "insufficient",
+      basis: ["source_observation"],
+      evidence: [],
+      reason: "variant: bounded observation could not establish execution"
+    });
+    const { report, result } = await run({ content });
+    expect(result.status).toBe("UNKNOWN");
+    expect(result.reasonCode).toBe("NEC_EXECUTION_INSUFFICIENT");
+    expect(result.limitations.join(" ")).toContain("bounded ruleset");
+    expectNoEconomicAction(report);
+  });
+
+  it("maps an ambiguous execution dimension to UNKNOWN", async () => {
+    const content = mutateDimension("evm", "execution", {
+      applicability: "applicable",
+      verdict: "ambiguous",
+      basis: ["source_observation"],
+      evidence: [],
+      reason: "variant: conflicting source observations"
+    });
+    const { report, result } = await run({ content });
+    expect(result.status).toBe("UNKNOWN");
+    expect(result.reasonCode).toBe("NEC_EXECUTION_AMBIGUOUS");
     expectNoEconomicAction(report);
   });
 
   it("reports UNKNOWN when the execution dimension was not evaluated", async () => {
-    const content = deepClone(fixtures.positiveContent);
-    const evm = (content.necEvidence as Record<string, unknown>).evmEvaluation as Record<string, unknown>;
-    ((evm.dimensions as Record<string, unknown>).execution as Record<string, unknown>).dimension = {
+    const content = mutateDimension("evm", "execution", {
       applicability: "unknown",
       basis: [],
       evidence: []
-    };
+    });
+    const { report, result } = await run({ content });
+    expect(result.status).toBe("UNKNOWN");
+    expect(result.reasonCode).toBe("NEC_DIMENSION_NOT_EVALUATED");
+    expectNoEconomicAction(report);
+  });
+});
+
+describe("dataBinding mapping under the frozen verdict vocabulary", () => {
+  it("keeps evaluation running when dataBinding is supported", async () => {
+    const { result } = await run({ content: fixtures.positiveContent });
+    expect(result.status).toBe("PROVEN");
+  });
+
+  it("maps a contradicted dataBinding dimension to NOT_PROVEN", async () => {
+    const content = mutateDimension("evm", "dataBinding", {
+      applicability: "applicable",
+      verdict: "contradicted",
+      basis: ["deterministic_derivation"],
+      evidence: ["evm-receipt-fb680322d5fd0d3b"],
+      reason: "variant: receipt binds to another subject"
+    });
+    const { report, result } = await run({ content });
+    expect(result.status).toBe("NOT_PROVEN");
+    expect(result.reasonCode).toBe("NEC_DATABINDING_CONTRADICTED");
+    expectNoEconomicAction(report);
+  });
+
+  it("maps an insufficient dataBinding dimension to UNKNOWN", async () => {
+    const content = mutateDimension("evm", "dataBinding", {
+      applicability: "applicable",
+      verdict: "insufficient",
+      basis: [],
+      evidence: [],
+      reason: "variant: binding could not be established within bounds"
+    });
+    const { report, result } = await run({ content });
+    expect(result.status).toBe("UNKNOWN");
+    expect(result.reasonCode).toBe("NEC_DATABINDING_INSUFFICIENT");
+    expectNoEconomicAction(report);
+  });
+
+  it("maps an ambiguous dataBinding dimension to UNKNOWN", async () => {
+    const content = mutateDimension("evm", "dataBinding", {
+      applicability: "applicable",
+      verdict: "ambiguous",
+      basis: [],
+      evidence: [],
+      reason: "variant: ambiguous receipt composition"
+    });
+    const { report, result } = await run({ content });
+    expect(result.status).toBe("UNKNOWN");
+    expect(result.reasonCode).toBe("NEC_DATABINDING_AMBIGUOUS");
+    expectNoEconomicAction(report);
+  });
+
+  it("reports UNKNOWN when the dataBinding dimension was not evaluated", async () => {
+    const content = mutateDimension("evm", "dataBinding", {
+      applicability: "unknown",
+      basis: [],
+      evidence: []
+    });
     const { report, result } = await run({ content });
     expect(result.status).toBe("UNKNOWN");
     expect(result.reasonCode).toBe("NEC_DIMENSION_NOT_EVALUATED");
@@ -349,50 +452,51 @@ describe("execution failures", () => {
 });
 
 describe("finality under the pinned OP Stack ruleset", () => {
-  it("rejects the real audited fixture whose finalized ancestry depth exceeded the frozen bound", async () => {
+  it("maps the real audited depth-exceeded fixture to UNKNOWN, never NOT_PROVEN", async () => {
     const { report, result } = await run({
       content: fixtures.auditedContent,
       claim: onchainClaim(ARTIFACT_ID, paymentExpectation(AUDITED_DEPTH_EXCEEDED))
     });
-    expect(result.status).toBe("NOT_PROVEN");
-    expect(result.reasonCode).toBe("NEC_FINALITY_NOT_SUPPORTED");
-    expect(result.limitations.join(" ")).toContain("safe-but-not-finalized");
+    expect(result.status).toBe("UNKNOWN");
+    expect(result.reasonCode).toBe("NEC_FINALITY_INSUFFICIENT");
+    expect(result.limitations.join(" ")).toContain("OP_ANCESTRY_DEPTH_EXCEEDED");
+    expect(result.limitations.join(" ")).toContain("does NOT assert that the block is not finalized");
     expectNoEconomicAction(report);
   });
 
-  it("rejects safe-but-not-finalized observations", async () => {
+  it("maps insufficient finality (safe-but-not-finalized) to UNKNOWN", async () => {
     const { report, result } = await run({
       content: mutateFinality("insufficient", "OP_SAFE_BUT_NOT_FINALIZED")
     });
-    expect(result.status).toBe("NOT_PROVEN");
-    expect(result.reasonCode).toBe("NEC_FINALITY_NOT_SUPPORTED");
+    expect(result.status).toBe("UNKNOWN");
+    expect(result.reasonCode).toBe("NEC_FINALITY_INSUFFICIENT");
     expectNoEconomicAction(report);
   });
 
-  it("rejects broken ancestry (ambiguous composition)", async () => {
+  it("maps ambiguous broken ancestry to UNKNOWN", async () => {
     const { report, result } = await run({
       content: mutateFinality("ambiguous", "OP_ANCESTRY_HASH_CHAIN")
     });
-    expect(result.status).toBe("NOT_PROVEN");
-    expect(result.reasonCode).toBe("NEC_FINALITY_NOT_SUPPORTED");
+    expect(result.status).toBe("UNKNOWN");
+    expect(result.reasonCode).toBe("NEC_FINALITY_AMBIGUOUS");
     expectNoEconomicAction(report);
   });
 
-  it("rejects canonical hash mismatch (contradicted)", async () => {
+  it("maps contradicted canonical hash mismatch to NOT_PROVEN", async () => {
     const { report, result } = await run({
       content: mutateFinality("contradicted", "OP_SUBJECT_NOT_CANONICAL_AT_HEIGHT")
     });
     expect(result.status).toBe("NOT_PROVEN");
-    expect(result.reasonCode).toBe("NEC_FINALITY_NOT_SUPPORTED");
+    expect(result.reasonCode).toBe("NEC_FINALITY_CONTRADICTED");
     expectNoEconomicAction(report);
   });
 
-  it("rejects a changing finalized head (unstable burst)", async () => {
+  it("maps a changing finalized head (unstable burst) to UNKNOWN", async () => {
     const { report, result } = await run({
       content: mutateFinality("ambiguous", "OP_FINALIZED_HEAD_STABLE")
     });
-    expect(result.status).toBe("NOT_PROVEN");
-    expect(result.reasonCode).toBe("NEC_FINALITY_NOT_SUPPORTED");
+    expect(result.status).toBe("UNKNOWN");
+    expect(result.reasonCode).toBe("NEC_FINALITY_AMBIGUOUS");
     expectNoEconomicAction(report);
   });
 
@@ -448,6 +552,147 @@ describe("finality under the pinned OP Stack ruleset", () => {
     ];
     return content;
   }
+});
+
+describe("malformed ERC-20 structure fails closed like the frozen x402 interpreter", () => {
+  const WORD = "0x1111111111111111111111111111111111111111111111111111111111111111";
+
+  /** Mutate the pre-committed USDC Transfer effect so it is no longer usable. */
+  function mutateMatchingEffect(mutate: (fields: Record<string, unknown>) => void): Record<string, unknown> {
+    const content = deepClone(fixtures.positiveContent);
+    const evm = (content.necEvidence as Record<string, unknown>).evmEvaluation as Record<string, unknown>;
+    const effects = deepClone(evm.observedEffects) as Array<Record<string, unknown>>;
+    const matching = effects.find(
+      effect => (effect.fields as Record<string, unknown>).address === POSITIVE.asset
+    );
+    if (matching === undefined) {
+      throw new Error("fixture has no matching transfer effect");
+    }
+    mutate(matching.fields as Record<string, unknown>);
+    evm.observedEffects = effects;
+    return content;
+  }
+
+  function transferTopics(fields: Record<string, unknown>): string[] {
+    const topics: unknown = fields.topics;
+    if (
+      !Array.isArray(topics) ||
+      topics.length !== 3 ||
+      topics.some(topic => typeof topic !== "string")
+    ) {
+      throw new Error("fixture transfer must carry three string topics");
+    }
+    return [String(topics[0]), String(topics[1]), String(topics[2])];
+  }
+
+  const cases: Array<[string, (fields: Record<string, unknown>) => void]> = [
+    ["an extra fourth topic", fields => {
+      fields.topics = [...transferTopics(fields), WORD];
+    }],
+    ["a short topic", fields => {
+      const topics = transferTopics(fields);
+      topics[1] = `0x${"11".repeat(31)}`;
+      fields.topics = topics;
+    }],
+    ["an oversized topic", fields => {
+      const topics = transferTopics(fields);
+      topics[1] = `0x${"11".repeat(33)}`;
+      fields.topics = topics;
+    }],
+    ["non-zero high padding in the sender", fields => {
+      const topics = transferTopics(fields);
+      topics[1] = `0x01${(topics[1] ?? "0x").slice(4)}`;
+      fields.topics = topics;
+    }],
+    ["non-zero high padding in the recipient", fields => {
+      const topics = transferTopics(fields);
+      topics[2] = `0x01${(topics[2] ?? "0x").slice(4)}`;
+      fields.topics = topics;
+    }],
+    ["a short data word", fields => {
+      fields.data = `0x${"22".repeat(30)}`;
+    }],
+    ["an oversized data word", fields => {
+      fields.data = `0x${"22".repeat(33)}`;
+    }],
+    ["a malformed token address", fields => {
+      fields.address = POSITIVE.asset.slice(0, -1);
+    }],
+    ["a malformed transactionHash", fields => {
+      fields.transactionHash = "0x1234";
+    }],
+    ["removed=true", fields => {
+      fields.removed = true;
+    }]
+  ];
+
+  for (const [label, mutate] of cases) {
+    it(`fails closed on ${label}`, async () => {
+      const { report, result } = await run({ content: mutateMatchingEffect(mutate) });
+      expect(result.status).toBe("UNKNOWN");
+      expect(result.reasonCode).toBe("NEC_PAYMENT_EFFECT_UNUSABLE");
+      expect(result.limitations.join(" ")).toContain("frozen structural rules");
+      expectNoEconomicAction(report);
+    });
+  }
+
+  it("keeps proving settlement when a removed orphan sits beside a valid matching transfer", async () => {
+    const content = mutateMatchingEffect(fields => {
+      fields.removed = true;
+    });
+    // A second, well-formed duplicate independently satisfies the
+    // pre-committed predicate; the removed carrier cannot poison that proof.
+    const evm = (content.necEvidence as Record<string, unknown>).evmEvaluation as Record<string, unknown>;
+    const effects = deepClone(evm.observedEffects) as Array<Record<string, unknown>>;
+    evm.observedEffects = [...effects, syntheticMatchingTransfer()];
+    const { report, result } = await run({ content });
+    expect(result.status).toBe("PROVEN");
+    expectNoEconomicAction(report);
+  });
+
+  function syntheticMatchingTransfer(): Record<string, unknown> {
+    return {
+      id: "evm-log-duplicate",
+      type: "log",
+      basis: ["source_observation"],
+      evidence: [],
+      fields: {
+        address: POSITIVE.asset,
+        topics: [
+          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+          `0x000000000000000000000000${POSITIVE.payer.slice(2)}`,
+          `0x000000000000000000000000${POSITIVE.payTo.slice(2)}`
+        ],
+        data: `0x${BigInt(POSITIVE.amount).toString(16).padStart(64, "0")}`,
+        blockNumber: POSITIVE.blockNumber,
+        transactionHash: POSITIVE.txHash,
+        logIndex: "99",
+        removed: false
+      }
+    };
+  }
+
+  it("still proves settlement when a non-transfer log carries odd but unrelated shape", async () => {
+    const content = mutateMatchingEffect(() => undefined);
+    const evm = (content.necEvidence as Record<string, unknown>).evmEvaluation as Record<string, unknown>;
+    const unrelated = {
+      id: "evm-log-unrelated",
+      type: "log",
+      fields: {
+        address: POSITIVE.asset,
+        topics: [],
+        data: "0x",
+        removed: true
+      },
+      basis: ["source_observation"],
+      evidence: []
+    };
+    const effects = deepClone(evm.observedEffects) as Array<Record<string, unknown>>;
+    evm.observedEffects = [...effects, unrelated];
+    const { report, result } = await run({ content });
+    expect(result.status).toBe("PROVEN");
+    expectNoEconomicAction(report);
+  });
 });
 
 describe("artifact failure handling", () => {
@@ -574,7 +819,7 @@ describe("authentication and issuer selection reuse", () => {
   it("rejects a different artifact issuer than the plan selected", async () => {
     const rebuilt = createArtifact({
       id: ARTIFACT_ID,
-      kind: "nec.network-evidence-result",
+      kind: "apel.nec-network-evidence.v1",
       capturedAt: FIXED_TIME,
       issuerId: "someone-else",
       issuerRole: "INDEPENDENT_OBSERVER",

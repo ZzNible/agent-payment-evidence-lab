@@ -29,8 +29,8 @@ If generated example dossiers change intentionally, explain the semantic reason 
 - Preserve payment/HTTP resource binding, source-statement interaction-field binding, and response-to-job-ID binding.
 - Keep x402 interpretation fail-closed to the explicitly supported version; v0.1 supports exactly `2.19.0`.
 - Keep payment and settlement claims constrained to the signed local recording-double profiles unless a separately specified production adapter is added.
-- Keep `ONCHAIN_SETTLEMENT` at `UNKNOWN` until a chain-specific receipt/finality verifier exists.
-- Preserve the public report schema's strict claim-type/status/reason-code matrix; it must continue to reject `OBLIGATION_FULFILLED / PROVEN` and `ONCHAIN_SETTLEMENT / PROVEN` in v0.1.
+- Keep `ONCHAIN_SETTLEMENT` at `UNKNOWN` under the default core verifier; any external-consumer verifier must stay optional, prove only a precommitted narrow proposition, and preserve NEC verdict epistemics (`insufficient`/`ambiguous` map to `UNKNOWN`, never to negative claims).
+- Preserve the public report schema's strict claim-type/status/reason-code matrix; it must continue to reject `OBLIGATION_FULFILLED / PROVEN` outright and to accept `ONCHAIN_SETTLEMENT / PROVEN` only with the single extension reason code.
 - Bind reports to the exact plan and evidence bundle they evaluated.
 - Keep the recording facilitator visibly synthetic and offline.
 - Document whether a mitigation is implemented now or merely required for a future hosted/production mode.

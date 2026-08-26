@@ -157,7 +157,7 @@ It may support claims such as:
 
 It must not sign a transaction or invoke completion, rejection, release, or refund methods. On-chain presence does not by itself prove evaluator neutrality or factual correctness.
 
-Until such a chain-specific verifier exists, the core v0.1 `ONCHAIN_SETTLEMENT` claim remains `UNKNOWN` even if a bundle supplies an alleged confirmation JSON object.
+Until such a chain-specific verifier exists, the core v0.1 `ONCHAIN_SETTLEMENT` claim remains `UNKNOWN` even if a bundle supplies an alleged confirmation JSON object. The optional NEC external-consumer verifier (`NecOnchainClaimVerifier`, see [NEC Phase-B integration](./nec-phase-b-integration.md)) is exactly such an extension: it stays outside the core default set, consumes only frozen-profile evidence envelopes, and may prove only its narrow `D_narrow` proposition.
 
 ### 3. zkTLS or TLS-notary provenance adapter
 

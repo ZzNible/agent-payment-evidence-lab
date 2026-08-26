@@ -68,8 +68,12 @@ This is a correlation commitment only; it authorizes nothing.
 ## Evidence artifact boundary
 
 The evidence artifact is an APEL `EvidenceArtifact` of kind
-`nec.network-evidence-result` issued by an `INDEPENDENT_OBSERVER`. Its
-content embeds two frozen-profile NEC evaluator outputs:
+`apel.nec-network-evidence.v1` issued by an `INDEPENDENT_OBSERVER`. This is an
+**APEL-specific evidence envelope carrying frozen NEC public evaluator
+outputs**. It is deliberately NOT called a native NEC core
+`NetworkEvidenceResult`: the payload is not a `nec-wire-json-v1`-encoded core
+wire artifact but an integration envelope embedding two frozen-profile
+evaluator outputs. No new NEC profile is created or implied.
 
 ```json
 {
@@ -98,6 +102,54 @@ The verifier requires the artifact to carry NEC's standing
 producer does not state that boundary claims strictly more than frozen NEC
 emits and is rejected as `UNSUPPORTED_NEC_EVIDENCE_PROFILE`.
 
+## Status mapping: NEC verdicts keep their epistemic weight
+
+APEL is the authority over its own claim, but it must not flatten what frozen
+NEC actually reported. Each dimension (`execution`, `dataBinding`, `finality`)
+is mapped independently and identically:
+
+| frozen NEC dimension observation | APEL `ONCHAIN_SETTLEMENT` | reason code |
+| --- | --- | --- |
+| `applicable` + `supported` | evaluation continues toward `PROVEN` | — |
+| `applicable` + `contradicted` | `NOT_PROVEN` | `NEC_EXECUTION_CONTRADICTED`, `NEC_DATABINDING_CONTRADICTED`, `NEC_FINALITY_CONTRADICTED` |
+| `applicable` + `insufficient` | `UNKNOWN` | `NEC_EXECUTION_INSUFFICIENT`, `NEC_DATABINDING_INSUFFICIENT`, `NEC_FINALITY_INSUFFICIENT` |
+| `applicable` + `ambiguous` | `UNKNOWN` | `NEC_EXECUTION_AMBIGUOUS`, `NEC_DATABINDING_AMBIGUOUS`, `NEC_FINALITY_AMBIGUOUS` |
+| applicability not `applicable` (unknown / absent) | `UNKNOWN` | `NEC_DIMENSION_NOT_EVALUATED` / `NEC_FINALITY_NOT_EVALUATED` |
+
+Critical example: `OP_ANCESTRY_DEPTH_EXCEEDED` with verdict `insufficient`
+means the frozen NEC resolver could not establish the required finalized-head
+ancestry **within its bounded ruleset**. It does NOT mean the block is not
+finalized. The honest mapping is therefore
+`ONCHAIN_SETTLEMENT = UNKNOWN / NEC_FINALITY_INSUFFICIENT`, never
+`NOT_PROVEN`. The frozen 10,000-block ceiling is never weakened to make a
+case pass.
+
+## Local ERC-20 re-derivation matches the frozen interpreter exactly
+
+APEL imports no NEC runtime package. Its local structural parser mirrors the
+frozen `@nec/adapter-x402` (`x402-v0.1-freeze`,
+`packages/adapter-x402/src/interpret.ts`) rules for Transfer-shaped logs and
+is never more permissive than that freeze:
+
+- `removed` must be a boolean; `removed === true` excludes the log;
+- every topic must be exactly `0x` + 64 hex characters;
+- `topic0` must equal the ERC-20 `Transfer` topic constant;
+- an interpreted Transfer has exactly 3 topics — no fourth topic, no
+  truncated or oversized words;
+- indexed address topics must carry zero high-12-byte padding; the low 20
+  bytes decode as the address;
+- `fields.address` must be exactly `0x` + 40 hex characters;
+- `fields.data` must be exactly one 32-byte word (`0x` + 64 hex characters);
+- optional `transactionHash`, `blockNumber`, and `logIndex` context fields
+  must be well-formed when present.
+
+A log claiming the Transfer topic0 that violates any remaining rule is
+excluded, never partially interpreted. Excluded transfer-shaped evidence
+yields `UNKNOWN / NEC_PAYMENT_EFFECT_UNUSABLE`: unusable carriers can back
+neither side of the predicate. Adversarial tests cover extra topics, short
+and oversized words, non-zero padding, malformed addresses and transaction
+hashes, and `removed=true`; all fail closed.
+
 ## What PROVEN requires
 
 `PROVEN / NEC_ONCHAIN_PAYMENT_EFFECT_FINALIZED` requires ALL of:
@@ -116,8 +168,9 @@ emits and is rejected as `UNSUPPORTED_NEC_EVIDENCE_PROFILE`.
    citing a different transaction.
 
 Nothing is hard-coded: the verifier accepts whatever replayed evidence
-actually emits, and maps any weaker outcome to explicit `NOT_PROVEN` /
-`UNKNOWN` reason codes added by the report spec 0.2 compatibility matrix.
+actually emits, and maps every weaker outcome to explicit `NOT_PROVEN` /
+`UNKNOWN` reason codes in the report spec 0.2 compatibility matrix, preserving
+the epistemic weight table above.
 
 ## Boundary statements
 
@@ -171,8 +224,11 @@ Its earlier ~22-block finalized ancestry window closed before this
 integration was written: by re-capture time the observed finalized head had
 advanced ~15,969 blocks above the subject, exceeding the frozen ceiling. NEC
 was not weakened; the honest outcome became the authentic
-finality-insufficient negative fixture. The positive demonstration therefore
-uses the fresh real transfer above.
+finality-insufficient negative fixture. Under the corrected semantics this
+case maps to `ONCHAIN_SETTLEMENT = UNKNOWN / NEC_FINALITY_INSUFFICIENT`: the
+bounded walk could not establish finalization, which is not an assertion
+that the block is unfinalized. The positive demonstration therefore uses the
+fresh real transfer above.
 
 ## Reproducing the fixtures
 
@@ -196,10 +252,16 @@ package is imported by this repository's runtime or tests.
 ## Test coverage map
 
 See `tests/unit/nec-onchain-verifier.test.ts`: positive, wrong recipient /
-payer / amount / asset, reverted-execution variant, real depth-exceeded
-insufficiency, safe-but-not-finalized / broken ancestry / canonical hash
-mismatch / changing finalized head variants, missing / malformed /
+payer / amount / asset, full verdict-mapping matrices for execution,
+dataBinding, and finality (supported / contradicted / insufficient /
+ambiguous / not-evaluated), the real depth-exceeded insufficiency mapped to
+`UNKNOWN`, safe-but-not-finalized / broken ancestry / canonical hash
+mismatch / changing finalized head variants, malformed ERC-20 structure
+adversarial cases (extra fourth topic, short and oversized topics and data
+words, non-zero indexed-address padding, malformed token address and
+transaction hash, `removed=true`) all failing closed, missing / malformed /
 tampered-digest / unsupported-profile artifacts, unrelated-transaction and
-cross-interaction correlation rejection, authentication reuse, and proof
-that the default core verifier still returns `UNKNOWN` for
-`ONCHAIN_SETTLEMENT`.
+cross-interaction correlation rejection, authentication reuse, plan-schema
+canonical-amount enforcement, and proof that the default core verifier still
+returns `UNKNOWN` for `ONCHAIN_SETTLEMENT`. Every positive, negative, and
+unknown path asserts `economicAction == NOT_EVALUATED`.
